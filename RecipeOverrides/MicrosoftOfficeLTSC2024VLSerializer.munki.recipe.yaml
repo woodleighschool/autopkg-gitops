@@ -1,4 +1,3 @@
----
 # Generated file. DO NOT EDIT.
 # Refresh with: mise run trust:update local.munki.MicrosoftOfficeLTSC2024VLSerializer
 Identifier: local.munki.MicrosoftOfficeLTSC2024VLSerializer

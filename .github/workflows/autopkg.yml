@@ -30,7 +30,7 @@ jobs:
       group: autopkg
     timeout-minutes: 180
     env:
-      AUTOPKG_STATE_DIR: ${{ runner.temp }}/autopkg
+      AUTOPKG_STATE_DIR: ${{ github.workspace }}/.autopkg-run
       AUTOPKG_WOODSTAR_URL: ${{ vars.WOODSTAR_URL }}
       AUTOPKG_WOODSTAR_API_KEY: ${{ secrets.WOODSTAR_TOKEN }}
       AUTOPKG_ACTIVINSPIRE_SERIAL: ${{ secrets.ACTIVINSPIRE_SERIAL }}

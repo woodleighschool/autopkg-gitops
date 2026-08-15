@@ -23,9 +23,6 @@ STATE_DIR = Path(os.environ.get("AUTOPKG_STATE_DIR", ROOT / ".autopkg-run")).exp
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 NAME_PATTERN = re.compile(r"^[A-Za-z0-9._-]+$")
 REF_PATTERN = re.compile(r"^[A-Za-z0-9._/-]+$")
-RECIPE_IDENTIFIER_PATTERN = re.compile(
-    r"^Identifier:\s*([A-Za-z0-9._-]+)\s*$", re.MULTILINE
-)
 
 
 class ConfigError(RuntimeError):
@@ -95,19 +92,25 @@ def load_recipe_list(path: Path = RECIPE_LIST_PATH) -> list[str]:
     return recipes
 
 
-def load_overrides() -> dict[str, tuple[Path, Mapping[str, Any]]]:
+def load_override(path: Path) -> Mapping[str, Any]:
     yaml = YAML(typ="safe")
+    try:
+        recipe = yaml.load(path.read_text(encoding="utf-8"))
+    except OSError as error:
+        raise ConfigError(f"Cannot read {path}: {error}") from error
+    if not isinstance(recipe, Mapping):
+        raise ConfigError(f"{path}: recipe must be a mapping")
+    identifier = recipe.get("Identifier")
+    if not isinstance(identifier, str) or not NAME_PATTERN.fullmatch(identifier):
+        raise ConfigError(f"{path}: missing or invalid Identifier")
+    return recipe
+
+
+def load_overrides() -> dict[str, tuple[Path, Mapping[str, Any]]]:
     overrides: dict[str, tuple[Path, Mapping[str, Any]]] = {}
     for path in sorted(OVERRIDE_DIR.glob("*.munki.recipe.yaml")):
-        try:
-            recipe = yaml.load(path.read_text(encoding="utf-8"))
-        except OSError as error:
-            raise ConfigError(f"Cannot read {path}: {error}") from error
-        if not isinstance(recipe, Mapping):
-            raise ConfigError(f"{path}: recipe must be a mapping")
-        identifier = recipe.get("Identifier")
-        if not isinstance(identifier, str) or not NAME_PATTERN.fullmatch(identifier):
-            raise ConfigError(f"{path}: missing or invalid Identifier")
+        recipe = load_override(path)
+        identifier = recipe["Identifier"]
         if identifier in overrides:
             raise ConfigError(f"Duplicate override identifier: {identifier}")
         overrides[identifier] = (path, recipe)
@@ -118,7 +121,6 @@ def load_overrides() -> dict[str, tuple[Path, Mapping[str, Any]]]:
 
 def expected_override_header(identifier: str) -> list[str]:
     return [
-        "---",
         "# Generated file. DO NOT EDIT.",
         f"# Refresh with: mise run trust:update {identifier}",
     ]
@@ -128,7 +130,7 @@ def validate_override_headers(
     overrides: Mapping[str, tuple[Path, Mapping[str, Any]]],
 ) -> None:
     for identifier, (path, _) in overrides.items():
-        actual = path.read_text(encoding="utf-8").splitlines()[:3]
+        actual = path.read_text(encoding="utf-8").splitlines()[:2]
         if actual != expected_override_header(identifier):
             raise ConfigError(f"{path}: missing generated-file header; run mise run format")
 

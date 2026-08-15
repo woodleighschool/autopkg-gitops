@@ -1,4 +1,3 @@
----
 # Generated file. DO NOT EDIT.
 # Refresh with: mise run trust:update local.munki.WindowsApp
 Identifier: local.munki.WindowsApp

@@ -1,4 +1,3 @@
----
 # Generated file. DO NOT EDIT.
 # Refresh with: mise run trust:update local.munki.GarageBandCoreContent
 Identifier: local.munki.GarageBandCoreContent

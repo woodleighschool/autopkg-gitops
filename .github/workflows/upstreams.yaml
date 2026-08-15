@@ -21,7 +21,7 @@ env:
   MISE_NO_HOOKS: "1"
   MISE_TASK_RUN_AUTO_INSTALL: "false"
   AUTOPKG_DIFF_BASE: ${{ github.event.pull_request.base.sha || 'origin/main' }}
-  AUTOPKG_REPO_ROOT: ${{ runner.temp }}/AutoPkg/RecipeRepos
+  AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
 
 jobs:
   inspect:

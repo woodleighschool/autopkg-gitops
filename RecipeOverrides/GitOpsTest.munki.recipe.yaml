@@ -8,12 +8,12 @@ ParentRecipe: com.github.woodleighschool.munki.GitOpsTest
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/GitOpsTestProcessor:
-      git_hash: e6e52a803f950b3798a40b4eed58cc4b4352edeb
+      git_hash: 49b2b0819ebcf2375f0e98712862259a56761653
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/GitOpsTestProcessor.py
-      sha256_hash: 048e213a5d569b5f2c29b801036d00eddbec51855f7d8202253f7f7483212bfa
+      sha256_hash: fa9b73a91007d27d55d66345bad90cbb47c9e179a16c1797f9b67de8df61efe1
   parent_recipes:
     com.github.woodleighschool.munki.GitOpsTest:
-      git_hash: e6e52a803f950b3798a40b4eed58cc4b4352edeb
+      git_hash: 49b2b0819ebcf2375f0e98712862259a56761653
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GitOpsTest/GitOpsTest.munki.recipe.yaml
-      sha256_hash: 9ae86de490fccabca5d1835b653a3a439e5824d9a8412fcc4f085711203d3c50
+      sha256_hash: 2a897b740d96988bb2029dd3c50526481af3b1b54581fe975a00fd8b29e3d899
   scripts: {}

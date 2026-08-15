@@ -1,0 +1,45 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.GoogleChrome
+Identifier: local.munki.GoogleChrome
+Input:
+  DOWNLOAD_URL: https://dl.google.com/chrome/mac/stable/accept_tos%3Dhttps%253A%252F%252Fwww.google.com%252Fintl%252Fen_ph%252Fchrome%252Fterms%252F%26_and_accept_tos%3Dhttps%253A%252F%252Fpolicies.google.com%252Fterms/googlechrome.pkg
+  MUNKI_CATEGORY: Productivity
+  NAME: Google Chrome
+  pkginfo:
+    blocking_applications:
+      - Google Chrome
+    category: '%MUNKI_CATEGORY%'
+    description: Get more done with the new Google Chrome. A more simple, secure,
+      and faster web browser than ever, with Google's smarts built-in.
+    developer: Google
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.GoogleChrome
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.autopkg.download.googlechromepkg:
+      git_hash: 83f0b66496abd578d1c70fca2f6f1a6b204939a5
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/GoogleChrome/GoogleChromePkg.download.recipe
+      sha256_hash: 2de26c035de26d0a4d01ad46ff3d50c0f2d2f555920319c678a55412a42babf5
+    com.github.woodleighschool.munki.GoogleChrome:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GoogleChrome/GoogleChrome.munki.recipe.yaml
+      sha256_hash: b727e55c50be34f56521cf839cd21134964f797f56af2e2a8e4a66777a409b0f
+  scripts: {}

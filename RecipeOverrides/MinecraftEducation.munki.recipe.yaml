@@ -1,0 +1,51 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.MinecraftEducation
+Identifier: local.munki.MinecraftEducation
+Input:
+  DOWNLOAD_URL: https://aka.ms/meeclientmacos
+  MUNKI_CATEGORY: Education
+  NAME: Minecraft Education
+  pkginfo:
+    blocking_applications:
+      - minecraft-edu
+    category: '%MUNKI_CATEGORY%'
+    description: Engage students in game-based learning across the curriculum. Minecraft
+      Education is a game-based platform that inspires creative, inclusive learning
+      through play. Explore blocky words that unlock new ways to take on any subject
+      or challenge.
+    developer: Microsoft
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: remove_copied_items
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.MinecraftEducation
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.aysiu.download.MinecraftEducation:
+      git_hash: 15049f2e308070f8a98489839f11c759d780d851
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.aysiu-recipes/MinecraftEducation/MinecraftEducation.download.recipe
+      sha256_hash: cd162ed38b5034d6563f5d893baef59ada1889d18286c79c9a0d9098f8986ec3
+    com.github.woodleighschool.download.MinecraftEducation:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MinecraftEducation/MinecraftEducation.download.recipe.yaml
+      sha256_hash: c382bc3737e319dc9f525d12d00b2479e802d630f9c39060db389df365c6d011
+    com.github.woodleighschool.munki.MinecraftEducation:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MinecraftEducation/MinecraftEducation.munki.recipe.yaml
+      sha256_hash: f9a789017e7df8b49f8e879e5b4ce93ac05d406f7cc22b1f4a5c07b75f61c13a
+  scripts: {}

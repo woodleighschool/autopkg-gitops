@@ -1,0 +1,160 @@
+[tools]
+python = "3.14.7"
+uv = "0.12.4"
+lefthook = "2.1.10"
+zizmor = "1.29.0"
+oxfmt = "0.63.0"
+
+[settings]
+experimental = true
+pin = true
+lockfile = true
+minimum_release_age = "12 hours"
+
+[env]
+_.file = { path = "{{config_root}}/.env", redact = true }
+_.python.venv = { path = ".venv", create = true }
+AUTOPKG_STATE_DIR = "{{config_root}}/.autopkg-run"
+AUTOPKG_REPO_ROOT = "{{env.HOME}}/Library/AutoPkg/RecipeRepos"
+AUTOPKG_FAIL_RECIPES_WITHOUT_TRUST_INFO = "1"
+
+[tasks.deps]
+hide = true
+run = "uv pip sync requirements.txt"
+
+[tasks.format]
+description = "Format configuration and mark generated overrides"
+depends = ["deps"]
+run = [
+  "uv run python scripts/mark_overrides.py",
+  "oxfmt . '!RecipeOverrides/**' '!.mise/**'",
+]
+
+[tasks.fmt-check]
+description = "Check formatting and generated override headers"
+depends = ["deps"]
+run = [
+  "uv run python scripts/mark_overrides.py --check",
+  "oxfmt --check . '!RecipeOverrides/**' '!.mise/**'",
+]
+
+[tasks.validate]
+description = "Validate recipes, overrides, and repository ownership"
+depends = ["deps"]
+run = "uv run python scripts/recipes.py validate"
+
+[tasks.workflow-lint]
+description = "Lint GitHub Actions workflows"
+run = "zizmor --offline --no-ignores .github/workflows"
+
+[tasks.lint]
+description = "Run repository checks"
+depends = ["fmt-check", "validate", "workflow-lint"]
+
+[tasks.preflight]
+description = "Check the current runner has AutoPkg v3 and Munki"
+run = '''
+version="$(autopkg version)"
+if [[ "$version" != 3.* ]]; then
+  echo "AutoPkg v3 is required; found $version" >&2
+  exit 1
+fi
+test -x /usr/local/munki/makepkginfo
+'''
+
+[tasks."recipes:select"]
+description = "Resolve enabled recipes and their repository closure"
+depends = ["deps"]
+run = "uv run python scripts/recipes.py select"
+
+[tasks."repos:sync"]
+description = "Materialize only repositories used by the selected recipes"
+depends = ["deps"]
+run = "uv run python scripts/repositories.py sync"
+
+[tasks."repos:diff"]
+description = "Report changed upstream files owned by enabled recipes"
+depends = ["deps"]
+run = "uv run python scripts/repositories.py diff"
+
+[tasks."autopkg:preferences"]
+description = "Write ephemeral AutoPkg preferences for the selected repositories"
+depends = ["deps"]
+run = "uv run python scripts/preferences.py"
+
+[tasks."autopkg:deps"]
+description = "Install the Python framework used by the local icon processor"
+run = '''
+pyobjc_version="$(/usr/local/autopkg/python -c 'from importlib.metadata import version; print(version("pyobjc-core"))')"
+/usr/local/autopkg/python -m pip install --user --no-deps "pyobjc-framework-QuickLookThumbnailing==$pyobjc_version"
+'''
+
+[tasks.report]
+description = "Render the sanitized AutoPkg v3 result"
+depends = ["deps"]
+run = 'uv run python scripts/report.py --exit-code "${AUTOPKG_EXIT_CODE:-1}"'
+
+[tasks."trust:create"]
+description = "Create a generated override from a Munki recipe"
+usage = '''
+arg "<recipe>" help="Source recipe identifier"
+'''
+run = '''
+autopkg make-override --format=yaml --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
+uv run python scripts/mark_overrides.py
+'''
+
+[tasks."trust:update"]
+description = "Regenerate parent trust for one override"
+usage = '''
+arg "<recipe>" help="Generated override identifier"
+'''
+run = '''
+mise run trust:prepare
+autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
+uv run python scripts/mark_overrides.py
+'''
+
+[tasks."trust:update-all"]
+description = "Regenerate parent trust for every tracked override"
+run = '''
+mise run trust:prepare
+autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "$PWD"/RecipeOverrides/*.munki.recipe.yaml
+uv run python scripts/mark_overrides.py
+'''
+
+[tasks."trust:prepare"]
+hide = true
+run = '''
+mise run recipes:select -- --all-overrides
+mise run repos:sync
+mise run autopkg:preferences -- --override-dir "$PWD/RecipeOverrides"
+autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
+'''
+
+[tasks.local]
+description = "Run the Actions lane locally"
+depends = ["deps"]
+usage = '''
+arg "[recipe]" help="Optional enabled recipe name"
+'''
+run = '''
+mise run preflight
+if [[ -n "${usage_recipe:-}" ]]; then
+  mise run recipes:select -- "$usage_recipe"
+else
+  mise run recipes:select
+fi
+mise run repos:sync
+mise run autopkg:deps
+mise run autopkg:preferences
+autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
+autopkg verify-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist"
+autopkg_exit_code=0
+autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist" || autopkg_exit_code=$?
+AUTOPKG_EXIT_CODE="$autopkg_exit_code" mise run report
+exit "$autopkg_exit_code"
+'''
+
+[hooks]
+postinstall = "lefthook install"

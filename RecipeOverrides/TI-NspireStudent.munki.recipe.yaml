@@ -1,0 +1,44 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.TI-NspireStudent
+Identifier: local.munki.TI-NspireStudent
+Input:
+  MUNKI_CATEGORY: Education
+  NAME: TI-Nspire CX Student Software
+  pkginfo:
+    blocking_applications:
+      - TI-Nspire CX Student Software
+    category: '%MUNKI_CATEGORY%'
+    description: Powerful computer software with a Computer Algebra System (CAS) that
+      satisfies math and science curriculum needs from middle school through college.
+    developer: Texas Instruments
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.TI-NspireStudent
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.woodleighschool.download.TI-NspireStudent:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.download.recipe.yaml
+      sha256_hash: 685625841a3da5da0c2f15d1a8cf72981a5d06b716de2eea95cf724024c7af0e
+    com.github.woodleighschool.munki.TI-NspireStudent:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.munki.recipe.yaml
+      sha256_hash: eba3fbf403fab941bc0150620b7c65ed9a9ee3c9ba1bfc7f8008a889b72ac8c8
+  scripts: {}

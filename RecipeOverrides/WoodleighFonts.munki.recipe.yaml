@@ -1,0 +1,36 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.WoodleighFonts
+Identifier: local.munki.WoodleighFonts
+Input:
+  MUNKI_CATEGORY: Fonts
+  NAME: Woodleigh Fonts
+  PKG_ID: au.edu.vic.woodleigh.fonts
+  VERSION: 1.0.0
+  pkginfo:
+    category: '%MUNKI_CATEGORY%'
+    description: Woodleigh School managed font bundle.
+    developer: Woodleigh
+    name: '%NAME%'
+    unattended_install: true
+ParentRecipe: com.github.woodleighschool.munki.WoodleighFonts
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+  parent_recipes:
+    com.github.woodleighschool.munki.WoodleighFonts:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodleighFonts/WoodleighFonts.munki.recipe.yaml
+      sha256_hash: 35d470a42adaf0d08bb879e2ac99a7920090d32d8273855027675c0e4b3d1c32
+    com.github.woodleighschool.pkg.WoodleighFonts:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodleighFonts/WoodleighFonts.pkg.recipe.yaml
+      sha256_hash: 3fe8706a5eeee1bd56dd63d579814aee9993a94170c7ced1c5adbdded89e3deb
+  scripts: {}

@@ -1,0 +1,60 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.LinewizeConnect
+Identifier: local.munki.LinewizeConnect
+Input:
+  DOWNLOAD_URL: https://qoria-mza-installers.linewize.net/Connect%20Installer.pkg
+  MUNKI_CATEGORY: Security
+  NAME: Linewize Connect
+  pkginfo:
+    category: '%MUNKI_CATEGORY%'
+    description: Linewize Connect provides school-managed web filtering and safety
+      controls for devices away from the school network.
+    developer: Qoria
+    installcheck_script: |-
+      #!/bin/bash
+      service="/Applications/FamilyZone/MobileZoneAgent/bin/fc-system-service_darwin-amd64"
+
+      if [[ ! -x "$service" ]]; then
+        exit 0
+      fi
+
+      if ! /usr/bin/pgrep -f "$service" >/dev/null 2>&1; then
+        exit 0
+      fi
+
+      exit 1
+    name: '%NAME%'
+    preinstall_script: |-
+      #!/bin/bash
+      app="/Applications/FamilyZone/MobileZoneAgent/bin/Connect.app"
+
+      if [[ -d "$app" ]]; then
+        /usr/bin/chflags -R noschg "$app" || exit 1
+      fi
+    requires:
+      - Linewize Authentication Agent
+      - Rosetta
+    unattended_install: true
+    uninstallable: false
+ParentRecipe: com.github.woodleighschool.munki.LinewizeConnect
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+  parent_recipes:
+    com.github.woodleighschool.download.LinewizeConnect:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/LinewizeConnect/LinewizeConnect.download.recipe.yaml
+      sha256_hash: 9a2604f6ccd1a013a805fb48e6a707e5b6910c1ec1e72ac04880d78690bd3b47
+    com.github.woodleighschool.munki.LinewizeConnect:
+      git_hash: 91708cbfab48affe3740684fa5b6574efe2ffc34
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/LinewizeConnect/LinewizeConnect.munki.recipe.yaml
+      sha256_hash: 0d491a2ce9a9c071ad092c41b4bce3006dcf6f2693c4e1d7b815bcd80cfb8250
+    com.github.woodleighschool.pkg.LinewizeConnect:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/LinewizeConnect/LinewizeConnect.pkg.recipe.yaml
+      sha256_hash: b4a3d476a319a16f17c3ef1b2f158899abd1057febbea455fa7db584d9b88006
+  scripts: {}

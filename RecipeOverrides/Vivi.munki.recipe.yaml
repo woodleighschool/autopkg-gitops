@@ -1,0 +1,47 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.Vivi
+Identifier: local.munki.Vivi
+Input:
+  DOWNLOAD_URL: https://api.vivi.io/mac
+  MUNKI_CATEGORY: Education
+  NAME: Vivi
+  pkginfo:
+    blocking_applications:
+      - Vivi
+    category: '%MUNKI_CATEGORY%'
+    description: Vivi is the only scalable, easy-to-use wireless screensharing and
+      student engagement platform engineered for, and by, the education sector. Any
+      device, any number of users or classrooms, any media type, any learning type,
+      any display.
+    developer: Vivi
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.Vivi
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.woodleighschool.download.Vivi:
+      git_hash: 90840e61cc830d641bcb4e631c1f740c9fe86a02
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Vivi/Vivi.download.recipe.yaml
+      sha256_hash: adff10812704b73e08183ca4e3e4df891a72e6e9cbc2a3de00e653f60a37c23c
+    com.github.woodleighschool.munki.Vivi:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Vivi/Vivi.munki.recipe.yaml
+      sha256_hash: 24c78bad911bf8ffcad356b5799907fb99922b2e719aaf5b7dc3bfc3afab9acd
+  scripts: {}

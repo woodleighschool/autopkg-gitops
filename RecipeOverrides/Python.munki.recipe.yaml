@@ -1,0 +1,53 @@
+---
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.Python
+Identifier: local.munki.Python
+Input:
+  MUNKI_CATEGORY: Programming
+  NAME: Python 3.13
+  PYTHON_BRANCH: '3.13'
+  SEARCH_URL: https://www.python.org/downloads/macos/
+  pkginfo:
+    blocking_applications:
+      - IDLE
+      - Python Launcher
+    category: '%MUNKI_CATEGORY%'
+    description: Python is a high-level, general-purpose programming language. Its
+      design philosophy emphasizes code readability with the use of significant indentation.
+      Python is dynamically typed and garbage-collected. It supports multiple programming
+      paradigms, including structured, object-oriented and functional programming.
+    developer: Python Software Foundation
+    installer_choices_xml:
+      - attributeSetting: 0
+        choiceAttribute: selected
+        choiceIdentifier: org.python.Python.PythonProfileChanges-%PYTHON_BRANCH%
+    minimum_os_version: '11.0'
+    name: '%NAME%'
+    unattended_install: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.Python
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.woodleighschool.download.Python:
+      git_hash: 90840e61cc830d641bcb4e631c1f740c9fe86a02
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Python/Python.download.recipe.yaml
+      sha256_hash: 8081a67d4509100ae0f974ed58760d9d26331aa1c0a70fd3b3eb334ad83c6b58
+    com.github.woodleighschool.munki.Python:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Python/Python.munki.recipe.yaml
+      sha256_hash: 56a5af7f1716d57d93a231aa6e33bd8702aba202ca0707cb636cfb8b89b3dc01
+  scripts: {}

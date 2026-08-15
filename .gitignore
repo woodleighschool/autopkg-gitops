@@ -1,0 +1,6 @@
+.DS_Store
+.autopkg-run/
+.env
+.venv/
+__pycache__/
+artifacts/

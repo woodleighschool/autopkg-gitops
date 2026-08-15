@@ -87,6 +87,7 @@ jobs:
       - name: Checkout pull request branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 2
           path: pull
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
@@ -146,11 +147,13 @@ jobs:
           expected_author="woodmin[bot] <225126206+woodmin[bot]@users.noreply.github.com>"
           actual_author="$(git show -s --format='%an <%ae>' HEAD)"
           [[ "$actual_author" == "$expected_author" ]]
+          parent="$(git rev-parse HEAD^)"
 
           git config user.name "woodmin[bot]"
           git config user.email "225126206+woodmin[bot]@users.noreply.github.com"
           git add RecipeOverrides/*.munki.recipe.yaml
           git commit --amend --no-edit
+          [[ "$(git rev-parse HEAD^)" == "$parent" ]]
           git push \
             --force-with-lease="refs/heads/${HEAD_REF}:${HEAD_SHA}" \
             "https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \

@@ -34,14 +34,19 @@ def validate() -> None:
     )
 
 
-def write_selection(requested: list[str], state_dir: Path, all_overrides: bool) -> None:
+def write_selection(
+    requested: list[str], state_dir: Path, all_overrides: bool, tracked: bool
+) -> None:
     manifest = load_manifest()
     production = load_recipe_list()
     overrides = load_overrides()
     validate_override_headers(overrides)
-    if all_overrides and requested:
+    if all_overrides and (requested or tracked):
         raise ConfigError("Specific recipes and --all-overrides cannot be used together")
-    selected = sorted(overrides) if all_overrides else select_recipes(requested, production)
+    if tracked and not requested:
+        raise ConfigError("--tracked requires at least one recipe")
+    available = sorted(overrides) if tracked else production
+    selected = sorted(overrides) if all_overrides else select_recipes(requested, available)
     references = trust_references(selected, overrides, manifest["repositories"])
     repository_names = [
         repository["name"]
@@ -84,12 +89,18 @@ def main() -> int:
     select.add_argument("recipes", nargs="*")
     select.add_argument("--state-dir", type=Path, default=STATE_DIR)
     select.add_argument("--all-overrides", action="store_true")
+    select.add_argument("--tracked", action="store_true")
     arguments = parser.parse_args()
     try:
         if arguments.command == "validate":
             validate()
         else:
-            write_selection(arguments.recipes, arguments.state_dir, arguments.all_overrides)
+            write_selection(
+                arguments.recipes,
+                arguments.state_dir,
+                arguments.all_overrides,
+                arguments.tracked,
+            )
     except ConfigError as error:
         parser.error(str(error))
     return 0

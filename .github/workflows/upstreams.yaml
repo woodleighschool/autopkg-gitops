@@ -108,7 +108,7 @@ jobs:
           done < "$AUTOPKG_STATE_DIR/affected-recipes.txt"
           [[ "${#recipes[@]}" -gt 0 ]]
 
-          mise run recipes:select -- "${recipes[@]}"
+          mise run recipes:select -- --tracked "${recipes[@]}"
           mise run repos:sync
           mise run autopkg:preferences
           autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
@@ -211,6 +211,7 @@ jobs:
           [[ "${#recipes[@]}" -gt 0 ]]
 
           uv run python scripts/recipes.py select \
+            --tracked \
             --state-dir "$PWD/.autopkg-run" \
             "${recipes[@]}"
           uv run python scripts/repositories.py \
@@ -221,6 +222,7 @@ jobs:
             cd pull
             mkdir -p .autopkg-run
             uv run python scripts/recipes.py select \
+              --tracked \
               --state-dir "$PWD/.autopkg-run" \
               "${recipes[@]}"
             uv run python scripts/repositories.py \

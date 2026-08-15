@@ -21,12 +21,6 @@
   ],
   packageRules: [
     {
-      matchDatasources: ["git-refs"],
-      matchManagers: ["custom.regex"],
-      groupName: "AutoPkg repositories",
-      groupSlug: "autopkg-repositories",
-    },
-    {
       matchManagers: ["mise"],
       minimumReleaseAge: "12 hours",
     },

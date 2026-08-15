@@ -1,0 +1,46 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.OneDrive
+Identifier: local.munki.OneDrive
+Input:
+  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
+  MUNKI_CATEGORY: Productivity
+  NAME: OneDrive
+  PRODUCTID: '823060'
+  SOFTWARETITLE: OneDrive
+  VENDOR: Microsoft
+  pkginfo:
+    blocking_applications:
+      - OneDrive
+    category: '%MUNKI_CATEGORY%'
+    description: Securely store, share, and access your files from anywhere, ensuring
+      your data is always within reach.
+    developer: Microsoft
+    name: '%NAME%'
+    unattended_install: true
+    uninstall_method: ''
+    uninstallable: false
+ParentRecipe: com.github.woodleighschool.munki.OneDrive
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.rtrouton.download.microsoftonedrive:
+      git_hash: 544644d17b4917b4bb545fa0737bfe73933f079d
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOneDrive/MicrosoftOneDrive.download.recipe
+      sha256_hash: 7718c1c2296c2ea2705df6e7b4378c9d7619f85244be5d55c03f095e7a509e45
+    com.github.woodleighschool.munki.OneDrive:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/OneDrive/OneDrive.munki.recipe.yaml
+      sha256_hash: 9620e9daea145d21eca3a0964f78b1e29960b124a6d4c44277f10208b56a5675
+  scripts: {}

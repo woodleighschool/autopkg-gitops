@@ -1,0 +1,51 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.EPSONDrivers
+Identifier: local.munki.EPSONDrivers
+Input:
+  MUNKI_CATEGORY: Utilities
+  NAME: EPSON Drivers
+  VERSION: '13.34'
+  pkginfo:
+    blocking_applications: []
+    category: '%MUNKI_CATEGORY%'
+    description: Installs the Epson AM-C6000 Series printer driver.
+    developer: Epson
+    installcheck_script: |-
+      #!/bin/zsh --no-rcs
+
+      ppd="/Library/Printers/PPDs/Contents/Resources/EPSON AM-C6000 Series.gz"
+
+      [[ -f "${ppd}" ]] && exit 1
+
+      exit 0
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+    version: '%VERSION%'
+ParentRecipe: com.github.woodleighschool.munki.EPSONDrivers
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/EpsonDownloadInfoProvider:
+      git_hash: 0cebfebdb1f7c44841fe5a8d65cbd7c9e4d745f2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/EpsonDownloadInfoProvider.py
+      sha256_hash: 565587e3cf52f749c4d37760978013611f76ad5b06563bcc65f699061350887b
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.woodleighschool.download.EPSONDrivers:
+      git_hash: 0cebfebdb1f7c44841fe5a8d65cbd7c9e4d745f2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.download.recipe.yaml
+      sha256_hash: b42f50773d70837baa618506c0d94900333cbefe47e2da50a9a935fcc70eafb9
+    com.github.woodleighschool.munki.EPSONDrivers:
+      git_hash: 0cebfebdb1f7c44841fe5a8d65cbd7c9e4d745f2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.munki.recipe.yaml
+      sha256_hash: e9dd35321262195aae1b9988960df33b3ea856096ad6414225246101ed6c1580
+  scripts: {}

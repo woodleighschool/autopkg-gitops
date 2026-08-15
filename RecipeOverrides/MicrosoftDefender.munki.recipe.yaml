@@ -1,0 +1,49 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.MicrosoftDefender
+Identifier: local.munki.MicrosoftDefender
+Input:
+  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
+  MUNKI_CATEGORY: Security
+  NAME: Microsoft Defender
+  PRODUCTID: '2097502'
+  SOFTWARETITLE: Defender
+  VENDOR: Microsoft
+  VERSIONTYPE: CFBundleShortVersionString
+  pkginfo:
+    category: '%MUNKI_CATEGORY%'
+    description: Microsoft Defender for Endpoint helps prevent, detect, investigate,
+      and respond to threats across devices.
+    developer: Microsoft
+    name: '%NAME%'
+    unattended_install: true
+    uninstall_method: ''
+    uninstallable: false
+ParentRecipe: com.github.woodleighschool.munki.MicrosoftDefender
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.rtrouton.download.microsoftdefender:
+      git_hash: 88b74ea2d6c7aa9da98aa1f88fb6cfa5cefc1204
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftDefender/MicrosoftDefender.download.recipe
+      sha256_hash: e68e5db6ab9f87de5a0e5722bb4c4bfff02a14d76a1c1200f526548df49e99f7
+    com.github.rtrouton.pkg.microsoftdefender:
+      git_hash: 88b74ea2d6c7aa9da98aa1f88fb6cfa5cefc1204
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftDefender/MicrosoftDefender.pkg.recipe
+      sha256_hash: 20752f7bd792dbe609118996458bd3cc8824514a3d32b8963222b8d81c51174e
+    com.github.woodleighschool.munki.MicrosoftDefender:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftDefender/MicrosoftDefender.munki.recipe.yaml
+      sha256_hash: ec0d9527f57e539ce9e836d6d4a090178a37df90671057a2fa1d3c38d35acbd5
+  scripts: {}

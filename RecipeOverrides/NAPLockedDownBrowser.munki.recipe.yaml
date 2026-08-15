@@ -1,0 +1,53 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.NAPLockedDownBrowser
+Identifier: local.munki.NAPLockedDownBrowser
+Input:
+  DOWNLOAD_PAGE: https://www.assessform.edu.au/naplan-online/locked-down-browser
+  MUNKI_CATEGORY: Education
+  NAME: NAP Locked down browser
+  pkginfo:
+    blocking_applications:
+      - NAP Locked down browser
+      - NAP Locked down browser Uninstaller
+    category: '%MUNKI_CATEGORY%'
+    description: The NAP Locked down browser lets students securely participate in
+      NAPLAN and NAP Sample tests by preventing access to other applications and unauthorised
+      device resources during an assessment.
+    developer: ACARA
+    minimum_os_version: '14.0'
+    name: '%NAME%'
+    requires:
+      - Rosetta
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.NAPLockedDownBrowser
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.homebysix.FindAndReplace/FindAndReplace:
+      git_hash: cecb7b4f782a8f6b59f029d30a544df0e07c5548
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/FindAndReplace/FindAndReplace.py
+      sha256_hash: 550c9015d45d5f4bbdef4ebd2563c4fbfcbef10cde59598bb101ef7b2647a310
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.davidbpirie.download.naplockeddownbrowser:
+      git_hash: 0f05461ffdb3f7ff116f8034a92fa6e080e0fb2c
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.davidbpirie-recipes/ACARA/NAPLockedDownBrowser.download.recipe.yaml
+      sha256_hash: 7c56dd42b11ccd0cca5328cab069146c765eb6250d876f53f1e07fc191d5530b
+    com.github.woodleighschool.munki.NAPLockedDownBrowser:
+      git_hash: 1149027c9c02de2b03913bfaecb5d024c7263760
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/NAPLockedDownBrowser/NAPLockedDownBrowser.munki.recipe.yaml
+      sha256_hash: 4d4be7f3828dca6292d06a318dbe3982634cf7d975b69b3f529e33923cab12bd
+  scripts: {}

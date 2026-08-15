@@ -1,0 +1,28 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["local>woodleighschool/renovate-config"],
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["/^repositories\\.json$/"],
+      matchStrings: [
+        '"url": "(?<depName>https://github\\.com/[^"]+)",\\n\\s+"ref": "(?<currentValue>[^"]+)",\\n\\s+"revision": "(?<currentDigest>[0-9a-f]{40})"',
+      ],
+      datasourceTemplate: "git-refs",
+    },
+    {
+      customType: "regex",
+      managerFilePatterns: ["/^\\.github\\/workflows\\/.*\\.ya?ml$/"],
+      matchStrings: [
+        'version: "(?<currentValue>[^"]+)" # renovate: datasource=(?<datasource>[^ ]+) depName=(?<depName>[^\\s]+)',
+      ],
+      versioningTemplate: "loose",
+    },
+  ],
+  packageRules: [
+    {
+      matchManagers: ["mise"],
+      minimumReleaseAge: "12 hours",
+    },
+  ],
+}

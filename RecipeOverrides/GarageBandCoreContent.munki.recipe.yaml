@@ -1,0 +1,95 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.GarageBandCoreContent
+Identifier: local.munki.GarageBandCoreContent
+Input:
+  MUNKI_CATEGORY: Creativity
+  NAME: GarageBand Core Content
+  VERSION: 2.0.3.1
+  pkginfo:
+    blocking_applications:
+      - GarageBand
+    category: '%MUNKI_CATEGORY%'
+    description: Installs GarageBand's core audio content using Apple's content service
+      or a local Apple content cache.
+    developer: Apple
+    installcheck_script: |-
+      #!/bin/zsh --no-rcs
+
+      info="/Applications/GarageBand.app/Contents/Info.plist"
+      marker="/Library/Application Support/Woodleigh/Receipts/GarageBandCoreContent"
+
+      if [[ ! -r "${info}" ]]; then
+          exit 0
+      fi
+
+      garageband_version="$(/usr/libexec/PlistBuddy \
+          -c "Print :CFBundleShortVersionString" "${info}" 2>/dev/null)"
+
+      if [[ -n "${garageband_version}" ]] &&
+          [[ -f "${marker}" ]] &&
+          [[ "$(<"${marker}")" == "2.0.3.1:${garageband_version}" ]]; then
+          exit 1
+      fi
+
+      exit 0
+    minimum_os_version: '14.0'
+    name: '%NAME%'
+    postinstall_script: |-
+      #!/bin/zsh --no-rcs
+
+      set -e
+
+      workdir="/private/var/tmp/Woodleigh/GarageBandCoreContent"
+      helper="${workdir}/loopdown"
+      info="/Applications/GarageBand.app/Contents/Info.plist"
+      marker="/Library/Application Support/Woodleigh/Receipts/GarageBandCoreContent"
+
+      cleanup() {
+          /bin/rm -rf "${workdir}"
+          /bin/rmdir "/private/var/tmp/Woodleigh" 2>/dev/null || true
+      }
+
+      trap cleanup EXIT
+
+      if [[ ! -x "${helper}" ]]; then
+          echo "loopdown helper is missing or not executable" >&2
+          exit 1
+      fi
+
+      if [[ ! -d "/Applications/GarageBand.app" ]]; then
+          echo "GarageBand is not installed" >&2
+          exit 1
+      fi
+
+      garageband_version="$(/usr/libexec/PlistBuddy \
+          -c "Print :CFBundleShortVersionString" "${info}")"
+
+      "${helper}" deploy \
+          --app garageband \
+          --core \
+          --cache-server auto
+
+      /bin/mkdir -p "${marker:h}"
+      /usr/bin/printf '%s\n' "2.0.3.1:${garageband_version}" > "${marker}"
+      /usr/sbin/chown root:wheel "${marker}"
+      /bin/chmod 0644 "${marker}"
+    requires:
+      - GarageBand
+    unattended_install: true
+    uninstallable: false
+    update_for:
+      - GarageBand
+    version: '%VERSION%'
+ParentRecipe: com.github.woodleighschool.munki.GarageBandCoreContent
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+  parent_recipes:
+    com.github.woodleighschool.munki.GarageBandCoreContent:
+      git_hash: c029357da60a3ecd12f0cd9684e929831908ce39
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GarageBand/GarageBandCoreContent.munki.recipe.yaml
+      sha256_hash: b3fcb2ce2b37782fc714af3146ac66876655484c7647875f086030dee3d63825
+  scripts: {}

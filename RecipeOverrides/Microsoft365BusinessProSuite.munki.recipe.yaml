@@ -1,0 +1,56 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.Microsoft365BusinessProSuite
+Identifier: local.munki.Microsoft365BusinessProSuite
+Input:
+  DOWNLOAD_URL_BASE: https://go.microsoft.com/fwlink/?linkid=
+  ID: '2009112'
+  MUNKI_CATEGORY: Productivity
+  NAME: Microsoft 365 Business Pro Suite
+  SOFTWARETITLE1: Office
+  SOFTWARETITLE2: Business
+  SOFTWARETITLE3: Pro
+  SOFTWARETITLE4: Suite
+  VENDOR: Microsoft
+  pkginfo:
+    blocking_applications:
+      - Microsoft AutoUpdate
+      - Microsoft Outlook
+      - Microsoft Excel
+      - Microsoft PowerPoint
+      - Microsoft Word
+      - Microsoft OneNote
+      - Microsoft Teams
+    category: '%MUNKI_CATEGORY%'
+    description: This suite ties everything together, offering enhanced security,
+      business-class email, and additional tools designed to boost efficiency and
+      collaboration.
+    developer: Microsoft
+    minimum_os_version: '13.0'
+    name: '%NAME%'
+    receipts:
+      - packageid: com.microsoft.package.Frameworks
+        version: '0'
+    unattended_install: true
+    uninstall_method: ''
+    uninstallable: false
+ParentRecipe: com.github.woodleighschool.munki.Microsoft365BusinessProSuite
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.rtrouton.download.MicrosoftOffice365BusinessProSuite:
+      git_hash: 93c254ee9e4c2e5289e460b79502b544f476f0c2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOffice365BusinessProSuite/MicrosoftOffice365BusinessProSuite.download.recipe
+      sha256_hash: 36db63a7c89abf3d6ca5784ae3f85877fdffa11f1960e357bc73e947a92657a3
+    com.github.woodleighschool.munki.Microsoft365BusinessProSuite:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Microsoft365BusinessProSuite/Microsoft365BusinessProSuite.munki.recipe.yaml
+      sha256_hash: 0e9df91e16896ba2f9775b52ad57383e4b9f39075db6548cda701bc88a0bb3f6
+  scripts: {}

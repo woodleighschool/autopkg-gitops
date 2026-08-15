@@ -1,0 +1,47 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.Zoom
+Identifier: local.munki.Zoom
+Input:
+  DOWNLOAD_URL: https://zoom.us/client/latest/ZoomInstallerIT.pkg
+  MUNKI_CATEGORY: Collaboration
+  NAME: Zoom
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.28.10
+    (KHTML, like Gecko) Version/6.0.3 Safari/536.28.10
+  pkginfo:
+    blocking_applications:
+      - zoom.us
+    category: '%MUNKI_CATEGORY%'
+    description: Zoom is a cloud-based video conferencing platform that can be used
+      for video conferencing meetings, audio conferencing, webinars, meeting recordings,
+      and live chat.
+    developer: Zoom
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: removepackages
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.Zoom
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.hansen-m.download.zoomus:
+      git_hash: 19f9cd527d309f57360b9e3f42da508878e27ae5
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.hansen-m-recipes/Zoom/Zoom.download.recipe
+      sha256_hash: 3c4a2f325de4d51163c93505dd134918c9b2cae5089f555d59fac62f14bce007
+    com.github.woodleighschool.munki.Zoom:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Zoom/Zoom.munki.recipe.yaml
+      sha256_hash: e2ca03394acdc9cadf839b82ce0545da43dc81d10710331004dd60572910a4e0
+  scripts: {}

@@ -1,0 +1,48 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.VLC
+Identifier: local.munki.VLC
+Input:
+  ARCHITECTURE: arm64
+  MUNKI_CATEGORY: Media
+  NAME: VLC
+  pkginfo:
+    blocking_applications:
+      - VLC
+    category: '%MUNKI_CATEGORY%'
+    description: VLC is a free and open source cross-platform multimedia player and
+      framework that plays most multimedia files, and various streaming protocols.
+    developer: VideoLAN
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: remove_copied_items
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.VLC
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.autopkg.download.VLC:
+      git_hash: 1b4ba2cfe6d1f6de304bc9c29b57df6602b2e7e6
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/VLC/VLC.download.recipe
+      sha256_hash: e74a96c65488d34aabb247c171b57db7fed8afd67b61fffdce8f46bc54d35f18
+    com.github.woodleighschool.download.VLC:
+      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.download.recipe.yaml
+      sha256_hash: 440fc72931534a9fd15dec44b3ae3a5255edd2800f2cdd7573f8eeb7aadb5fd0
+    com.github.woodleighschool.munki.VLC:
+      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.munki.recipe.yaml
+      sha256_hash: 1243cbe8447022365e29370e188258dc63b421e07b64cec3a42678a4b3b87d57
+  scripts: {}

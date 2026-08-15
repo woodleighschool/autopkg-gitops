@@ -1,0 +1,31 @@
+name: Setup Munki
+description: Install a Munki release package on macOS
+
+inputs:
+  version:
+    description: Munki release version; omitted resolves the latest stable release
+    required: false
+    default: ""
+  github-token:
+    description: GitHub token used to resolve the release
+    required: false
+    default: ""
+
+outputs:
+  release:
+    description: Resolved GitHub release tag
+    value: ${{ steps.install.outputs.release }}
+  version:
+    description: Installed Munki admin package version
+    value: ${{ steps.install.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Munki
+      id: install
+      shell: bash
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+        GITHUB_TOKEN: ${{ inputs.github-token || github.token }}
+      run: bash "$GITHUB_ACTION_PATH/install.sh"

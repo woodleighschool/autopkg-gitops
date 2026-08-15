@@ -60,7 +60,7 @@ jobs:
       needs.filter.outputs.changed == 'true' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.head_ref, 'renovate/')
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 20
     permissions:
       contents: read
@@ -167,7 +167,7 @@ jobs:
       needs.filter.result == 'success' &&
       (needs.lock.result == 'success' || needs.lock.result == 'skipped') &&
       needs.lock.outputs.changed != 'true'
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 20
     steps:
       - name: Checkout default branch

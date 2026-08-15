@@ -156,6 +156,7 @@ def changed_paths(
         git(
             destination,
             "diff",
+            "--no-renames",
             "--name-only",
             old_revision,
             current["revision"],

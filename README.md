@@ -7,7 +7,7 @@
 - `repositories.json` pins upstream repository commits.
 - Parent trust paths determine which pinned repositories each selected recipe owns. A single-recipe run syncs only that closure.
 
-An already-correct checkout is left alone without fetching. Updating one pin does not refresh unrelated repositories or AutoPkg download caches. Pull requests that change pins report the changed files that are actually referenced by enabled recipe chains.
+An already-correct checkout is left alone without fetching. Renovate pull requests refresh only overrides whose trusted paths changed and comment the rendered recipe-chain diff.
 
 ## Local run
 

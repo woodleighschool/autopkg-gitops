@@ -5,6 +5,7 @@ lefthook = "2.1.10"
 actionlint = "1.7.12"
 zizmor = "1.29.0"
 oxfmt = "0.63.0"
+shellcheck = "0.11.0"
 
 [settings]
 experimental = true
@@ -15,21 +16,23 @@ minimum_release_age = "12 hours"
 [env]
 _.file = { path = "{{config_root}}/.env", redact = true }
 _.python.venv = { path = ".venv", create = true }
-AUTOPKG_STATE_DIR = "{{config_root}}/.autopkg-run"
-AUTOPKG_REPO_ROOT = "{{env.HOME}}/Library/AutoPkg/RecipeRepos"
+AUTOPKG_STATE_DIR = "{{ get_env(name='AUTOPKG_STATE_DIR', default=config_root ~ '/.autopkg-run') }}"
+AUTOPKG_REPO_ROOT = "{{ get_env(name='AUTOPKG_REPO_ROOT', default=env.HOME ~ '/Library/AutoPkg/RecipeRepos') }}"
 AUTOPKG_FAIL_RECIPES_WITHOUT_TRUST_INFO = "1"
 
 [tasks.deps]
 hide = true
 run = "uv pip sync requirements.txt"
 
+[tasks."overrides:mark"]
+hide = true
+depends = ["deps"]
+run = "uv run python scripts/mark_overrides.py"
+
 [tasks.format]
 description = "Format configuration and mark generated overrides"
-depends = ["deps"]
-run = [
-  "uv run python scripts/mark_overrides.py",
-  "oxfmt . '!RecipeOverrides/**' '!.mise/**'",
-]
+depends = ["overrides:mark"]
+run = "oxfmt . '!RecipeOverrides/**' '!.mise/**'"
 
 [tasks.fmt-check]
 description = "Check formatting and generated override headers"
@@ -48,9 +51,13 @@ run = "uv run python scripts/recipes.py validate"
 description = "Lint GitHub Actions workflows"
 run = ["actionlint", "zizmor --offline --no-ignores .github/workflows"]
 
+[tasks.shell-lint]
+description = "Lint composite action installers"
+run = "shellcheck .github/actions/*/install.sh"
+
 [tasks.lint]
 description = "Run repository checks"
-depends = ["fmt-check", "validate", "workflow-lint"]
+depends = ["fmt-check", "validate", "workflow-lint", "shell-lint"]
 
 [tasks.preflight]
 description = "Check the current runner has AutoPkg v3 and Munki"
@@ -71,12 +78,7 @@ run = "uv run python scripts/recipes.py select"
 [tasks."repos:sync"]
 description = "Materialize only repositories used by the selected recipes"
 depends = ["deps"]
-run = "uv run python scripts/repositories.py sync"
-
-[tasks."repos:diff"]
-description = "Report changed upstream files owned by enabled recipes"
-depends = ["deps"]
-run = "uv run python scripts/repositories.py diff"
+run = "uv run python scripts/repositories.py"
 
 [tasks."autopkg:preferences"]
 description = "Write ephemeral AutoPkg preferences for the selected repositories"
@@ -102,7 +104,7 @@ arg "<recipe>" help="Source recipe identifier"
 '''
 run = '''
 autopkg make-override --format=yaml --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
-uv run python scripts/mark_overrides.py
+mise run overrides:mark
 '''
 
 [tasks."trust:update"]
@@ -113,7 +115,7 @@ arg "<recipe>" help="Generated override identifier"
 run = '''
 mise run trust:prepare
 autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
-uv run python scripts/mark_overrides.py
+mise run overrides:mark
 '''
 
 [tasks."trust:update-all"]
@@ -121,7 +123,7 @@ description = "Regenerate parent trust for every tracked override"
 run = '''
 mise run trust:prepare
 autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "$PWD"/RecipeOverrides/*.munki.recipe.yaml
-uv run python scripts/mark_overrides.py
+mise run overrides:mark
 '''
 
 [tasks."trust:prepare"]

@@ -10,6 +10,14 @@
       ],
       datasourceTemplate: "git-refs",
     },
+    {
+      customType: "regex",
+      managerFilePatterns: ["/^\\.github\\/workflows\\/.*\\.ya?ml$/"],
+      matchStrings: [
+        'version: "(?<currentValue>[^"]+)" # renovate: datasource=(?<datasource>[^ ]+) depName=(?<depName>[^\\s]+)',
+      ],
+      versioningTemplate: "loose",
+    },
   ],
   packageRules: [
     {

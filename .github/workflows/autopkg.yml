@@ -42,6 +42,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup Munki
+        uses: ./.github/actions/setup-munki
+        with:
+          version: "7.2.0" # renovate: datasource=github-releases depName=munki/munki
+
+      - name: Setup AutoPkg
+        uses: ./.github/actions/setup-autopkg
+        with:
+          version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
+
       - name: Setup Mise
         uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
         with:

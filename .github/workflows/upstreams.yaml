@@ -8,10 +8,9 @@ on:
       - main
     paths:
       - repositories.json
-  workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -20,14 +19,16 @@ permissions:
 env:
   MISE_NO_HOOKS: "1"
   MISE_TASK_RUN_AUTO_INSTALL: "false"
-  AUTOPKG_DIFF_BASE: ${{ github.event.pull_request.base.sha || 'origin/main' }}
-  AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
 
 jobs:
-  inspect:
-    name: Inspect pinned changes
+  filter:
+    name: Find affected recipes
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+      processors: ${{ steps.changes.outputs.processors }}
+      recipes: ${{ steps.changes.outputs.recipes }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -41,13 +42,247 @@ jobs:
           experimental: true
           install_args: --locked python uv
 
-      - name: Inspect changed pins
-        run: mise run repos:diff
+      - name: Find changed recipe chains
+        id: changes
+        env:
+          AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          mise run deps
+          uv run python scripts/upstreams.py \
+            --base "$BASE_SHA" \
+            --github-output
 
-      - name: Upload upstream report
+  lock:
+    name: Update trust lock
+    needs: filter
+    if: >-
+      needs.filter.outputs.changed == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.head_ref, 'renovate/')
+    runs-on: macos-15
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.lock.outputs.changed }}
+    steps:
+      - name: Checkout trusted actions
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Setup AutoPkg
+        uses: ./.github/actions/setup-autopkg
+        with:
+          version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
+
+      - name: Setup Mise
+        uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          experimental: true
+          install_args: --locked python uv
+
+      - name: Checkout pull request branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: pull
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Update affected trust
+        id: lock
+        env:
+          AFFECTED_RECIPES: ${{ needs.filter.outputs.recipes }}
+          AUTOPKG_STATE_DIR: ${{ github.workspace }}/pull/.autopkg-run
+        working-directory: pull
+        run: |
+          export AUTOPKG_REPO_ROOT="$HOME/Library/AutoPkg/RecipeRepos"
+          mkdir -p "$AUTOPKG_STATE_DIR"
+          printf '%s\n' "$AFFECTED_RECIPES" > "$AUTOPKG_STATE_DIR/affected-recipes.txt"
+
+          recipes=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && recipes+=("$recipe")
+          done < "$AUTOPKG_STATE_DIR/affected-recipes.txt"
+          [[ "${#recipes[@]}" -gt 0 ]]
+
+          mise run recipes:select -- "${recipes[@]}"
+          mise run repos:sync
+          mise run autopkg:preferences
+          autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
+          autopkg update-trust-info \
+            --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+            --override-dir="$PWD/RecipeOverrides" \
+            "${recipes[@]}"
+          mise run overrides:mark
+
+          if git diff --quiet -- RecipeOverrides; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate push token
+        if: ${{ steps.lock.outputs.changed == 'true' }}
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+
+      - name: Commit trust lock
+        if: ${{ steps.lock.outputs.changed == 'true' }}
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REF: ${{ github.head_ref }}
+          PUSH_TOKEN: ${{ steps.app-token.outputs.token }}
+        working-directory: pull
+        run: |
+          expected_author="woodmin[bot] <225126206+woodmin[bot]@users.noreply.github.com>"
+          actual_author="$(git show -s --format='%an <%ae>' HEAD)"
+          [[ "$actual_author" == "$expected_author" ]]
+
+          git config user.name "woodmin[bot]"
+          git config user.email "225126206+woodmin[bot]@users.noreply.github.com"
+          git add RecipeOverrides/*.munki.recipe.yaml
+          git commit --amend --no-edit
+          git push \
+            --force-with-lease="refs/heads/${HEAD_REF}:${HEAD_SHA}" \
+            "https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "HEAD:refs/heads/${HEAD_REF}"
+
+  render:
+    name: Render recipe changes
+    needs:
+      - filter
+      - lock
+    if: >-
+      always() &&
+      needs.filter.outputs.changed == 'true' &&
+      needs.filter.result == 'success' &&
+      (needs.lock.result == 'success' || needs.lock.result == 'skipped') &&
+      needs.lock.outputs.changed != 'true'
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Setup AutoPkg
+        uses: ./.github/actions/setup-autopkg
+        with:
+          version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
+
+      - name: Setup Mise
+        uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          experimental: true
+          install_args: --locked python uv
+
+      - name: Checkout pull request
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: pull
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Materialize recipe chains
+        env:
+          AFFECTED_RECIPES: ${{ needs.filter.outputs.recipes }}
+          CHANGED_PROCESSORS: ${{ needs.filter.outputs.processors }}
+        run: |
+          mise run deps
+          mkdir -p .autopkg-run artifacts
+          printf '%s\n' "$AFFECTED_RECIPES" > .autopkg-run/affected-recipes.txt
+          printf '%s\n' "$CHANGED_PROCESSORS" > .autopkg-run/changed-processors.json
+
+          recipes=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && recipes+=("$recipe")
+          done < .autopkg-run/affected-recipes.txt
+          [[ "${#recipes[@]}" -gt 0 ]]
+
+          uv run python scripts/recipes.py select \
+            --state-dir "$PWD/.autopkg-run" \
+            "${recipes[@]}"
+          uv run python scripts/repositories.py \
+            --repo-root "$PWD/.autopkg-run/RecipeRepos" \
+            --names-file "$PWD/.autopkg-run/repositories.txt"
+
+          (
+            cd pull
+            mkdir -p .autopkg-run
+            uv run python scripts/recipes.py select \
+              --state-dir "$PWD/.autopkg-run" \
+              "${recipes[@]}"
+            uv run python scripts/repositories.py \
+              --repo-root "$PWD/.autopkg-run/RecipeRepos" \
+              --names-file "$PWD/.autopkg-run/repositories.txt"
+          )
+
+          /usr/local/autopkg/python scripts/render_recipes.py \
+            --manifest repositories.json \
+            --override-dir RecipeOverrides \
+            --repo-root .autopkg-run/RecipeRepos \
+            --recipes .autopkg-run/affected-recipes.txt \
+            --output-dir .autopkg-run/rendered-base
+          /usr/local/autopkg/python scripts/render_recipes.py \
+            --manifest pull/repositories.json \
+            --override-dir pull/RecipeOverrides \
+            --repo-root pull/.autopkg-run/RecipeRepos \
+            --recipes .autopkg-run/affected-recipes.txt \
+            --output-dir .autopkg-run/rendered-pull
+          uv run python scripts/recipe_diff.py \
+            --base-dir .autopkg-run/rendered-base \
+            --head-dir .autopkg-run/rendered-pull \
+            --recipes .autopkg-run/affected-recipes.txt \
+            --processors .autopkg-run/changed-processors.json \
+            --output artifacts/recipe-changes.md
+
+      - name: Upload recipe changes
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: autopkg-upstreams-${{ github.run_id }}
-          path: artifacts/upstream-changes.*
+          name: autopkg-recipe-changes
+          path: artifacts/recipe-changes.md
           if-no-files-found: error
           retention-days: 14
+
+  comment:
+    name: Comment recipe changes
+    needs: render
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Download recipe changes
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: autopkg-recipe-changes
+          path: artifacts
+
+      - name: Generate comment token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-pull-requests: write
+
+      - name: Comment recipe changes
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          header: autopkg/recipe-chain
+          path: artifacts/recipe-changes.md
+          skip_unchanged: true

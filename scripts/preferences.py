@@ -6,19 +6,29 @@ import json
 import plistlib
 from pathlib import Path
 
-from common import ConfigError, REPO_ROOT, STATE_DIR, load_manifest, repository_map
+from common import ConfigError, MANIFEST_PATH, REPO_ROOT, STATE_DIR, load_manifest, repository_map
 
 
-def write_preferences(state_dir: Path, repo_root: Path, override_dir: Path) -> None:
-    try:
-        selection = json.loads((state_dir / "selection.json").read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
-        raise ConfigError(f"Cannot read {state_dir / 'selection.json'}: {error}") from error
-    names = selection.get("repositories")
-    if not isinstance(names, list) or not all(isinstance(name, str) for name in names):
-        raise ConfigError(f"{state_dir / 'selection.json'}: invalid repositories")
+def write_preferences(
+    state_dir: Path,
+    repo_root: Path,
+    override_dir: Path,
+    manifest_path: Path,
+    all_repositories: bool,
+) -> None:
+    state_dir.mkdir(parents=True, exist_ok=True)
+    manifest = load_manifest(manifest_path)
+    if all_repositories:
+        names = [repository["name"] for repository in manifest["repositories"]]
+    else:
+        try:
+            selection = json.loads((state_dir / "selection.json").read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise ConfigError(f"Cannot read {state_dir / 'selection.json'}: {error}") from error
+        names = selection.get("repositories")
+        if not isinstance(names, list) or not all(isinstance(name, str) for name in names):
+            raise ConfigError(f"{state_dir / 'selection.json'}: invalid repositories")
 
-    manifest = load_manifest()
     repositories = repository_map(manifest)
     paths = [repo_root / name for name in names]
     for name, path in zip(names, paths, strict=True):
@@ -44,12 +54,16 @@ def main() -> int:
     parser.add_argument("--state-dir", type=Path, default=STATE_DIR)
     parser.add_argument("--repo-root", type=Path, default=REPO_ROOT)
     parser.add_argument("--override-dir", type=Path)
+    parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
+    parser.add_argument("--all-repositories", action="store_true")
     arguments = parser.parse_args()
     try:
         write_preferences(
             arguments.state_dir,
             arguments.repo_root,
             arguments.override_dir or arguments.state_dir / "overrides",
+            arguments.manifest,
+            arguments.all_repositories,
         )
     except ConfigError as error:
         parser.error(str(error))

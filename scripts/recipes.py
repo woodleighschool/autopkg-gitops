@@ -12,7 +12,6 @@ from common import (
     STATE_DIR,
     load_manifest,
     load_overrides,
-    load_recipe_list,
     select_recipes,
     trust_references,
     validate_override_headers,
@@ -21,32 +20,20 @@ from common import (
 
 def validate() -> None:
     manifest = load_manifest()
-    production = load_recipe_list()
     overrides = load_overrides()
     validate_override_headers(overrides)
-    missing = sorted(set(production) - overrides.keys())
-    if missing:
-        raise ConfigError(f"Enabled recipes missing generated overrides: {', '.join(missing)}")
     references = trust_references(overrides, overrides, manifest["repositories"])
     print(
-        f"Validated {len(production)} enabled recipes, {len(overrides)} generated overrides, "
-        f"and {len(references)} referenced repositories"
+        f"Validated {len(overrides)} recipes and generated overrides across "
+        f"{len(references)} referenced repositories"
     )
 
 
-def write_selection(
-    requested: list[str], state_dir: Path, all_overrides: bool, tracked: bool
-) -> None:
+def write_selection(requested: list[str], state_dir: Path) -> None:
     manifest = load_manifest()
-    production = load_recipe_list()
     overrides = load_overrides()
     validate_override_headers(overrides)
-    if all_overrides and (requested or tracked):
-        raise ConfigError("Specific recipes and --all-overrides cannot be used together")
-    if tracked and not requested:
-        raise ConfigError("--tracked requires at least one recipe")
-    available = sorted(overrides) if tracked else production
-    selected = sorted(overrides) if all_overrides else select_recipes(requested, available)
+    selected = select_recipes(requested, sorted(overrides))
     references = trust_references(selected, overrides, manifest["repositories"])
     repository_names = [
         repository["name"]
@@ -81,6 +68,34 @@ def write_selection(
     print(f"Selected {len(selected)} recipes using {len(repository_names)} repositories")
 
 
+def print_parents(requested: list[str], allow_new_woodleigh: bool) -> None:
+    overrides = load_overrides()
+    requested = requested or sorted(overrides)
+    aliases = {
+        alias: identifier
+        for identifier in overrides
+        for alias in (identifier, identifier.removeprefix("local.munki."))
+    }
+    for recipe in requested:
+        identifier = aliases.get(recipe)
+        if identifier is None:
+            if allow_new_woodleigh and recipe.startswith("local.munki."):
+                print(
+                    recipe.replace(
+                        "local.munki.",
+                        "com.github.woodleighschool.munki.",
+                        1,
+                    )
+                )
+                continue
+            raise ConfigError(f"Unknown recipe: {recipe}")
+        path, override = overrides[identifier]
+        parent = override.get("ParentRecipe")
+        if not isinstance(parent, str) or not parent:
+            raise ConfigError(f"{path}: missing ParentRecipe")
+        print(parent)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate and select AutoPkg recipes")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -88,19 +103,17 @@ def main() -> int:
     select = subparsers.add_parser("select")
     select.add_argument("recipes", nargs="*")
     select.add_argument("--state-dir", type=Path, default=STATE_DIR)
-    select.add_argument("--all-overrides", action="store_true")
-    select.add_argument("--tracked", action="store_true")
+    parents = subparsers.add_parser("parents")
+    parents.add_argument("recipes", nargs="*")
+    parents.add_argument("--allow-new-woodleigh", action="store_true")
     arguments = parser.parse_args()
     try:
         if arguments.command == "validate":
             validate()
+        elif arguments.command == "select":
+            write_selection(arguments.recipes, arguments.state_dir)
         else:
-            write_selection(
-                arguments.recipes,
-                arguments.state_dir,
-                arguments.all_overrides,
-                arguments.tracked,
-            )
+            print_parents(arguments.recipes, arguments.allow_new_woodleigh)
     except ConfigError as error:
         parser.error(str(error))
     return 0

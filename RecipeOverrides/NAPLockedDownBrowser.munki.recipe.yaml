@@ -2,9 +2,10 @@
 # Refresh with: mise run trust:update local.munki.NAPLockedDownBrowser
 Identifier: local.munki.NAPLockedDownBrowser
 Input:
-  DOWNLOAD_PAGE: https://www.assessform.edu.au/naplan-online/locked-down-browser
   MUNKI_CATEGORY: Education
   NAME: NAP Locked down browser
+  SEARCH_RE: .*"([^"]*\.pkg)">Download for MacOS
+  SEARCH_URL: https://www.assessform.edu.au/naplan-online/locked-down-browser
   pkginfo:
     blocking_applications:
       - NAP Locked down browser

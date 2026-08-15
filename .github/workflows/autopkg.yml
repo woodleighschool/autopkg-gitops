@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       recipe:
-        description: Optional enabled recipe name, for example GoogleChrome
+        description: Optional recipe name, for example GoogleChrome
         type: string
         default: ""
         required: false
@@ -43,11 +43,13 @@ jobs:
           persist-credentials: false
 
       - name: Setup Munki
+        if: ${{ runner.environment == 'github-hosted' }}
         uses: ./.github/actions/setup-munki
         with:
           version: "7.2.0" # renovate: datasource=github-releases depName=munki/munki
 
       - name: Setup AutoPkg
+        if: ${{ runner.environment == 'github-hosted' }}
         uses: ./.github/actions/setup-autopkg
         with:
           version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg

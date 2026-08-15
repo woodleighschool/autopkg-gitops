@@ -6,7 +6,7 @@ import hashlib
 import json
 import os
 import subprocess
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +26,12 @@ from common import (
     validate_manifest,
 )
 from repositories import ensure_checkout, git
+
+
+WOODLEIGH_SOURCE = "https://github.com/woodleighschool/autopkg"
+WOODLEIGH_SOURCE_PREFIX = "com.github.woodleighschool.munki."
+LOCAL_OVERRIDE_PREFIX = "local.munki."
+LOCAL_IMAGE_SUFFIXES = (".icns", ".jpeg", ".jpg", ".png", ".svg", ".webp")
 
 
 def git_output(*arguments: str) -> str:
@@ -165,9 +171,157 @@ def changed_paths(
     )
 
 
+def nested_strings(value: object) -> Iterable[str]:
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, Mapping):
+        for child in value.values():
+            yield from nested_strings(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from nested_strings(child)
+
+
+def woodleigh_recipe_index(
+    checkout: Path,
+) -> tuple[dict[str, Mapping[str, Any]], dict[str, str]]:
+    yaml = YAML(typ="safe")
+    recipes: dict[str, Mapping[str, Any]] = {}
+    paths: dict[str, str] = {}
+    for path in sorted(checkout.rglob("*.recipe.yaml")):
+        recipe = yaml.load(path.read_text(encoding="utf-8"))
+        if not isinstance(recipe, Mapping):
+            raise ConfigError(f"{path}: recipe must be a mapping")
+        identifier = recipe.get("Identifier")
+        if not isinstance(identifier, str):
+            raise ConfigError(f"{path}: missing Identifier")
+        if identifier in recipes:
+            raise ConfigError(f"{path}: duplicate recipe identifier {identifier}")
+        recipes[identifier] = recipe
+        paths[path.relative_to(checkout).as_posix()] = identifier
+    return recipes, paths
+
+
+def recipe_traits(
+    identifier: str,
+    recipes: Mapping[str, Mapping[str, Any]],
+    munki_names: Mapping[str, str],
+    cache: dict[str, frozenset[str]],
+    visiting: set[str],
+) -> frozenset[str]:
+    if identifier in cache:
+        return cache[identifier]
+    if identifier in visiting:
+        return frozenset()
+
+    visiting.add(identifier)
+    recipe = recipes[identifier]
+    traits: set[str] = set()
+    inputs = recipe.get("Input", {})
+    if isinstance(inputs, Mapping):
+        version = inputs.get("VERSION")
+        if version not in (None, "") and "%" not in str(version):
+            traits.add("fixed-version")
+
+    process = recipe.get("Process", [])
+    if isinstance(process, list):
+        for step in process:
+            if not isinstance(step, Mapping) or step.get("Processor") != "FileFinder":
+                continue
+            arguments = step.get("Arguments", {})
+            pattern = arguments.get("pattern") if isinstance(arguments, Mapping) else None
+            if isinstance(pattern, str) and pattern.startswith("/Applications/"):
+                traits.add("local-payload")
+
+    for value in nested_strings(process):
+        if "%RECIPE_DIR%/" not in value:
+            continue
+        filename = value.rsplit("/", 1)[-1].lower()
+        if not filename.endswith(LOCAL_IMAGE_SUFFIXES):
+            traits.add("local-payload")
+
+    parent = recipe.get("ParentRecipe")
+    if isinstance(parent, str) and parent in recipes:
+        traits.update(recipe_traits(parent, recipes, munki_names, cache, visiting))
+
+    pkginfo = inputs.get("pkginfo", {}) if isinstance(inputs, Mapping) else {}
+    requirements = pkginfo.get("requires", []) if isinstance(pkginfo, Mapping) else []
+    if isinstance(requirements, list):
+        for requirement in requirements:
+            dependency = munki_names.get(requirement) if isinstance(requirement, str) else None
+            if dependency and "local-payload" in recipe_traits(
+                dependency, recipes, munki_names, cache, visiting
+            ):
+                traits.add("local-payload")
+
+    visiting.remove(identifier)
+    result = frozenset(traits)
+    cache[identifier] = result
+    return result
+
+
+def recurring_woodleigh_recipes(
+    recipes: Mapping[str, Mapping[str, Any]],
+) -> set[str]:
+    munki_names: dict[str, str] = {}
+    for identifier, recipe in recipes.items():
+        if not identifier.startswith(WOODLEIGH_SOURCE_PREFIX):
+            continue
+        inputs = recipe.get("Input", {})
+        name = inputs.get("NAME") if isinstance(inputs, Mapping) else None
+        if isinstance(name, str):
+            munki_names[name] = identifier
+
+    cache: dict[str, frozenset[str]] = {}
+    return {
+        identifier
+        for identifier in recipes
+        if identifier.startswith(WOODLEIGH_SOURCE_PREFIX)
+        and not recipe_traits(identifier, recipes, munki_names, cache, set())
+    }
+
+
+def added_woodleigh_recipes(
+    previous: dict[str, str] | None,
+    current: dict[str, str],
+    repo_root: Path,
+) -> list[str]:
+    if current["url"].removesuffix(".git").removesuffix("/") != WOODLEIGH_SOURCE:
+        return []
+    if previous is None or previous["url"] != current["url"]:
+        return []
+
+    destination = ensure_checkout(current, repo_root)
+    paths = git(
+        destination,
+        "diff",
+        "--diff-filter=A",
+        "--name-only",
+        previous["revision"],
+        current["revision"],
+        "--",
+        "*.munki.recipe.yaml",
+        capture=True,
+    ).stdout.splitlines()
+    recipes, identifiers_by_path = woodleigh_recipe_index(destination)
+    recurring = recurring_woodleigh_recipes(recipes)
+    identifiers: list[str] = []
+    for path in paths:
+        identifier = identifiers_by_path.get(path)
+        if identifier is None or not identifier.startswith(WOODLEIGH_SOURCE_PREFIX):
+            raise ConfigError(
+                f"{current['revision']}:{path}: expected a {WOODLEIGH_SOURCE_PREFIX} identifier"
+            )
+        if identifier not in recurring:
+            print(f"Skipping on-demand source recipe {identifier}")
+            continue
+        identifiers.append(identifier.replace(WOODLEIGH_SOURCE_PREFIX, LOCAL_OVERRIDE_PREFIX, 1))
+    return sorted(identifiers)
+
+
 def affected_recipes(
     base: str, manifest_path: Path, repo_root: Path
-) -> tuple[list[str], list[str], list[dict[str, str]]]:
+) -> tuple[list[str], list[str], list[dict[str, str]], list[str]]:
     previous_manifest = manifest_at(base)
     current_manifest = load_manifest(manifest_path)
     previous_repositories = repository_map(previous_manifest)
@@ -193,10 +347,12 @@ def affected_recipes(
         or repository != previous_repositories[name]
     ]
     affected: set[str] = set()
+    added: set[str] = set()
     changed_processors: set[tuple[str, str, str, str]] = set()
     for name in changed_names:
         current = current_repositories[name]
         previous = previous_repositories.get(name)
+        added.update(added_woodleigh_recipes(previous, current, repo_root))
         paths = None if previous is None else changed_paths(previous, current, repo_root)
         matching = 0
         for identifier in current_overrides:
@@ -232,11 +388,15 @@ def affected_recipes(
         }
         for recipe, processor, path, url in sorted(changed_processors)
     ]
-    return sorted(affected), changed_names, processors
+    affected.update(added)
+    return sorted(affected), changed_names, processors, sorted(added)
 
 
 def write_github_output(
-    recipes: list[str], repositories: list[str], processors: list[dict[str, str]]
+    recipes: list[str],
+    repositories: list[str],
+    processors: list[dict[str, str]],
+    added: list[str],
 ) -> None:
     output_path = os.environ.get("GITHUB_OUTPUT")
     if not output_path:
@@ -245,6 +405,9 @@ def write_github_output(
         output.write(f"changed={'true' if recipes else 'false'}\n")
         output.write(f"repositories={json.dumps(repositories, separators=(',', ':'))}\n")
         output.write(f"processors={json.dumps(processors, separators=(',', ':'))}\n")
+        output.write("added<<AUTOPKG_ADDED_RECIPES\n")
+        output.write("\n".join(added))
+        output.write("\nAUTOPKG_ADDED_RECIPES\n")
         output.write("recipes<<AUTOPKG_RECIPES\n")
         output.write("\n".join(recipes))
         output.write("\nAUTOPKG_RECIPES\n")
@@ -262,7 +425,7 @@ def main() -> int:
     arguments = parser.parse_args()
 
     try:
-        recipes, repositories, processors = affected_recipes(
+        recipes, repositories, processors, added = affected_recipes(
             arguments.base, arguments.manifest, arguments.repo_root
         )
         if arguments.output:
@@ -271,7 +434,7 @@ def main() -> int:
                 "".join(f"{recipe}\n" for recipe in recipes), encoding="utf-8"
             )
         if arguments.github_output:
-            write_github_output(recipes, repositories, processors)
+            write_github_output(recipes, repositories, processors, added)
         print(f"Selected {len(recipes)} affected overrides")
     except ConfigError as error:
         parser.error(str(error))

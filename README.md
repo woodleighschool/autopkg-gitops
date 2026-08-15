@@ -2,8 +2,8 @@
 
 ## State
 
-- `recipes.plist` enables recipe overrides.
-- `RecipeOverrides/` contains generated parent-trust state. These files say `DO NOT EDIT`; regenerate them with `mise run trust:create` or `mise run trust:update`.
+- Every generated override in `RecipeOverrides` is run.
+- `RecipeOverrides/` contains generated recipe inputs and parent-trust state. These files say `DO NOT EDIT`; regenerate the whole file with `mise run trust:create` or `mise run trust:update`.
 - `repositories.json` pins upstream repository commits.
 - Parent trust paths determine which pinned repositories each selected recipe owns. A single-recipe run syncs only that closure.
 

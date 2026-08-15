@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import plistlib
 import re
 from collections.abc import Iterable, Mapping
 from pathlib import Path
@@ -13,7 +12,6 @@ from ruamel.yaml import YAML
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "repositories.json"
-RECIPE_LIST_PATH = ROOT / "recipes.plist"
 OVERRIDE_DIR = ROOT / "RecipeOverrides"
 REPO_ROOT = Path(
     os.environ.get("AUTOPKG_REPO_ROOT", Path.home() / "Library/AutoPkg/RecipeRepos")
@@ -75,23 +73,6 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
     return validate_manifest(manifest, path)
 
 
-def load_recipe_list(path: Path = RECIPE_LIST_PATH) -> list[str]:
-    try:
-        recipe_list = plistlib.loads(path.read_bytes())
-    except (OSError, plistlib.InvalidFileException) as error:
-        raise ConfigError(f"Cannot read {path}: {error}") from error
-    if not isinstance(recipe_list, dict):
-        raise ConfigError(f"{path}: root must be a dictionary")
-    recipes = recipe_list.get("recipes")
-    if not isinstance(recipes, list) or not recipes or not all(
-        isinstance(recipe, str) for recipe in recipes
-    ):
-        raise ConfigError(f"{path}: recipes must be a non-empty string array")
-    if len(recipes) != len(set(recipes)):
-        raise ConfigError(f"{path}: recipes contains duplicates")
-    return recipes
-
-
 def load_override(path: Path) -> Mapping[str, Any]:
     yaml = YAML(typ="safe")
     try:
@@ -106,16 +87,18 @@ def load_override(path: Path) -> Mapping[str, Any]:
     return recipe
 
 
-def load_overrides() -> dict[str, tuple[Path, Mapping[str, Any]]]:
+def load_overrides(
+    directory: Path = OVERRIDE_DIR,
+) -> dict[str, tuple[Path, Mapping[str, Any]]]:
     overrides: dict[str, tuple[Path, Mapping[str, Any]]] = {}
-    for path in sorted(OVERRIDE_DIR.glob("*.munki.recipe.yaml")):
+    for path in sorted(directory.glob("*.munki.recipe.yaml")):
         recipe = load_override(path)
         identifier = recipe["Identifier"]
         if identifier in overrides:
             raise ConfigError(f"Duplicate override identifier: {identifier}")
         overrides[identifier] = (path, recipe)
     if not overrides:
-        raise ConfigError(f"{OVERRIDE_DIR}: no overrides found")
+        raise ConfigError(f"{directory}: no overrides found")
     return overrides
 
 
@@ -135,16 +118,16 @@ def validate_override_headers(
             raise ConfigError(f"{path}: missing generated-file header; run mise run format")
 
 
-def select_recipes(requested: list[str], production: list[str]) -> list[str]:
+def select_recipes(requested: list[str], available: list[str]) -> list[str]:
     aliases = {
         alias: identifier
-        for identifier in production
+        for identifier in available
         for alias in (identifier, identifier.removeprefix("local.munki."))
     }
     unknown = sorted(set(requested) - aliases.keys())
     if unknown:
-        raise ConfigError(f"Not an enabled recipe: {', '.join(unknown)}")
-    return [aliases[item] for item in requested] if requested else production
+        raise ConfigError(f"Unknown recipe: {', '.join(unknown)}")
+    return [aliases[item] for item in requested] if requested else available
 
 
 def iter_trust_paths(value: object) -> Iterable[str]:
@@ -188,7 +171,7 @@ def trust_references(
     references: dict[str, set[str]] = {}
     for identifier in recipes:
         if identifier not in overrides:
-            raise ConfigError(f"{identifier}: enabled recipe has no tracked override")
+            raise ConfigError(f"{identifier}: recipe has no generated override")
         path, override = overrides[identifier]
         trust = override.get("ParentRecipeTrustInfo")
         if not isinstance(trust, Mapping):

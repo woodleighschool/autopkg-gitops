@@ -43,9 +43,14 @@ run = [
 ]
 
 [tasks.validate]
-description = "Validate recipes, overrides, and repository ownership"
+description = "Validate recipe overrides and repository ownership"
 depends = ["deps"]
 run = "uv run python scripts/recipes.py validate"
+
+[tasks."source:check"]
+description = "Check recurring overrides exist in the pinned Woodleigh source"
+depends = ["deps"]
+run = "uv run python scripts/pinned_source.py"
 
 [tasks.workflow-lint]
 description = "Lint GitHub Actions workflows"
@@ -71,7 +76,7 @@ test -x /usr/local/munki/makepkginfo
 '''
 
 [tasks."recipes:select"]
-description = "Resolve enabled recipes and their repository closure"
+description = "Resolve recipes and their repository closure"
 depends = ["deps"]
 run = "uv run python scripts/recipes.py select"
 
@@ -103,33 +108,57 @@ usage = '''
 arg "<recipe>" help="Source recipe identifier"
 '''
 run = '''
-autopkg make-override --format=yaml --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
+mkdir -p "$AUTOPKG_STATE_DIR"
+uv run python scripts/repositories.py --all
+uv run python scripts/preferences.py \
+  --all-repositories \
+  --override-dir "$PWD/RecipeOverrides"
+autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
+autopkg make-override \
+  --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+  --format=yaml \
+  --override-dir="$PWD/RecipeOverrides" \
+  "${usage_recipe?}"
 mise run overrides:mark
 '''
 
 [tasks."trust:update"]
-description = "Regenerate parent trust for one override"
+description = "Regenerate one override from its pinned recipe chain"
 usage = '''
 arg "<recipe>" help="Generated override identifier"
 '''
 run = '''
 mise run trust:prepare
-autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "${usage_recipe?}"
+source_recipe="$(uv run python scripts/recipes.py parents "${usage_recipe?}")"
+autopkg make-override \
+  --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+  --force \
+  --format=yaml \
+  --override-dir="$PWD/RecipeOverrides" \
+  "$source_recipe"
 mise run overrides:mark
 '''
 
 [tasks."trust:update-all"]
-description = "Regenerate parent trust for every tracked override"
+description = "Regenerate every override from its pinned recipe chain"
 run = '''
 mise run trust:prepare
-autopkg update-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --override-dir "$PWD/RecipeOverrides" "$PWD"/RecipeOverrides/*.munki.recipe.yaml
+uv run python scripts/recipes.py parents > "$AUTOPKG_STATE_DIR/parent-recipes.txt"
+while IFS= read -r source_recipe; do
+  autopkg make-override \
+    --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+    --force \
+    --format=yaml \
+    --override-dir="$PWD/RecipeOverrides" \
+    "$source_recipe"
+done < "$AUTOPKG_STATE_DIR/parent-recipes.txt"
 mise run overrides:mark
 '''
 
 [tasks."trust:prepare"]
 hide = true
 run = '''
-mise run recipes:select -- --all-overrides
+mise run recipes:select
 mise run repos:sync
 mise run autopkg:preferences -- --override-dir "$PWD/RecipeOverrides"
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"

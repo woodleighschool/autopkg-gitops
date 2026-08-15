@@ -2,8 +2,10 @@
 # Refresh with: mise run trust:update local.munki.MicrosoftTeams
 Identifier: local.munki.MicrosoftTeams
 Input:
+  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
   MUNKI_CATEGORY: Productivity
   NAME: Microsoft Teams
+  PRODUCTID: '2249065'
   SOFTWARETITLE: Teams
   VENDOR: Microsoft
   pkginfo:

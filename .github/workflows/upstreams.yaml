@@ -27,6 +27,7 @@ jobs:
     timeout-minutes: 10
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
+      added: ${{ steps.changes.outputs.added }}
       processors: ${{ steps.changes.outputs.processors }}
       recipes: ${{ steps.changes.outputs.recipes }}
     steps:
@@ -96,6 +97,7 @@ jobs:
         id: lock
         env:
           AFFECTED_RECIPES: ${{ needs.filter.outputs.recipes }}
+          ADDED_RECIPES: ${{ needs.filter.outputs.added }}
           AUTOPKG_STATE_DIR: ${{ github.workspace }}/pull/.autopkg-run
         working-directory: pull
         run: |
@@ -109,14 +111,36 @@ jobs:
           done < "$AUTOPKG_STATE_DIR/affected-recipes.txt"
           [[ "${#recipes[@]}" -gt 0 ]]
 
-          mise run recipes:select -- --tracked "${recipes[@]}"
-          mise run repos:sync
-          mise run autopkg:preferences
+          added=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && added+=("$recipe")
+          done <<< "$ADDED_RECIPES"
+
+          if [[ "${#added[@]}" -gt 0 ]]; then
+            uv run python scripts/repositories.py --all
+            uv run python scripts/preferences.py \
+              --all-repositories \
+              --override-dir "$PWD/RecipeOverrides"
+          else
+            mise run recipes:select -- "${recipes[@]}"
+            mise run repos:sync
+            mise run autopkg:preferences
+          fi
           autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
-          autopkg update-trust-info \
-            --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
-            --override-dir="$PWD/RecipeOverrides" \
-            "${recipes[@]}"
+
+          for recipe in "${recipes[@]}"; do
+            source_recipe="$(
+              uv run python scripts/recipes.py parents \
+                --allow-new-woodleigh \
+                "$recipe"
+            )"
+            autopkg make-override \
+              --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+              --force \
+              --format=yaml \
+              --override-dir="$PWD/RecipeOverrides" \
+              "$source_recipe"
+          done
           mise run overrides:mark
 
           if git diff --quiet -- RecipeOverrides; then
@@ -214,7 +238,6 @@ jobs:
           [[ "${#recipes[@]}" -gt 0 ]]
 
           uv run python scripts/recipes.py select \
-            --tracked \
             --state-dir "$PWD/.autopkg-run" \
             "${recipes[@]}"
           uv run python scripts/repositories.py \
@@ -225,7 +248,6 @@ jobs:
             cd pull
             mkdir -p .autopkg-run
             uv run python scripts/recipes.py select \
-              --tracked \
               --state-dir "$PWD/.autopkg-run" \
               "${recipes[@]}"
             uv run python scripts/repositories.py \

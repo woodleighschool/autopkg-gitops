@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOneNote365/MicrosoftOneNote365.download.recipe
       sha256_hash: a60cad6107c758ea36cda01540115384839dcffd3bc65189c37ae09bbf820357
     com.github.woodleighschool.munki.MicrosoftOneNote:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftOneNote/MicrosoftOneNote.munki.recipe.yaml
-      sha256_hash: f7602f64358cd317a504dc489238bf9af43636076ec2101a7891bfbdbd532a22
+      sha256_hash: d596e49a5399bdadc33c4351204ad4552089f4bec0be8ad975ff654352f51564
   scripts: {}

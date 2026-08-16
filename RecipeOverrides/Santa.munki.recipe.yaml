@@ -34,7 +34,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.zentral-recipes/santa/santa.download.recipe
       sha256_hash: 69c8791361e423ffc1cd4072abf2ae244f2a53b8c7f338c911bf0f7f97856adc
     com.github.woodleighschool.munki.Santa:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Santa/Santa.munki.recipe.yaml
-      sha256_hash: 8b4e355eb30a2652e7740ec1cf8f18452b4e7ea4ffa547ae5870996c15444f7b
+      sha256_hash: e7eea6396c220a7b665ac629e23c74330ca6edfae0c594c6494f75e9f58d755f
   scripts: {}

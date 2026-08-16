@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.download.recipe.yaml
       sha256_hash: 440fc72931534a9fd15dec44b3ae3a5255edd2800f2cdd7573f8eeb7aadb5fd0
     com.github.woodleighschool.munki.VLC:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.munki.recipe.yaml
-      sha256_hash: 1243cbe8447022365e29370e188258dc63b421e07b64cec3a42678a4b3b87d57
+      sha256_hash: 075eb44ef4bdb2ee67ba0ca881a64179955abf603b90b2e06b031ef9a38cb932
   scripts: {}

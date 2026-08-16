@@ -44,7 +44,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MinecraftEducation/MinecraftEducation.download.recipe.yaml
       sha256_hash: c382bc3737e319dc9f525d12d00b2479e802d630f9c39060db389df365c6d011
     com.github.woodleighschool.munki.MinecraftEducation:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MinecraftEducation/MinecraftEducation.munki.recipe.yaml
-      sha256_hash: f9a789017e7df8b49f8e879e5b4ce93ac05d406f7cc22b1f4a5c07b75f61c13a
+      sha256_hash: 79e674c4fd1f2595c0e388843ed62140b0f5e7b2ed3854031302cbcf399ce004
   scripts: {}

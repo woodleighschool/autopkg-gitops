@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftWindowsApp/MicrosoftWindowsApp.download.recipe
       sha256_hash: b4690df4be56bd0d7baf05ee407e89ee7229c79717b7de95fb7bdbc38d3246d5
     com.github.woodleighschool.munki.WindowsApp:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WindowsApp/WindowsApp.munki.recipe.yaml
-      sha256_hash: 7f875c55cf9dda445d1f783eeee0b148beb0ecd5e7a83bd278339f23d7dc67ac
+      sha256_hash: d74b305f83f132fe4a233e0d6aba68ddac25a5dfdb9ee2d060e85045f6ec734b
   scripts: {}

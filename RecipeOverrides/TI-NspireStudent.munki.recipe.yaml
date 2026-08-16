@@ -37,7 +37,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.download.recipe.yaml
       sha256_hash: 685625841a3da5da0c2f15d1a8cf72981a5d06b716de2eea95cf724024c7af0e
     com.github.woodleighschool.munki.TI-NspireStudent:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.munki.recipe.yaml
-      sha256_hash: eba3fbf403fab941bc0150620b7c65ed9a9ee3c9ba1bfc7f8008a889b72ac8c8
+      sha256_hash: 44e6298cf2eb009846bad44f1fbd7a65f0dce1834d32c7ef669a9a6f73490d90
   scripts: {}

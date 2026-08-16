@@ -40,7 +40,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Vivi/Vivi.download.recipe.yaml
       sha256_hash: adff10812704b73e08183ca4e3e4df891a72e6e9cbc2a3de00e653f60a37c23c
     com.github.woodleighschool.munki.Vivi:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Vivi/Vivi.munki.recipe.yaml
-      sha256_hash: 24c78bad911bf8ffcad356b5799907fb99922b2e719aaf5b7dc3bfc3afab9acd
+      sha256_hash: d9c851b7107f15912680666270eff883144f3800aa9e9978efbf39f2c54bbdbe
   scripts: {}

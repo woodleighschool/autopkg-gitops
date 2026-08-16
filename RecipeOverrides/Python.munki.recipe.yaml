@@ -46,7 +46,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Python/Python.download.recipe.yaml
       sha256_hash: 8081a67d4509100ae0f974ed58760d9d26331aa1c0a70fd3b3eb334ad83c6b58
     com.github.woodleighschool.munki.Python:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Python/Python.munki.recipe.yaml
-      sha256_hash: 56a5af7f1716d57d93a231aa6e33bd8702aba202ca0707cb636cfb8b89b3dc01
+      sha256_hash: ca39a70638254416b3dd4eec1786d52acb56cc7dbab3032189d895f6c78fe5f9
   scripts: {}

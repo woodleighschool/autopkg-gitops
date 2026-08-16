@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftTeams/MicrosoftTeams.download.recipe
       sha256_hash: 8825f615671892a0a830bb572ab87badbe3546db681b476f4cfff97da08d9366
     com.github.woodleighschool.munki.MicrosoftTeams:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftTeams/MicrosoftTeams.munki.recipe.yaml
-      sha256_hash: 87a95cd58a68e4fc193135c6ae2e3deab8ef613aa2d12bbdc5e565afd5052f0d
+      sha256_hash: 052a78def5ae45d2b28869438040ca32f16f1bf7093e0eeb4d4509807945d716
   scripts: {}

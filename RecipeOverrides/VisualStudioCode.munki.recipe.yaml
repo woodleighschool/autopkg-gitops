@@ -56,7 +56,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.download.recipe.yaml
       sha256_hash: 6b36c9cb14f48e9be7845da46672dc011eca559c0cfb7c2c2d01780d5ed524e0
     com.github.woodleighschool.munki.VisualStudioCode:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.munki.recipe.yaml
-      sha256_hash: 22b1071af5e07d6a2994751f7f6fbec5677554af9cbd82794d7810f57280bc2f
+      sha256_hash: 23cf8e5704df6a11a1093b59a88ed83203bc3c0822d9df1210b99eb1ac84879e
   scripts: {}

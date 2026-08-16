@@ -38,7 +38,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.davidbpirie-recipes/GameMaker/GameMaker.download.recipe.yaml
       sha256_hash: 943cb4a4fe92c84345faa9920058961bfd8c46cb2e76ba20bb3492c5b066f5f5
     com.github.woodleighschool.munki.GameMaker:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GameMaker/GameMaker.munki.recipe.yaml
-      sha256_hash: 0a661be674cc5da14285078f83b8f9e785296be15849743434f6b76516d75c45
+      sha256_hash: 43cc7eb9aceb0096e0809ad4c420c267a9e68ae3eb253298c018fd6b1d506357
   scripts: {}

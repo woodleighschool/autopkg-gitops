@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftDefender/MicrosoftDefender.pkg.recipe
       sha256_hash: 20752f7bd792dbe609118996458bd3cc8824514a3d32b8963222b8d81c51174e
     com.github.woodleighschool.munki.MicrosoftDefender:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftDefender/MicrosoftDefender.munki.recipe.yaml
-      sha256_hash: ec0d9527f57e539ce9e836d6d4a090178a37df90671057a2fa1d3c38d35acbd5
+      sha256_hash: a3b7f13b52843ef7023aba0926ded158a1d8791e513ea86ef30d6e6f0983f59b
   scripts: {}

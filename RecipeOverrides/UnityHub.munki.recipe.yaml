@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/UnityHub/UnityHub.download.recipe.yaml
       sha256_hash: a6a72e4d456abdb8d1bfcf2ff2964b60084e872890967a13e2ecdefee2ead77e
     com.github.woodleighschool.munki.UnityHub:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/UnityHub/UnityHub.munki.recipe.yaml
-      sha256_hash: 059c57b4115e39fab39da9b3b711efba0a29a639f39def73fdb29f7f06ec639b
+      sha256_hash: ab9911b7c04a37fb803969c1b04245ea582eb4d49b39c9ebfc732edea5bcb61e
   scripts: {}

@@ -1,0 +1,46 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.DanteController
+Identifier: local.munki.DanteController
+Input:
+  DOWNLOAD_ARCH: apple_silicon
+  MUNKI_CATEGORY: Utilities
+  NAME: Dante Controller
+  SPARKLE_FEED_URL: https://software-updates.audinate.com/DanteController/appcast/DanteController-%DOWNLOAD_ARCH%.xml
+  pkginfo:
+    category: '%MUNKI_CATEGORY%'
+    description: Dante Controller provides essential device status information and
+      powerful real-time network monitoring, including device-level latency and clock
+      stability stats, multicast bandwidth usage, and customized event logging, enabling
+      you to quickly identify and resolve any potential network issues. You can also
+      quickly and easily backup, restore, move, and reuse Dante network configurations
+      using Presets, and edit Dante routing configurations offline.
+    developer: Audinate
+    name: '%NAME%'
+    unattended_install: true
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.DanteController
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.dataJAR-recipes.download.Audinate Dante Controller:
+      git_hash: 53bffdf085deb5db23facae91a465a714c33f65e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/Audinate
+        Dante Controller/Audinate Dante Controller.download.recipe
+      sha256_hash: be15a1e3778925aae0058893fa0083e66ca97d30ce5226035f04dc2235b452e5
+    com.github.woodleighschool.munki.DanteController:
+      git_hash: 7ace1559184bc3cd28cf466be4e69e1ce9d9d0be
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteController/DanteController.munki.recipe.yaml
+      sha256_hash: 8963ec297b12da91c9ae1bc1fd379547fc0337df23cd9035d56f83d1dd13f21a
+  scripts: {}

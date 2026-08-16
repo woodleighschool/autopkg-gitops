@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftExcel365/MicrosoftExcel365.download.recipe
       sha256_hash: 0cce58fb09aed964c58e59288abbb5c0bb9d5e14702dc1c6cf1c0d08a51be31e
     com.github.woodleighschool.munki.MicrosoftExcel:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftExcel/MicrosoftExcel.munki.recipe.yaml
-      sha256_hash: 906e54b20d36375f15c156e248155188fed87679a79d97edd0c6d63e814d1c98
+      sha256_hash: 8296ec1fed66bd8f97cfffa6465bf1caf31f5b0b90b9856b69c6d0a68302bbc9
   scripts: {}

@@ -1,0 +1,59 @@
+# Generated file. DO NOT EDIT.
+# Refresh with: mise run trust:update local.munki.DanteVirtualSoundcard
+Identifier: local.munki.DanteVirtualSoundcard
+Input:
+  MUNKI_CATEGORY: System
+  NAME: Dante Virtual Soundcard
+  pkginfo:
+    blocking_applications: []
+    category: '%MUNKI_CATEGORY%'
+    description: Dante Virtual Soundcard turns your computer into a Dante-powered
+      workstation, seamlessly integrating your PC or Mac with Dante audio devices
+      on your network. Instantly connect to record, process and playout using any
+      audio application and any combination of Dante-enabled devices.
+    developer: Audinate
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: uninstall_script
+    uninstall_script: |
+      #!/bin/sh
+
+      # Exits 0 if uninstall is successful, 1 if unsuccessful
+
+      UNINSTALL_PATH="/Library/Application Support/Audinate/DanteVirtualSoundcard/Uninstall DVS.app/Contents/Resources/uninstall.sh"
+
+      if [ ! -f "$UNINSTALL_PATH" ]; then
+          echo "Error: DVS uninstaller not found"
+          exit 1
+      fi
+
+      "$UNINSTALL_PATH"
+      exit $?
+    uninstallable: true
+ParentRecipe: com.github.woodleighschool.munki.DanteVirtualSoundcard
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.woodleighschool.processors/MunkiIconExtractor:
+      git_hash: fe4a65df107be909934649edfb654baefbf43393
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
+      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
+      git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
+      sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
+    com.github.woodleighschool.woodstar.processors/WoodstarMunkiPackageCleaner:
+      git_hash: bd28822ac82cc16379329a489e88543bb3c4d19e
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
+      sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
+  parent_recipes:
+    com.github.dataJAR-recipes.download.Audinate Dante Virtual Soundcard:
+      git_hash: a2bb8ed61dd8902962cc827ae5ee95e2afcaeacb
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/Audinate
+        Dante Virtual Soundcard/Audinate Dante Virtual Soundcard.download.recipe
+      sha256_hash: bdd8b8a4a04ea985487105699ecd43f78ea011ccc076e6026ea10a6b2e1092d4
+    com.github.woodleighschool.munki.DanteVirtualSoundcard:
+      git_hash: 70c9afa0c98e2634c4b2ebd18adce653505746e5
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteVirtualSoundcard/DanteVirtualSoundcard.munki.recipe.yaml
+      sha256_hash: 37b508e08e5541743066dbc54d547bf9e73b013ac7e5b047c9a74a0ec7cf31a5
+  scripts: {}

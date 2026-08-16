@@ -41,9 +41,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Blender/Blender.download.recipe.yaml
       sha256_hash: 069cae04c7651f8e3ab1f66d203c75ce759d26d72defb52cec50a0e264a0db9c
     com.github.woodleighschool.munki.Blender:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Blender/Blender.munki.recipe.yaml
-      sha256_hash: 5411db1afcd0d7d93f1061392b6a8030deee0890e2fcc64ea8ca40c5dd58ddb5
+      sha256_hash: 9128df3f16378d64cc8181b2b1686c529d1fa240ef422d3e7cf8ab148a999aef
     io.github.hjuutilainen.download.Blender:
       git_hash: 4478244963a9d8e436972a59926a678a862f4af9
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.hjuutilainen-recipes/Blender/Blender.download.recipe

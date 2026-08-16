@@ -38,7 +38,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/GoogleChrome/GoogleChromePkg.download.recipe
       sha256_hash: 2de26c035de26d0a4d01ad46ff3d50c0f2d2f555920319c678a55412a42babf5
     com.github.woodleighschool.munki.GoogleChrome:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GoogleChrome/GoogleChrome.munki.recipe.yaml
-      sha256_hash: b727e55c50be34f56521cf839cd21134964f797f56af2e2a8e4a66777a409b0f
+      sha256_hash: 9d8467455707ca7a4a4448a9afd587e09c9f8596c757b6ff10dfbcd1c1a4a052
   scripts: {}

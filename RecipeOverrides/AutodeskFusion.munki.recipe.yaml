@@ -37,7 +37,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/AutodeskFusion360/AutodeskFusion360.download.recipe
       sha256_hash: 065f9a5d1d49a40179292d895c65e4267ac05deea59271ffdcc747d9c00b8841
     com.github.woodleighschool.munki.AutodeskFusion:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/AutodeskFusion/AutodeskFusion.munki.recipe.yaml
-      sha256_hash: 02e924fe5c51e3e73bf28ff7c2c0cb54956af2949745b3144848937cb9a42612
+      sha256_hash: 506dafee8b779dcad489340a24507e7920fdcc03b7cbce1be2fce3c8f66d010d
   scripts: {}

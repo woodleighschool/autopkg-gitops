@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftIntuneCompanyPortal/MicrosoftIntuneCompanyPortal.download.recipe
       sha256_hash: 6d779ba636d7332d82047bddcd0a42bdce1ea91dc2ec581ea7767e427082f5e6
     com.github.woodleighschool.munki.CompanyPortal:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CompanyPortal/CompanyPortal.munki.recipe.yaml
-      sha256_hash: 9892aeb8183b82e036aa15e309818fae0711aaaba27ba06e9c56b741907180e9
+      sha256_hash: 2f3dca24e480742722889e940a6b858a9820bdb722010282dcc734eec87111e7
   scripts: {}

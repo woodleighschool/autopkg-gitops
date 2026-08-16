@@ -39,7 +39,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.download.recipe.yaml
       sha256_hash: b42f50773d70837baa618506c0d94900333cbefe47e2da50a9a935fcc70eafb9
     com.github.woodleighschool.munki.EPSONDrivers:
-      git_hash: 0cebfebdb1f7c44841fe5a8d65cbd7c9e4d745f2
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.munki.recipe.yaml
-      sha256_hash: e9dd35321262195aae1b9988960df33b3ea856096ad6414225246101ed6c1580
+      sha256_hash: 2735c1a62a8e0a54cdc5145ba7a39751d08da85c1db064bae5700b59dfebb94e
   scripts: {}

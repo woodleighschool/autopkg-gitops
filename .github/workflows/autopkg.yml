@@ -60,6 +60,9 @@ jobs:
           experimental: true
           install_args: --locked python
 
+      - name: Install Python dependencies
+        run: mise deps install pip
+
       - name: Check runner
         run: mise run preflight
 

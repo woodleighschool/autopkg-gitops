@@ -50,7 +50,7 @@ jobs:
           install_args: --locked python
 
       - name: Install Python dependencies
-        run: mise deps install pip
+        run: mise deps install --force pip
 
       - name: Select recipes
         id: plan
@@ -125,7 +125,7 @@ jobs:
           install_args: --locked python
 
       - name: Install Python dependencies
-        run: mise deps install pip
+        run: mise deps install --force pip
 
       - name: Check runner
         run: mise run preflight

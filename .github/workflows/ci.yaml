@@ -40,7 +40,7 @@ jobs:
           install_args: --locked python oxfmt actionlint zizmor shellcheck
 
       - name: Install Python dependencies
-        run: mise deps install pip
+        run: mise deps install --force pip
 
       - name: Check repository
         run: mise run lint
@@ -66,7 +66,7 @@ jobs:
           install_args: --locked python
 
       - name: Install Python dependencies
-        run: mise deps install pip
+        run: mise deps install --force pip
 
       - name: Check recipe sources
         run: mise run sources:check

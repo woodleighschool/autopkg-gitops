@@ -2,7 +2,6 @@
 # Refresh with: mise run trust:update local.munki.EasyFind
 Identifier: local.munki.EasyFind
 Input:
-  APP_DESTINATION: /Applications/Utilities
   DOWNLOAD_URL: https://www.devontechnologies.com/apps/freeware
   MUNKI_CATEGORY: Utilities
   NAME: EasyFind
@@ -41,11 +40,11 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.jleggat-recipes/EasyFind/EasyFind.download.recipe
       sha256_hash: b699ea4f057511affd628f14e6872511f6a833e4e3e45af3c38fd51027484d43
     com.github.woodleighschool.munki.EasyFind:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.munki.recipe.yaml
-      sha256_hash: 8d3c97eebb32d5e51bea7e7cb7ebf1a0facf470e516577130ffe825c67b74ec4
+      sha256_hash: e18b114b6e8225fdffb79b50124962def231557033ce59fd6c73843c07f3886f
     com.github.woodleighschool.pkg.EasyFind:
-      git_hash: 1149027c9c02de2b03913bfaecb5d024c7263760
+      git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.pkg.recipe.yaml
-      sha256_hash: cd3cb651fc75849ac895bb631ab6dab995ec8bcb797ca2281b3409889f5185b3
+      sha256_hash: 79014e78595032b2f962ec1ab9506b221e9938046b6edeb4289c102c0bf7836f
   scripts: {}

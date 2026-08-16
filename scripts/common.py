@@ -40,13 +40,19 @@ def validate_manifest(manifest: object, source: Path | str) -> dict[str, Any]:
         location = f"{source}: repositories[{index}]"
         if not isinstance(repository, dict):
             raise ConfigError(f"{location} must be an object")
-        if set(repository) != {"name", "url", "ref", "revision"}:
-            raise ConfigError(f"{location} must contain name, url, ref, and revision")
+        required = {"name", "url", "ref", "revision"}
+        allowed = required | {"gitops"}
+        if not required.issubset(repository) or not set(repository).issubset(allowed):
+            raise ConfigError(
+                f"{location} must contain name, url, ref, and revision; "
+                "gitops is optional"
+            )
 
         name = repository["name"]
         url = repository["url"]
         ref = repository["ref"]
         revision = repository["revision"]
+        gitops = repository.get("gitops")
         if not isinstance(name, str) or not NAME_PATTERN.fullmatch(name):
             raise ConfigError(f"{location}: invalid name")
         if name in names:
@@ -62,6 +68,8 @@ def validate_manifest(manifest: object, source: Path | str) -> dict[str, Any]:
             raise ConfigError(f"{location}: invalid ref")
         if not isinstance(revision, str) or not SHA_PATTERN.fullmatch(revision):
             raise ConfigError(f"{location}: revision must be a lowercase 40-character SHA")
+        if gitops is not None and gitops is not True:
+            raise ConfigError(f"{location}: gitops must be true when present")
     return manifest
 
 

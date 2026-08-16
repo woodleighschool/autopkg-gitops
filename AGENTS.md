@@ -1,30 +1,25 @@
 # AutoPkg deployment declarations
 
-This repository declares exactly which reviewed AutoPkg source may run:
+This repository turns explicitly declared AutoPkg recipes into pinned, reviewable runs:
 
 - `repositories.json` pins every recipe repository to an exact revision.
-- Every override in `RecipeOverrides` is run. Repository membership is the declaration; there is no
-  separate enabled or disabled list.
-- Only recipes suitable for unattended recurring checks belong here. Recipes with fixed versions or
-  payloads copied from `Assets`, `/Applications`, or another local folder stay in the source
-  repository for on-demand use and must not have an override here. Local icons do not make an
-  otherwise dynamic recipe on-demand.
+- A repository entry with `"gitops": true` is trusted to declare runnable recipes. Within that
+  repository, a raw Munki recipe with top-level `GitOps: true` belongs in the generated run set.
+- Never honor `GitOps` metadata from a repository without the manifest opt-in.
 - `RecipeOverrides` is generated recipe-chain lock data. Inputs, parent, and trust are one immutable
-  output; always regenerate the whole file and never edit or partially refresh it.
+  output projected from those declarations; always regenerate the whole file and never edit or
+  partially refresh it.
+- Every generated override is run. There is no separate enabled or disabled list.
 
-Application additions start with a source pull request in `woodleighschool/autopkg`. A paired GitOps
-pull request is needed only when the recipe requires a new upstream repository pin. It must leave the
-Woodleigh AutoPkg source revision unchanged because that revision is Renovate-owned.
-
-After the source pull request merges, Renovate updates the Woodleigh pin and refreshes the generated
-trust data. The source PR and its review must make clear whether a new recurring override belongs in
-GitOps; static and local-payload recipes are intentionally absent.
+Renovate updates all repository pins. A source-pin pull request reconciles added, changed, and removed
+recipe declarations, refreshes generated trust, and receives a sticky rendered-diff comment even
+when no effective recipe changed. Repository pins and generated overrides remain review-owned and
+are never automatically merged by this repository.
 
 Do not deploy or execute source absent from the pinned revision, bypass the consistency check, edit a
 generated override, or invent another promotion mechanism. Actual recipe execution belongs only to
 the trusted-main AutoPkg workflow after review. Pull-request work is limited to repository-owned
 static checks and lock generation; never run `autopkg run` or a recipe processor.
 
-For local agent work, make the source change in `woodleighschool/autopkg`, make the paired declaration
-change here, run the safe static checks, and open linked pull requests with the same ancestry
-and verification evidence requested by the source repository's `AGENTS.md`.
+For local agent work, change only this repository's generic pinning, reconciliation, rendering, or
+runner mechanics. Source repositories own their own recipe declarations.

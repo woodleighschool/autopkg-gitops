@@ -21,13 +21,6 @@
   ],
   packageRules: [
     {
-      description: "Auto-merge reviewed Woodleigh recipe source",
-      matchManagers: ["custom.regex"],
-      matchPackageNames: ["https://github.com/woodleighschool/autopkg.git"],
-      automerge: true,
-      automergeType: "pr",
-    },
-    {
       matchManagers: ["mise"],
       minimumReleaseAge: "12 hours",
     },

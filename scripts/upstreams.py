@@ -30,6 +30,7 @@ from common import (
 )
 from repositories import ensure_checkout, git
 from runtime import parse_recipe, resource_patterns
+from sources import load_state
 
 
 def git_output(*arguments: str) -> str:
@@ -283,12 +284,16 @@ def affected_recipes(
     manifest_path: Path,
     repo_root: Path,
     added_recipes: Mapping[str, str],
+    removed_recipes: list[str],
 ) -> tuple[
+    list[str],
+    list[str],
     list[str],
     list[str],
     list[dict[str, str]],
     list[dict[str, str]],
     dict[str, str],
+    list[str],
 ]:
     previous_manifest = manifest_at(base)
     current_manifest = load_manifest(manifest_path)
@@ -402,15 +407,31 @@ def affected_recipes(
         for recipe, path, url in sorted(changed_resources)
     ]
     affected.update(added_recipes)
-    return sorted(affected), changed_names, processors, resources, dict(added_recipes)
+    affected.update(removed_recipes)
+    recipes = sorted(affected)
+    base_recipes = sorted(affected & previous_overrides.keys())
+    head_recipes = sorted(affected & current_overrides.keys())
+    return (
+        recipes,
+        base_recipes,
+        head_recipes,
+        changed_names,
+        processors,
+        resources,
+        dict(added_recipes),
+        sorted(removed_recipes),
+    )
 
 
 def write_github_output(
     recipes: list[str],
+    base_recipes: list[str],
+    head_recipes: list[str],
     repositories: list[str],
     processors: list[dict[str, str]],
     resources: list[dict[str, str]],
     added: Mapping[str, str],
+    removed: list[str],
 ) -> None:
     output_path = os.environ.get("GITHUB_OUTPUT")
     if not output_path:
@@ -421,9 +442,15 @@ def write_github_output(
         output.write(f"processors={json.dumps(processors, separators=(',', ':'))}\n")
         output.write(f"resources={json.dumps(resources, separators=(',', ':'))}\n")
         output.write(f"added={json.dumps(added, separators=(',', ':'))}\n")
-        output.write("recipes<<AUTOPKG_RECIPES\n")
-        output.write("\n".join(recipes))
-        output.write("\nAUTOPKG_RECIPES\n")
+        output.write(f"removed={json.dumps(removed, separators=(',', ':'))}\n")
+        for name, values in (
+            ("recipes", recipes),
+            ("base_recipes", base_recipes),
+            ("head_recipes", head_recipes),
+        ):
+            output.write(f"{name}<<AUTOPKG_{name.upper()}\n")
+            output.write("\n".join(values))
+            output.write(f"\nAUTOPKG_{name.upper()}\n")
 
 
 def main() -> int:
@@ -433,29 +460,33 @@ def main() -> int:
     parser.add_argument("--base", required=True)
     parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
     parser.add_argument("--repo-root", type=Path, default=REPO_ROOT)
-    parser.add_argument("--added-recipes", type=Path)
+    parser.add_argument("--sources", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--github-output", action="store_true")
     arguments = parser.parse_args()
 
     try:
         added: dict[str, str] = {}
-        if arguments.added_recipes:
-            try:
-                value = json.loads(arguments.added_recipes.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError) as error:
-                raise ConfigError(f"Cannot read {arguments.added_recipes}: {error}") from error
-            if not isinstance(value, dict) or not all(
-                isinstance(key, str) and isinstance(parent, str)
-                for key, parent in value.items()
-            ):
-                raise ConfigError(f"{arguments.added_recipes}: invalid added recipes")
-            added = value
-        recipes, repositories, processors, resources, added = affected_recipes(
+        removed: list[str] = []
+        if arguments.sources:
+            state = load_state(arguments.sources)
+            added = state["added"]
+            removed = state["removed"]
+        (
+            recipes,
+            base_recipes,
+            head_recipes,
+            repositories,
+            processors,
+            resources,
+            added,
+            removed,
+        ) = affected_recipes(
             arguments.base,
             arguments.manifest,
             arguments.repo_root,
             added,
+            removed,
         )
         if arguments.output:
             arguments.output.parent.mkdir(parents=True, exist_ok=True)
@@ -463,7 +494,16 @@ def main() -> int:
                 "".join(f"{recipe}\n" for recipe in recipes), encoding="utf-8"
             )
         if arguments.github_output:
-            write_github_output(recipes, repositories, processors, resources, added)
+            write_github_output(
+                recipes,
+                base_recipes,
+                head_recipes,
+                repositories,
+                processors,
+                resources,
+                added,
+                removed,
+            )
         print(f"Selected {len(recipes)} affected overrides")
     except ConfigError as error:
         parser.error(str(error))

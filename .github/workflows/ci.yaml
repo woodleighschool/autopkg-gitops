@@ -46,7 +46,7 @@ jobs:
         run: mise run lint
 
   source:
-    name: Check Woodleigh source
+    name: Check recipe sources
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -64,5 +64,5 @@ jobs:
       - name: Install Python dependencies
         run: mise deps install pip
 
-      - name: Check pinned source
-        run: mise run woodleigh:check
+      - name: Check recipe sources
+        run: mise run sources:check

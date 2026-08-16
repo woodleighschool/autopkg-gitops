@@ -51,6 +51,23 @@ def read_resources(path: Path) -> dict[str, list[dict[str, str]]]:
     return resources
 
 
+def read_added(path: Path) -> dict[str, str]:
+    value: Any = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or not all(
+        isinstance(identifier, str) and isinstance(parent, str)
+        for identifier, parent in value.items()
+    ):
+        raise ValueError(f"{path}: invalid added recipes")
+    return value
+
+
+def read_removed(path: Path) -> list[str]:
+    value: Any = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+        raise ValueError(f"{path}: invalid removed recipes")
+    return value
+
+
 def recipe_section(
     identifier: str,
     base: str,
@@ -93,20 +110,22 @@ def main() -> int:
     parser.add_argument("--recipes", type=Path, required=True)
     parser.add_argument("--processors", type=Path, required=True)
     parser.add_argument("--resources", type=Path, required=True)
+    parser.add_argument("--added", type=Path, required=True)
+    parser.add_argument("--removed", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit-bytes", type=int, default=50_000)
     arguments = parser.parse_args()
 
     processors = read_processors(arguments.processors)
     resources = read_resources(arguments.resources)
+    added = read_added(arguments.added)
+    removed = read_removed(arguments.removed)
     sections: list[str] = []
     for identifier in read_recipes(arguments.recipes):
-        base = (arguments.base_dir / f"{identifier}.yaml").read_text(
-            encoding="utf-8"
-        )
-        head = (arguments.head_dir / f"{identifier}.yaml").read_text(
-            encoding="utf-8"
-        )
+        base_path = arguments.base_dir / f"{identifier}.yaml"
+        head_path = arguments.head_dir / f"{identifier}.yaml"
+        base = base_path.read_text(encoding="utf-8") if base_path.exists() else ""
+        head = head_path.read_text(encoding="utf-8") if head_path.exists() else ""
         sections.append(
             recipe_section(
                 identifier,
@@ -117,16 +136,28 @@ def main() -> int:
             )
         )
 
-    content = "\n\n".join(sections) + "\n"
+    membership: list[str] = []
+    if added:
+        membership.extend(["### Added recipes", ""])
+        membership.extend(f"- `{identifier}`" for identifier in sorted(added))
+    if removed:
+        if membership:
+            membership.append("")
+        membership.extend(["### Removed recipes", ""])
+        membership.extend(f"- `{identifier}`" for identifier in sorted(removed))
+    membership_text = "\n".join(membership)
+    content = "\n\n".join(filter(None, [membership_text, *sections])) + "\n"
     if len(content.encode("utf-8")) > arguments.limit_bytes:
         kept: list[str] = []
         suffix = "\n\n_Additional recipe changes omitted at the comment size limit._\n"
         for section in sections:
-            candidate = "\n\n".join([*kept, section]) + suffix
+            candidate = "\n\n".join(
+                filter(None, [membership_text, *kept, section])
+            ) + suffix
             if len(candidate.encode("utf-8")) > arguments.limit_bytes:
                 break
             kept.append(section)
-        content = "\n\n".join(kept) + suffix
+        content = "\n\n".join(filter(None, [membership_text, *kept])) + suffix
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(content, encoding="utf-8")
     print(f"Wrote {len(content.encode('utf-8'))} bytes to {arguments.output}")

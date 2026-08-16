@@ -42,9 +42,9 @@ run = [
 description = "Validate recipe overrides and repository ownership"
 run = "python scripts/recipes.py validate"
 
-[tasks."woodleigh:check"]
-description = "Check recurring overrides exist in the pinned Woodleigh source"
-run = "python scripts/woodleigh.py check"
+[tasks."sources:check"]
+description = "Check declared GitOps recipes have generated overrides"
+run = "python scripts/sources.py check"
 
 [tasks.workflow-lint]
 description = "Lint GitHub Actions workflows"

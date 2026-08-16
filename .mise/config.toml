@@ -1,6 +1,5 @@
 [tools]
 python = "3.14.7"
-uv = "0.12.4"
 lefthook = "2.1.10"
 actionlint = "1.7.12"
 zizmor = "1.29.0"
@@ -20,14 +19,12 @@ AUTOPKG_STATE_DIR = "{{ get_env(name='AUTOPKG_STATE_DIR', default=config_root ~ 
 AUTOPKG_REPO_ROOT = "{{ get_env(name='AUTOPKG_REPO_ROOT', default=env.HOME ~ '/Library/AutoPkg/RecipeRepos') }}"
 AUTOPKG_FAIL_RECIPES_WITHOUT_TRUST_INFO = "1"
 
-[tasks.deps]
-hide = true
-run = "uv pip sync requirements.txt"
+[deps.pip]
+auto = true
 
 [tasks."overrides:mark"]
 hide = true
-depends = ["deps"]
-run = "uv run python scripts/mark_overrides.py"
+run = "python scripts/mark_overrides.py"
 
 [tasks.format]
 description = "Format configuration and mark generated overrides"
@@ -36,21 +33,18 @@ run = "oxfmt . '!RecipeOverrides/**' '!.mise/**'"
 
 [tasks.fmt-check]
 description = "Check formatting and generated override headers"
-depends = ["deps"]
 run = [
-  "uv run python scripts/mark_overrides.py --check",
+  "python scripts/mark_overrides.py --check",
   "oxfmt --check . '!RecipeOverrides/**' '!.mise/**'",
 ]
 
 [tasks.validate]
 description = "Validate recipe overrides and repository ownership"
-depends = ["deps"]
-run = "uv run python scripts/recipes.py validate"
+run = "python scripts/recipes.py validate"
 
 [tasks."source:check"]
 description = "Check recurring overrides exist in the pinned Woodleigh source"
-depends = ["deps"]
-run = "uv run python scripts/pinned_source.py"
+run = "python scripts/pinned_source.py"
 
 [tasks.workflow-lint]
 description = "Lint GitHub Actions workflows"
@@ -77,18 +71,15 @@ test -x /usr/local/munki/makepkginfo
 
 [tasks."recipes:select"]
 description = "Resolve recipes and their repository closure"
-depends = ["deps"]
-run = "uv run python scripts/recipes.py select"
+run = "python scripts/recipes.py select"
 
 [tasks."repos:sync"]
 description = "Materialize only repositories used by the selected recipes"
-depends = ["deps"]
-run = "uv run python scripts/repositories.py"
+run = "python scripts/repositories.py"
 
 [tasks."autopkg:preferences"]
 description = "Write ephemeral AutoPkg preferences for the selected repositories"
-depends = ["deps"]
-run = "uv run python scripts/preferences.py"
+run = "python scripts/preferences.py"
 
 [tasks."autopkg:deps"]
 description = "Install the Python framework used by the local icon processor"
@@ -99,8 +90,7 @@ pyobjc_version="$(/usr/local/autopkg/python -c 'from importlib.metadata import v
 
 [tasks.report]
 description = "Render the sanitized AutoPkg v3 result"
-depends = ["deps"]
-run = 'uv run python scripts/report.py --exit-code "${AUTOPKG_EXIT_CODE:-1}"'
+run = 'python scripts/report.py --exit-code "${AUTOPKG_EXIT_CODE:-1}"'
 
 [tasks."trust:create"]
 description = "Create a generated override from a Munki recipe"
@@ -109,8 +99,8 @@ arg "<recipe>" help="Source recipe identifier"
 '''
 run = '''
 mkdir -p "$AUTOPKG_STATE_DIR"
-uv run python scripts/repositories.py --all
-uv run python scripts/preferences.py \
+python scripts/repositories.py --all
+python scripts/preferences.py \
   --all-repositories \
   --override-dir "$PWD/RecipeOverrides"
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
@@ -129,7 +119,7 @@ arg "<recipe>" help="Generated override identifier"
 '''
 run = '''
 mise run trust:prepare
-source_recipe="$(uv run python scripts/recipes.py parents "${usage_recipe?}")"
+source_recipe="$(python scripts/recipes.py parents "${usage_recipe?}")"
 autopkg make-override \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
   --force \
@@ -143,7 +133,7 @@ mise run overrides:mark
 description = "Regenerate every override from its pinned recipe chain"
 run = '''
 mise run trust:prepare
-uv run python scripts/recipes.py parents > "$AUTOPKG_STATE_DIR/parent-recipes.txt"
+python scripts/recipes.py parents > "$AUTOPKG_STATE_DIR/parent-recipes.txt"
 while IFS= read -r source_recipe; do
   autopkg make-override \
     --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
@@ -166,7 +156,6 @@ autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
 [tasks.local]
 description = "Run the Actions lane locally"
-depends = ["deps"]
 usage = '''
 arg "[recipe]" help="Optional enabled recipe name"
 '''

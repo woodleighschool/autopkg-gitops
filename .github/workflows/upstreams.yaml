@@ -41,7 +41,7 @@ jobs:
         uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
         with:
           experimental: true
-          install_args: --locked python uv
+          install_args: --locked python
 
       - name: Find changed recipe chains
         id: changes
@@ -49,8 +49,7 @@ jobs:
           AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          mise run deps
-          uv run python scripts/upstreams.py \
+          python scripts/upstreams.py \
             --base "$BASE_SHA" \
             --github-output
 
@@ -83,7 +82,7 @@ jobs:
         uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
         with:
           experimental: true
-          install_args: --locked python uv
+          install_args: --locked python
 
       - name: Checkout pull request branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -117,8 +116,8 @@ jobs:
           done <<< "$ADDED_RECIPES"
 
           if [[ "${#added[@]}" -gt 0 ]]; then
-            uv run python scripts/repositories.py --all
-            uv run python scripts/preferences.py \
+            python scripts/repositories.py --all
+            python scripts/preferences.py \
               --all-repositories \
               --override-dir "$PWD/RecipeOverrides"
           else
@@ -130,7 +129,7 @@ jobs:
 
           for recipe in "${recipes[@]}"; do
             source_recipe="$(
-              uv run python scripts/recipes.py parents \
+              python scripts/recipes.py parents \
                 --allow-new-woodleigh \
                 "$recipe"
             )"
@@ -212,7 +211,7 @@ jobs:
         uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
         with:
           experimental: true
-          install_args: --locked python uv
+          install_args: --locked python
 
       - name: Checkout pull request
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -226,7 +225,6 @@ jobs:
           AFFECTED_RECIPES: ${{ needs.filter.outputs.recipes }}
           CHANGED_PROCESSORS: ${{ needs.filter.outputs.processors }}
         run: |
-          mise run deps
           mkdir -p .autopkg-run artifacts
           printf '%s\n' "$AFFECTED_RECIPES" > .autopkg-run/affected-recipes.txt
           printf '%s\n' "$CHANGED_PROCESSORS" > .autopkg-run/changed-processors.json
@@ -237,20 +235,20 @@ jobs:
           done < .autopkg-run/affected-recipes.txt
           [[ "${#recipes[@]}" -gt 0 ]]
 
-          uv run python scripts/recipes.py select \
+          python scripts/recipes.py select \
             --state-dir "$PWD/.autopkg-run" \
             "${recipes[@]}"
-          uv run python scripts/repositories.py \
+          python scripts/repositories.py \
             --repo-root "$PWD/.autopkg-run/RecipeRepos" \
             --names-file "$PWD/.autopkg-run/repositories.txt"
 
           (
             cd pull
             mkdir -p .autopkg-run
-            uv run python scripts/recipes.py select \
+            python scripts/recipes.py select \
               --state-dir "$PWD/.autopkg-run" \
               "${recipes[@]}"
-            uv run python scripts/repositories.py \
+            python scripts/repositories.py \
               --repo-root "$PWD/.autopkg-run/RecipeRepos" \
               --names-file "$PWD/.autopkg-run/repositories.txt"
           )
@@ -267,7 +265,7 @@ jobs:
             --repo-root pull/.autopkg-run/RecipeRepos \
             --recipes .autopkg-run/affected-recipes.txt \
             --output-dir .autopkg-run/rendered-pull
-          uv run python scripts/recipe_diff.py \
+          python scripts/recipe_diff.py \
             --base-dir .autopkg-run/rendered-base \
             --head-dir .autopkg-run/rendered-pull \
             --recipes .autopkg-run/affected-recipes.txt \

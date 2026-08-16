@@ -34,11 +34,29 @@ def read_processors(path: Path) -> dict[str, list[dict[str, str]]]:
     return processors
 
 
+def read_resources(path: Path) -> dict[str, list[dict[str, str]]]:
+    value: Any = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, list):
+        raise ValueError(f"{path}: expected an array")
+    resources: dict[str, list[dict[str, str]]] = defaultdict(list)
+    required = {"recipe", "path", "url"}
+    for item in value:
+        if (
+            not isinstance(item, dict)
+            or set(item) != required
+            or not all(isinstance(item[key], str) for key in required)
+        ):
+            raise ValueError(f"{path}: invalid changed resource entry")
+        resources[item["recipe"]].append(item)
+    return resources
+
+
 def recipe_section(
     identifier: str,
     base: str,
     head: str,
     processors: list[dict[str, str]],
+    resources: list[dict[str, str]],
 ) -> str:
     patch = "".join(
         difflib.unified_diff(
@@ -61,6 +79,10 @@ def recipe_section(
                 f"- [`{processor['processor']}`]({processor['url']}) "
                 f"(`{processor['path']}`)"
             )
+    if resources:
+        lines.extend(["", "Changed recipe resources:", ""])
+        for resource in resources:
+            lines.append(f"- [`{resource['path']}`]({resource['url']})")
     return "\n".join(lines)
 
 
@@ -70,11 +92,13 @@ def main() -> int:
     parser.add_argument("--head-dir", type=Path, required=True)
     parser.add_argument("--recipes", type=Path, required=True)
     parser.add_argument("--processors", type=Path, required=True)
+    parser.add_argument("--resources", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--limit-bytes", type=int, default=50_000)
     arguments = parser.parse_args()
 
     processors = read_processors(arguments.processors)
+    resources = read_resources(arguments.resources)
     sections: list[str] = []
     for identifier in read_recipes(arguments.recipes):
         base = (arguments.base_dir / f"{identifier}.yaml").read_text(
@@ -84,7 +108,13 @@ def main() -> int:
             encoding="utf-8"
         )
         sections.append(
-            recipe_section(identifier, base, head, processors.get(identifier, []))
+            recipe_section(
+                identifier,
+                base,
+                head,
+                processors.get(identifier, []),
+                resources.get(identifier, []),
+            )
         )
 
     content = "\n\n".join(sections) + "\n"

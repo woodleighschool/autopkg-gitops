@@ -29,6 +29,7 @@ jobs:
       changed: ${{ steps.changes.outputs.changed }}
       added: ${{ steps.changes.outputs.added }}
       processors: ${{ steps.changes.outputs.processors }}
+      resources: ${{ steps.changes.outputs.resources }}
       recipes: ${{ steps.changes.outputs.recipes }}
     steps:
       - name: Checkout
@@ -52,8 +53,12 @@ jobs:
           AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          python scripts/woodleigh.py added \
+            --base "$BASE_SHA" \
+            --output .autopkg-run/added-recipes.json
           python scripts/upstreams.py \
             --base "$BASE_SHA" \
+            --added-recipes .autopkg-run/added-recipes.json \
             --github-output
 
   lock:
@@ -109,6 +114,7 @@ jobs:
           export AUTOPKG_REPO_ROOT="$HOME/Library/AutoPkg/RecipeRepos"
           mkdir -p "$AUTOPKG_STATE_DIR"
           printf '%s\n' "$AFFECTED_RECIPES" > "$AUTOPKG_STATE_DIR/affected-recipes.txt"
+          printf '%s\n' "$ADDED_RECIPES" > "$AUTOPKG_STATE_DIR/added-recipes.json"
 
           recipes=()
           while IFS= read -r recipe; do
@@ -116,27 +122,16 @@ jobs:
           done < "$AUTOPKG_STATE_DIR/affected-recipes.txt"
           [[ "${#recipes[@]}" -gt 0 ]]
 
-          added=()
-          while IFS= read -r recipe; do
-            [[ -n "$recipe" ]] && added+=("$recipe")
-          done <<< "$ADDED_RECIPES"
-
-          if [[ "${#added[@]}" -gt 0 ]]; then
-            python scripts/repositories.py --all
-            python scripts/preferences.py \
-              --all-repositories \
-              --override-dir "$PWD/RecipeOverrides"
-          else
-            mise run recipes:select -- "${recipes[@]}"
-            mise run repos:sync
-            mise run autopkg:preferences
-          fi
+          python scripts/repositories.py --all
+          python scripts/preferences.py \
+            --all-repositories \
+            --override-dir "$PWD/RecipeOverrides"
           autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
           for recipe in "${recipes[@]}"; do
             source_recipe="$(
               python scripts/recipes.py parents \
-                --allow-new-woodleigh \
+                --new-parents "$AUTOPKG_STATE_DIR/added-recipes.json" \
                 "$recipe"
             )"
             autopkg make-override \
@@ -154,8 +149,62 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Generate push token
+      - name: Stage trust lock
         if: ${{ steps.lock.outputs.changed == 'true' }}
+        working-directory: pull
+        run: |
+          mkdir -p "$RUNNER_TEMP/trust-lock"
+          git diff --name-only --diff-filter=AM -- RecipeOverrides | while IFS= read -r path; do
+            [[ "$path" == RecipeOverrides/*.munki.recipe.yaml ]]
+            cp "$path" "$RUNNER_TEMP/trust-lock/${path##*/}"
+          done
+          files=("$RUNNER_TEMP"/trust-lock/*.munki.recipe.yaml)
+          [[ -e "${files[0]}" ]]
+
+      - name: Upload trust lock
+        if: ${{ steps.lock.outputs.changed == 'true' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: autopkg-trust-lock
+          path: ${{ runner.temp }}/trust-lock
+          if-no-files-found: error
+          retention-days: 1
+
+  publish-lock:
+    name: Publish trust lock
+    needs: lock
+    if: needs.lock.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Download trust lock
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: autopkg-trust-lock
+          path: ${{ runner.temp }}/trust-lock
+
+      - name: Apply trust lock
+        run: |
+          files=("$RUNNER_TEMP"/trust-lock/*.munki.recipe.yaml)
+          [[ -e "${files[0]}" ]]
+          entries=("$RUNNER_TEMP"/trust-lock/*)
+          [[ "${#entries[@]}" -eq "${#files[@]}" ]]
+          for source in "${files[@]}"; do
+            destination="RecipeOverrides/${source##*/}"
+            [[ -f "$destination" || ! -e "$destination" ]]
+            cp "$source" "$destination"
+          done
+
+      - name: Generate push token
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
@@ -166,12 +215,10 @@ jobs:
           permission-contents: write
 
       - name: Commit trust lock
-        if: ${{ steps.lock.outputs.changed == 'true' }}
         env:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           HEAD_REF: ${{ github.head_ref }}
           PUSH_TOKEN: ${{ steps.app-token.outputs.token }}
-        working-directory: pull
         run: |
           expected_author="woodmin[bot] <225126206+woodmin[bot]@users.noreply.github.com>"
           actual_author="$(git show -s --format='%an <%ae>' HEAD)"
@@ -233,10 +280,12 @@ jobs:
         env:
           AFFECTED_RECIPES: ${{ needs.filter.outputs.recipes }}
           CHANGED_PROCESSORS: ${{ needs.filter.outputs.processors }}
+          CHANGED_RESOURCES: ${{ needs.filter.outputs.resources }}
         run: |
           mkdir -p .autopkg-run artifacts
           printf '%s\n' "$AFFECTED_RECIPES" > .autopkg-run/affected-recipes.txt
           printf '%s\n' "$CHANGED_PROCESSORS" > .autopkg-run/changed-processors.json
+          printf '%s\n' "$CHANGED_RESOURCES" > .autopkg-run/changed-resources.json
 
           recipes=()
           while IFS= read -r recipe; do
@@ -279,6 +328,7 @@ jobs:
             --head-dir .autopkg-run/rendered-pull \
             --recipes .autopkg-run/affected-recipes.txt \
             --processors .autopkg-run/changed-processors.json \
+            --resources .autopkg-run/changed-resources.json \
             --output artifacts/recipe-changes.md
 
       - name: Upload recipe changes

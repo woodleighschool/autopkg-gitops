@@ -46,7 +46,7 @@ jobs:
         run: mise run lint
 
   source:
-    name: Check pinned source
+    name: Check Woodleigh source
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -65,4 +65,4 @@ jobs:
         run: mise deps install pip
 
       - name: Check pinned source
-        run: mise run source:check
+        run: mise run woodleigh:check

@@ -42,9 +42,9 @@ run = [
 description = "Validate recipe overrides and repository ownership"
 run = "python scripts/recipes.py validate"
 
-[tasks."source:check"]
+[tasks."woodleigh:check"]
 description = "Check recurring overrides exist in the pinned Woodleigh source"
-run = "python scripts/pinned_source.py"
+run = "python scripts/woodleigh.py check"
 
 [tasks.workflow-lint]
 description = "Lint GitHub Actions workflows"
@@ -76,6 +76,10 @@ run = "python scripts/recipes.py select"
 [tasks."repos:sync"]
 description = "Materialize only repositories used by the selected recipes"
 run = "python scripts/repositories.py"
+
+[tasks."runtime:prepare"]
+description = "Prepare selected overrides with their pinned recipe resources"
+run = "python scripts/runtime.py"
 
 [tasks."autopkg:preferences"]
 description = "Write ephemeral AutoPkg preferences for the selected repositories"
@@ -148,9 +152,10 @@ mise run overrides:mark
 [tasks."trust:prepare"]
 hide = true
 run = '''
-mise run recipes:select
-mise run repos:sync
-mise run autopkg:preferences -- --override-dir "$PWD/RecipeOverrides"
+python scripts/repositories.py --all
+python scripts/preferences.py \
+  --all-repositories \
+  --override-dir "$PWD/RecipeOverrides"
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 '''
 
@@ -168,11 +173,16 @@ else
 fi
 mise run repos:sync
 mise run autopkg:deps
+mise run runtime:prepare
 mise run autopkg:preferences
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
-autopkg verify-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist"
+recipes=()
+while IFS= read -r recipe; do
+  [[ -n "$recipe" ]] && recipes+=("$recipe")
+done < <(python scripts/recipes.py selected)
+autopkg verify-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" "${recipes[@]}"
 autopkg_exit_code=0
-autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist" || autopkg_exit_code=$?
+autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" "${recipes[@]}" || autopkg_exit_code=$?
 AUTOPKG_EXIT_CODE="$autopkg_exit_code" mise run report
 exit "$autopkg_exit_code"
 '''

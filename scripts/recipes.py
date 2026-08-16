@@ -3,8 +3,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import plistlib
-import shutil
 from pathlib import Path
 
 from common import (
@@ -42,18 +40,6 @@ def write_selection(requested: list[str], state_dir: Path) -> None:
     ]
 
     state_dir.mkdir(parents=True, exist_ok=True)
-    state_overrides = state_dir / "overrides"
-    state_overrides.mkdir(exist_ok=True)
-    selected_names = {overrides[identifier][0].name for identifier in selected}
-    for stale in state_overrides.glob("*.munki.recipe.yaml"):
-        if stale.name not in selected_names:
-            stale.unlink()
-    for identifier in selected:
-        source = overrides[identifier][0]
-        shutil.copy2(source, state_overrides / source.name)
-
-    with (state_dir / "recipes.plist").open("wb") as output:
-        plistlib.dump({"recipes": selected}, output, sort_keys=False)
     (state_dir / "repositories.txt").write_text(
         "".join(f"{name}\n" for name in repository_names), encoding="utf-8"
     )
@@ -68,9 +54,34 @@ def write_selection(requested: list[str], state_dir: Path) -> None:
     print(f"Selected {len(selected)} recipes using {len(repository_names)} repositories")
 
 
-def print_parents(requested: list[str], allow_new_woodleigh: bool) -> None:
+def print_selection(state_dir: Path) -> None:
+    path = state_dir / "selection.json"
+    try:
+        selection = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ConfigError(f"Cannot read {path}: {error}") from error
+    recipes = selection.get("recipes")
+    if not isinstance(recipes, list) or not all(isinstance(item, str) for item in recipes):
+        raise ConfigError(f"{path}: invalid recipes")
+    for recipe in recipes:
+        print(recipe)
+
+
+def print_parents(requested: list[str], new_parents_path: Path | None) -> None:
     overrides = load_overrides()
     requested = requested or sorted(overrides)
+    new_parents: dict[str, str] = {}
+    if new_parents_path is not None:
+        try:
+            value = json.loads(new_parents_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise ConfigError(f"Cannot read {new_parents_path}: {error}") from error
+        if not isinstance(value, dict) or not all(
+            isinstance(identifier, str) and isinstance(parent, str)
+            for identifier, parent in value.items()
+        ):
+            raise ConfigError(f"{new_parents_path}: invalid parent recipe mapping")
+        new_parents = value
     aliases = {
         alias: identifier
         for identifier in overrides
@@ -79,14 +90,8 @@ def print_parents(requested: list[str], allow_new_woodleigh: bool) -> None:
     for recipe in requested:
         identifier = aliases.get(recipe)
         if identifier is None:
-            if allow_new_woodleigh and recipe.startswith("local.munki."):
-                print(
-                    recipe.replace(
-                        "local.munki.",
-                        "com.github.woodleighschool.munki.",
-                        1,
-                    )
-                )
+            if recipe in new_parents:
+                print(new_parents[recipe])
                 continue
             raise ConfigError(f"Unknown recipe: {recipe}")
         path, override = overrides[identifier]
@@ -103,17 +108,21 @@ def main() -> int:
     select = subparsers.add_parser("select")
     select.add_argument("recipes", nargs="*")
     select.add_argument("--state-dir", type=Path, default=STATE_DIR)
+    selected = subparsers.add_parser("selected")
+    selected.add_argument("--state-dir", type=Path, default=STATE_DIR)
     parents = subparsers.add_parser("parents")
     parents.add_argument("recipes", nargs="*")
-    parents.add_argument("--allow-new-woodleigh", action="store_true")
+    parents.add_argument("--new-parents", type=Path)
     arguments = parser.parse_args()
     try:
         if arguments.command == "validate":
             validate()
         elif arguments.command == "select":
             write_selection(arguments.recipes, arguments.state_dir)
+        elif arguments.command == "selected":
+            print_selection(arguments.state_dir)
         else:
-            print_parents(arguments.recipes, arguments.allow_new_woodleigh)
+            print_parents(arguments.recipes, arguments.new_parents)
     except ConfigError as error:
         parser.error(str(error))
     return 0

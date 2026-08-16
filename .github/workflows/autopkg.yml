@@ -3,6 +3,12 @@
 name: AutoPkg
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - RecipeOverrides/**
+      - repositories.json
   workflow_dispatch:
     inputs:
       recipe:
@@ -23,9 +29,67 @@ env:
   MISE_TASK_RUN_AUTO_INSTALL: "false"
 
 jobs:
+  plan:
+    name: Plan recipe run
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.plan.outputs.changed }}
+      recipes: ${{ steps.plan.outputs.recipes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Mise
+        uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4.2.4
+        with:
+          experimental: true
+          install_args: --locked python
+
+      - name: Install Python dependencies
+        run: mise deps install pip
+
+      - name: Select recipes
+        id: plan
+        env:
+          AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
+          BASE_SHA: ${{ github.event.before }}
+          REQUESTED_RECIPE: ${{ inputs.recipe }}
+        run: |
+          mkdir -p .autopkg-run
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            python scripts/upstreams.py \
+              --base "$BASE_SHA" \
+              --output .autopkg-run/planned-recipes.txt
+          else
+            if [[ -n "$REQUESTED_RECIPE" ]]; then
+              python scripts/recipes.py select "$REQUESTED_RECIPE"
+            else
+              python scripts/recipes.py select
+            fi
+            python scripts/recipes.py selected > .autopkg-run/planned-recipes.txt
+          fi
+
+          {
+            if [[ -s .autopkg-run/planned-recipes.txt ]]; then
+              echo "changed=true"
+            else
+              echo "changed=false"
+            fi
+            echo "recipes<<AUTOPKG_RECIPES"
+            cat .autopkg-run/planned-recipes.txt
+            echo "AUTOPKG_RECIPES"
+          } >> "$GITHUB_OUTPUT"
+
   run:
     name: Run AutoPkg
-    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: plan
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.plan.outputs.changed == 'true'
     runs-on:
       group: autopkg
     timeout-minutes: 180
@@ -35,7 +99,7 @@ jobs:
       AUTOPKG_WOODSTAR_API_KEY: ${{ secrets.WOODSTAR_TOKEN }}
       AUTOPKG_ACTIVINSPIRE_SERIAL: ${{ secrets.ACTIVINSPIRE_SERIAL }}
       AUTOPKG_FAIL_RECIPES_WITHOUT_TRUST_INFO: "1"
-      REQUESTED_RECIPE: ${{ inputs.recipe }}
+      PLANNED_RECIPES: ${{ needs.plan.outputs.recipes }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -68,17 +132,21 @@ jobs:
 
       - name: Select recipes
         run: |
-          if [[ -n "$REQUESTED_RECIPE" ]]; then
-            mise run recipes:select -- "$REQUESTED_RECIPE"
-          else
-            mise run recipes:select
-          fi
+          recipes=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && recipes+=("$recipe")
+          done <<< "$PLANNED_RECIPES"
+          [[ "${#recipes[@]}" -gt 0 ]]
+          mise run recipes:select -- "${recipes[@]}"
 
       - name: Sync required repositories
         run: mise run repos:sync
 
       - name: Install recipe dependency
         run: mise run autopkg:deps
+
+      - name: Prepare runtime overrides
+        run: mise run runtime:prepare
 
       - name: Write AutoPkg preferences
         run: mise run autopkg:preferences
@@ -87,17 +155,28 @@ jobs:
         run: autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
       - name: Verify parent trust
-        run: autopkg verify-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist"
+        run: |
+          recipes=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && recipes+=("$recipe")
+          done < <(python scripts/recipes.py selected)
+          autopkg verify-trust-info \
+            --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+            "${recipes[@]}"
 
       - name: Run AutoPkg
         id: autopkg
         run: |
           autopkg_exit_code=0
+          recipes=()
+          while IFS= read -r recipe; do
+            [[ -n "$recipe" ]] && recipes+=("$recipe")
+          done < <(python scripts/recipes.py selected)
           autopkg run \
             --quiet \
             --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
             --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" \
-            --recipe-list="$AUTOPKG_STATE_DIR/recipes.plist" || autopkg_exit_code=$?
+            "${recipes[@]}" || autopkg_exit_code=$?
           echo "exit_code=$autopkg_exit_code" >> "$GITHUB_OUTPUT"
           exit "$autopkg_exit_code"
 

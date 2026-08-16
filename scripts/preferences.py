@@ -12,7 +12,7 @@ from common import ConfigError, MANIFEST_PATH, REPO_ROOT, STATE_DIR, load_manife
 def write_preferences(
     state_dir: Path,
     repo_root: Path,
-    override_dir: Path,
+    override_dirs: list[Path] | None,
     manifest_path: Path,
     all_repositories: bool,
 ) -> None:
@@ -35,9 +35,24 @@ def write_preferences(
         if not path.is_dir():
             raise ConfigError(f"{name}: repository is not materialized at {path}")
 
+    if override_dirs is None:
+        override_dirs_path = state_dir / "override-dirs.json"
+        try:
+            values = json.loads(override_dirs_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise ConfigError(f"Cannot read {override_dirs_path}: {error}") from error
+        if not isinstance(values, list) or not values or not all(
+            isinstance(value, str) for value in values
+        ):
+            raise ConfigError(f"{override_dirs_path}: invalid override directories")
+        override_dirs = [Path(value) for value in values]
+    for override_dir in override_dirs:
+        if not override_dir.is_dir():
+            raise ConfigError(f"Runtime override directory is missing: {override_dir}")
+
     preferences = {
         "RECIPE_MAP_PATH": str(state_dir / "recipe-map.json"),
-        "RECIPE_OVERRIDE_DIRS": [str(override_dir)],
+        "RECIPE_OVERRIDE_DIRS": [str(path) for path in override_dirs],
         "RECIPE_REPOS": {
             str(path): {"URL": repositories[name]["url"]}
             for name, path in zip(names, paths, strict=True)
@@ -53,7 +68,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Write ephemeral AutoPkg preferences")
     parser.add_argument("--state-dir", type=Path, default=STATE_DIR)
     parser.add_argument("--repo-root", type=Path, default=REPO_ROOT)
-    parser.add_argument("--override-dir", type=Path)
+    parser.add_argument("--override-dir", type=Path, action="append")
     parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
     parser.add_argument("--all-repositories", action="store_true")
     arguments = parser.parse_args()
@@ -61,7 +76,7 @@ def main() -> int:
         write_preferences(
             arguments.state_dir,
             arguments.repo_root,
-            arguments.override_dir or arguments.state_dir / "overrides",
+            arguments.override_dir,
             arguments.manifest,
             arguments.all_repositories,
         )

@@ -162,6 +162,14 @@ jobs:
           done
           mise run overrides:mark
 
+          untracked=()
+          while IFS= read -r -d '' override_path; do
+            untracked+=("$override_path")
+          done < <(git ls-files --others --exclude-standard -z -- RecipeOverrides)
+          if [[ "${#untracked[@]}" -gt 0 ]]; then
+            git add --intent-to-add -- "${untracked[@]}"
+          fi
+
           if git diff --quiet -- RecipeOverrides; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -218,24 +226,40 @@ jobs:
 
       - name: Apply trust lock
         run: |
-          top_level=("$RUNNER_TEMP"/trust-lock/*)
-          [[ "${#top_level[@]}" -eq 2 ]]
-          [[ -d "$RUNNER_TEMP/trust-lock/add" ]]
-          [[ -d "$RUNNER_TEMP/trust-lock/remove" ]]
+          shopt -s nullglob dotglob
+          artifact_root="$RUNNER_TEMP/trust-lock"
+          top_level=("$artifact_root"/*)
+          [[ "${#top_level[@]}" -ge 1 && "${#top_level[@]}" -le 2 ]]
+          for entry in "${top_level[@]}"; do
+            [[ -d "$entry" && ! -L "$entry" ]]
+            case "${entry##*/}" in
+              add|remove) ;;
+              *) exit 1 ;;
+            esac
+          done
 
-          added=("$RUNNER_TEMP"/trust-lock/add/*.munki.recipe.yaml)
-          removed=("$RUNNER_TEMP"/trust-lock/remove/*.munki.recipe.yaml)
-          [[ -e "${added[0]}" || -e "${removed[0]}" ]]
+          for name in add remove; do
+            artifact_dir="$artifact_root/$name"
+            [[ (! -e "$artifact_dir" && ! -L "$artifact_dir") || (-d "$artifact_dir" && ! -L "$artifact_dir") ]]
+            mkdir -p "$artifact_dir"
+          done
+          [[ -d RecipeOverrides && ! -L RecipeOverrides ]]
+
+          added=("$artifact_root"/add/*)
+          removed=("$artifact_root"/remove/*)
+          [[ "${#added[@]}" -gt 0 || "${#removed[@]}" -gt 0 ]]
           for source in "${added[@]}"; do
-            [[ -e "$source" ]] || continue
             [[ -f "$source" && ! -L "$source" ]]
+            [[ "${source##*/}" == *.munki.recipe.yaml ]]
+            [[ ! -e "$artifact_root/remove/${source##*/}" ]]
             destination="RecipeOverrides/${source##*/}"
-            [[ -f "$destination" || ! -e "$destination" ]]
+            [[ (! -e "$destination" && ! -L "$destination") || (-f "$destination" && ! -L "$destination") ]]
             cp "$source" "$destination"
           done
           for marker in "${removed[@]}"; do
-            [[ -e "$marker" ]] || continue
             [[ -f "$marker" && ! -L "$marker" && ! -s "$marker" ]]
+            [[ "${marker##*/}" == *.munki.recipe.yaml ]]
+            [[ ! -e "$artifact_root/add/${marker##*/}" ]]
             destination="RecipeOverrides/${marker##*/}"
             [[ -f "$destination" && ! -L "$destination" ]]
             rm "$destination"

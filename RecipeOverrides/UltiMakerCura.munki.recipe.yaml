@@ -46,7 +46,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/UltiMakerCura/UltiMakerCura.download.recipe.yaml
       sha256_hash: 9f553a70849fb22b1ffbf0c6e6dd3eddf554e89b730bedf296789c920d69002c
     com.github.woodleighschool.munki.UltiMakerCura:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/UltiMakerCura/UltiMakerCura.munki.recipe.yaml
-      sha256_hash: 01fad99475e781feea38314dc602620a9b6c21777d11c5ce829847dceafb182f
+      sha256_hash: 8b16861b84f7d0ee515f08c0c33a64b0dd05d8bc0665160e963de2a6dd3e9f36
   scripts: {}

@@ -45,7 +45,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rustymyers-recipes/Wacom/WacomTablet.download.recipe.yaml
       sha256_hash: 944936c271d8f861f81eb49dcd4fb8b8c028c8c4a901b649f5d86e6135bc477d
     com.github.woodleighschool.munki.WacomTabletDriver:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WacomTabletDriver/WacomTabletDriver.munki.recipe.yaml
-      sha256_hash: ec763a20dbcc6b019420f86895603e501380061f11127f840fbfdf2be80fa328
+      sha256_hash: ded86890fd9d259f0850adca950ac8270d048ea6b73ba7472bca069a7c2b75a1
   scripts: {}

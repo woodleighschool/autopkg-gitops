@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftPowerPoint365/MicrosoftPowerPoint365.download.recipe
       sha256_hash: 3648fd34d13d7cf7f363996357ea5776eecd40f6d6923fc015fc6132d6ea73f7
     com.github.woodleighschool.munki.MicrosoftPowerPoint:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftPowerPoint/MicrosoftPowerPoint.munki.recipe.yaml
-      sha256_hash: f0d119848ed0d7fa222d1f679e29c4a03e96842c1b718649150be8850de8042b
+      sha256_hash: b097eb1bbe8f9860ff08284fc89532152f804809ef1c5dbf8722ce517a014383
   scripts: {}

@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOutlook365/MicrosoftOutlook365.download.recipe
       sha256_hash: 49e6bee5ce8bd6216d6141d33952dff41d3e5e87abcc774ceb6f60ae0e91262f
     com.github.woodleighschool.munki.MicrosoftOutlook:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftOutlook/MicrosoftOutlook.munki.recipe.yaml
-      sha256_hash: 9c346cf0e6a5f6be2f69c9635e382b11a66c7c4bd5a67b30a6182639e92fe67e
+      sha256_hash: 4ac28687ba604708314be86ffa38386912a592e803094581b9ba2756cc8749f5
   scripts: {}

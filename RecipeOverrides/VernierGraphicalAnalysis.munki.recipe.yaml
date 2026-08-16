@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VernierGraphicalAnalysis/VernierGraphicalAnalysis.download.recipe.yaml
       sha256_hash: 92a3add9e6511ccdf7eaddf0373fba19b0121ac6248f3457e16e316bb1b0751b
     com.github.woodleighschool.munki.VernierGraphicalAnalysis:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VernierGraphicalAnalysis/VernierGraphicalAnalysis.munki.recipe.yaml
-      sha256_hash: b994a7467d4262e90be539fe7fdf5b7bbdbbd6edada8cc44b08f19c65da43297
+      sha256_hash: c17c74e5e96ced3667baad5267717d47f6aa02206cb6c46069a43962e2bb6a67
   scripts: {}

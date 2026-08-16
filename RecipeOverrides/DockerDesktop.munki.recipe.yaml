@@ -101,7 +101,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.download.recipe.yaml
       sha256_hash: 8f5f62c905a57fd3812864a35ef07cb48c356f794ae805e93ffa0c9c7c3a8dc9
     com.github.woodleighschool.munki.DockerDesktop:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.munki.recipe.yaml
-      sha256_hash: d1f208aba08f221efc61b47133ed322a4548098ef693dc1f5493dd32fbf136e7
+      sha256_hash: a889977abd244e72cfda9d696f178a95afb5d065c4180e2b36d453feaaa060b8
   scripts: {}

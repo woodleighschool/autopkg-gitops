@@ -44,7 +44,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Audacity/Audacity.download.recipe.yaml
       sha256_hash: e4337578a70e6a4fbdd0928c4bf4e6a4a109c64eb6d303f991572bbdee6e767e
     com.github.woodleighschool.munki.Audacity:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Audacity/Audacity.munki.recipe.yaml
-      sha256_hash: 12bb2b67be88632af428749018029c935cfd321802c9484eeed7cf8308c2f97c
+      sha256_hash: 15c27f4239b837f1c8b0d128815d229e60a6aad10ed48db0bdff8e3d320746c0
   scripts: {}

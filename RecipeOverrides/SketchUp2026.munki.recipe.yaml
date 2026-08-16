@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
         2026 EN/SketchUp 2026 EN.download.recipe
       sha256_hash: 35e643ed94248a96292b3f46eebfddf839d7a5804590fe3df9cacc26231743fb
     com.github.woodleighschool.munki.SketchUp2026:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/SketchUp/SketchUp2026.munki.recipe.yaml
-      sha256_hash: 510034250833770658eb9e21675102a8e775f6419fab2cd19c5dfa5b978b7ab0
+      sha256_hash: fb87eb297de8a912dece2ad01e96a0291566b8874fe4fd29541557418c7c027b
   scripts: {}

@@ -48,7 +48,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.davidbpirie-recipes/ACARA/NAPLockedDownBrowser.download.recipe.yaml
       sha256_hash: 7c56dd42b11ccd0cca5328cab069146c765eb6250d876f53f1e07fc191d5530b
     com.github.woodleighschool.munki.NAPLockedDownBrowser:
-      git_hash: 1149027c9c02de2b03913bfaecb5d024c7263760
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/NAPLockedDownBrowser/NAPLockedDownBrowser.munki.recipe.yaml
-      sha256_hash: 4d4be7f3828dca6292d06a318dbe3982634cf7d975b69b3f529e33923cab12bd
+      sha256_hash: 36246b029373df1a8f7a76626c42951d4054071b8898fd90b8b55a1b1be22aba
   scripts: {}

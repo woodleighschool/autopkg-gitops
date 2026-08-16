@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.pkg.recipe.yaml
       sha256_hash: 1d7416091b64f7d667c753769af87bd55374b46be75109b06057ee298976e5eb
     com.github.woodleighschool.munki.swiftDialog:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.munki.recipe.yaml
-      sha256_hash: 32facff8a71e505f9dead5d34bc1e2aa9bddca403903b32be7994cae38ca099f
+      sha256_hash: 6507d8d0732be6f492442327f0d5c1a812931992208a679a536a77d80b15a253
   scripts: {}

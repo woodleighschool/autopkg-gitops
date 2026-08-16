@@ -42,7 +42,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftWord365/MicrosoftWord365.download.recipe
       sha256_hash: 447da48064a925c65307413ae32c76a665d633f0ccf9ad7f53d0de1809441c1c
     com.github.woodleighschool.munki.MicrosoftWord:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftWord/MicrosoftWord.munki.recipe.yaml
-      sha256_hash: a8302aaa417865eeb5d422a6c66410c4c7d3b27d2e7753e77b6995e81f3798fe
+      sha256_hash: 3e57bc5dbcaed17882581592ffd6fce0c704cbd9070a5dbf1bf121d53262e5d8
   scripts: {}

@@ -39,7 +39,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/GoogleEarth/GoogleEarth.download.recipe
       sha256_hash: 4cded898dc1ad0393f3710e72c0d37daf08010450d3fb9bdf5201182132e6079
     com.github.woodleighschool.munki.GoogleEarthPro:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GoogleEarthPro/GoogleEarthPro.munki.recipe.yaml
-      sha256_hash: 69f20e5c5d0122fb64363d68d5b35f50951e8679248d2aa99896c6962fe432ee
+      sha256_hash: 42393ed4e56ecf6f0f3ae82208c881c7b5f528f5ef3182f6a1e115e33b2f9258
   scripts: {}

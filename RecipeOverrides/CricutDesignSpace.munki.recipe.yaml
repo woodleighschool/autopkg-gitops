@@ -49,7 +49,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CricutDesignSpace/CricutDesignSpace.download.recipe.yaml
       sha256_hash: ca53de8a570ecf143df44bdc7f02c0dbbdbb97c421dbc4a47c4ed5e2b4d1078f
     com.github.woodleighschool.munki.CricutDesignSpace:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CricutDesignSpace/CricutDesignSpace.munki.recipe.yaml
-      sha256_hash: a6ae230abfd3667f618ff91d8ed6c7919e4c6023cecc8d2eeae0656d1725c0df
+      sha256_hash: 8cb5fd8165ea3a673470f9ae881239df2cd71d8f2fec17813a24535b2083bb31
   scripts: {}

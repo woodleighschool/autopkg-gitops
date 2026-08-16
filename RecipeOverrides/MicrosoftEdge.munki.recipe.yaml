@@ -43,7 +43,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftEdge/MicrosoftEdge.download.recipe
       sha256_hash: 77766bae33daee294ca3471d4959b5d88d94baf55f83a22d5c75318dddd8e69a
     com.github.woodleighschool.munki.MicrosoftEdge:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftEdge/MicrosoftEdge.munki.recipe.yaml
-      sha256_hash: ffe4ddb990fe342f65dfcc7fc7ed1da611489db88e0aee297b93ff8f80648bac
+      sha256_hash: 526e5521d01306220be619199f5765ed44097c888d3e633e0f5ac4192c08eeb9
   scripts: {}

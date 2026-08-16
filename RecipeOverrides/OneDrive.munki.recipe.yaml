@@ -40,7 +40,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOneDrive/MicrosoftOneDrive.download.recipe
       sha256_hash: 7718c1c2296c2ea2705df6e7b4378c9d7619f85244be5d55c03f095e7a509e45
     com.github.woodleighschool.munki.OneDrive:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/OneDrive/OneDrive.munki.recipe.yaml
-      sha256_hash: 9620e9daea145d21eca3a0964f78b1e29960b124a6d4c44277f10208b56a5675
+      sha256_hash: b0eecce7cc2061d98f484113da5eb99ecf9fb857695c9e23665b744c1dc493b5
   scripts: {}

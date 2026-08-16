@@ -37,9 +37,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.download.recipe.yaml
       sha256_hash: 318634608d3bb9423dc9f5a771abd6fd9b309a09dba439493acc0b8191d51210
     com.github.woodleighschool.munki.WoodSweep:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.munki.recipe.yaml
-      sha256_hash: a4c79b138de4c2367705e23ca74fadf43b5631604644ef6c4eb663bf79bfe5d5
+      sha256_hash: 4359a6b3fa53323211da5e3872d56589f9cff7d620d03137ec718d9c3ce528c9
     com.github.woodleighschool.pkg.WoodSweep:
       git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.pkg.recipe.yaml

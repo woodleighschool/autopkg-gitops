@@ -51,7 +51,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/ActivInspire/ActivInspire.download.recipe
       sha256_hash: d11e1f553733fbec5396b2129363957fd409b0b43de5a68abc7dae3c61ddb62d
     com.github.woodleighschool.munki.ActivInspire:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/ActivInspire/ActivInspire.munki.recipe.yaml
-      sha256_hash: a8e135295b2b7d82bbd1fde9b86018b2db24cd90b2db2f1758899280be0f447a
+      sha256_hash: 9f3f3f12e3294608a6ec8e72d9bfce3898a57698c9629a677cda5e43ffca1696
   scripts: {}

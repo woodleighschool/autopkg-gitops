@@ -46,7 +46,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Spotify/Spotify.download.recipe.yaml
       sha256_hash: 539ac6755731d583df71eff3e66c2b104425b34b032b21c47c4cd54ffb78c5a8
     com.github.woodleighschool.munki.Spotify:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Spotify/Spotify.munki.recipe.yaml
-      sha256_hash: dd5303b055e7f44863ca4e78c74f9729646a3f637ad5e275dd25684d6297c959
+      sha256_hash: d5908616adbe85889a7eeda51da4e4f312c3f162ba23093c096bd1a4b6b9e09b
   scripts: {}

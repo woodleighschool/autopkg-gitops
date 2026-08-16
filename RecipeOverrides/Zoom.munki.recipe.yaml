@@ -41,7 +41,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.hansen-m-recipes/Zoom/Zoom.download.recipe
       sha256_hash: 3c4a2f325de4d51163c93505dd134918c9b2cae5089f555d59fac62f14bce007
     com.github.woodleighschool.munki.Zoom:
-      git_hash: 02f934c5f80998f8725a63da7ac4b1aa67438a79
+      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Zoom/Zoom.munki.recipe.yaml
-      sha256_hash: e2ca03394acdc9cadf839b82ce0545da43dc81d10710331004dd60572910a4e0
+      sha256_hash: 1770a95a89a6813bcda15ad71f3713378ad63de42a67cec7a9d07c3f10dd98c6
   scripts: {}

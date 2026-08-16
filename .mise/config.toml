@@ -162,7 +162,7 @@ autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 [tasks.local]
 description = "Run the Actions lane locally"
 usage = '''
-arg "[recipe]" help="Optional enabled recipe name"
+arg "[recipe]" help="Optional recipe name; defaults to every override"
 '''
 run = '''
 mise run preflight

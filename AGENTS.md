@@ -26,5 +26,5 @@ the trusted-main AutoPkg workflow after review. Pull-request work is limited to 
 static checks and lock generation; never run `autopkg run` or a recipe processor.
 
 For local agent work, make the source change in `woodleighschool/autopkg`, make the paired declaration
-change here, run the safe static checks, and open linked draft pull requests with the same ancestry
+change here, run the safe static checks, and open linked pull requests with the same ancestry
 and verification evidence requested by the source repository's `AGENTS.md`.

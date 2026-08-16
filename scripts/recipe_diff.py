@@ -74,7 +74,8 @@ def recipe_section(
     head: str,
     processors: list[dict[str, str]],
     resources: list[dict[str, str]],
-) -> str:
+    membership: str | None,
+) -> str | None:
     patch = "".join(
         difflib.unified_diff(
             base.splitlines(keepends=True),
@@ -84,20 +85,26 @@ def recipe_section(
             n=6,
         )
     )
-    lines = [f"### `{identifier}`", ""]
+    if not patch and not processors and not resources and membership is None:
+        return None
+
+    label = f" ({membership})" if membership else ""
+    lines = [f"### `{identifier}`{label}", ""]
     if patch:
         lines.extend(["```diff", patch.rstrip(), "```"])
-    else:
-        lines.append("_No effective recipe chain changes._")
     if processors:
-        lines.extend(["", "Changed processors:", ""])
+        if patch:
+            lines.append("")
+        lines.extend(["Changed processors:", ""])
         for processor in processors:
             lines.append(
                 f"- [`{processor['processor']}`]({processor['url']}) "
                 f"(`{processor['path']}`)"
             )
     if resources:
-        lines.extend(["", "Changed recipe resources:", ""])
+        if patch or processors:
+            lines.append("")
+        lines.extend(["Changed recipe resources:", ""])
         for resource in resources:
             lines.append(f"- [`{resource['path']}`]({resource['url']})")
     return "\n".join(lines)
@@ -120,44 +127,51 @@ def main() -> int:
     resources = read_resources(arguments.resources)
     added = read_added(arguments.added)
     removed = read_removed(arguments.removed)
+    recipes = read_recipes(arguments.recipes)
+    recipe_set = set(recipes)
+    related = set(processors) | set(resources) | set(added) | set(removed)
+    if unknown := sorted(related - recipe_set):
+        raise ValueError(
+            "change metadata references recipes outside the affected set: "
+            + ", ".join(unknown)
+        )
+    if overlap := sorted(set(added) & set(removed)):
+        raise ValueError("recipes cannot be both added and removed: " + ", ".join(overlap))
+
     sections: list[str] = []
-    for identifier in read_recipes(arguments.recipes):
+    for identifier in recipes:
         base_path = arguments.base_dir / f"{identifier}.yaml"
         head_path = arguments.head_dir / f"{identifier}.yaml"
         base = base_path.read_text(encoding="utf-8") if base_path.exists() else ""
         head = head_path.read_text(encoding="utf-8") if head_path.exists() else ""
-        sections.append(
-            recipe_section(
-                identifier,
-                base,
-                head,
-                processors.get(identifier, []),
-                resources.get(identifier, []),
-            )
+        membership = (
+            "new" if identifier in added else "removed" if identifier in removed else None
         )
+        section = recipe_section(
+            identifier,
+            base,
+            head,
+            processors.get(identifier, []),
+            resources.get(identifier, []),
+            membership,
+        )
+        if section:
+            sections.append(section)
 
-    membership: list[str] = []
-    if added:
-        membership.extend(["### Added recipes", ""])
-        membership.extend(f"- `{identifier}`" for identifier in sorted(added))
-    if removed:
-        if membership:
-            membership.append("")
-        membership.extend(["### Removed recipes", ""])
-        membership.extend(f"- `{identifier}`" for identifier in sorted(removed))
-    membership_text = "\n".join(membership)
-    content = "\n\n".join(filter(None, [membership_text, *sections])) + "\n"
+    content = (
+        "\n\n".join(sections) + "\n"
+        if sections
+        else "_No effective recipe chain changes._\n"
+    )
     if len(content.encode("utf-8")) > arguments.limit_bytes:
         kept: list[str] = []
         suffix = "\n\n_Additional recipe changes omitted at the comment size limit._\n"
         for section in sections:
-            candidate = "\n\n".join(
-                filter(None, [membership_text, *kept, section])
-            ) + suffix
+            candidate = "\n\n".join([*kept, section]) + suffix
             if len(candidate.encode("utf-8")) > arguments.limit_bytes:
                 break
             kept.append(section)
-        content = "\n\n".join(filter(None, [membership_text, *kept])) + suffix
+        content = "\n\n".join(kept) + suffix
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(content, encoding="utf-8")
     print(f"Wrote {len(content.encode('utf-8'))} bytes to {arguments.output}")

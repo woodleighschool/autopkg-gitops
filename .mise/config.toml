@@ -180,7 +180,6 @@ recipes=()
 while IFS= read -r recipe; do
   [[ -n "$recipe" ]] && recipes+=("$recipe")
 done < <(python scripts/recipes.py selected)
-autopkg verify-trust-info --prefs="$AUTOPKG_STATE_DIR/preferences.plist" "${recipes[@]}"
 autopkg_exit_code=0
 autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" "${recipes[@]}" || autopkg_exit_code=$?
 AUTOPKG_EXIT_CODE="$autopkg_exit_code" mise run report

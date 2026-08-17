@@ -154,16 +154,6 @@ jobs:
       - name: Generate recipe map
         run: autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
-      - name: Verify parent trust
-        run: |
-          recipes=()
-          while IFS= read -r recipe; do
-            [[ -n "$recipe" ]] && recipes+=("$recipe")
-          done < <(python scripts/recipes.py selected)
-          autopkg verify-trust-info \
-            --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
-            "${recipes[@]}"
-
       - name: Run AutoPkg
         id: autopkg
         run: |

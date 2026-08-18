@@ -40,7 +40,7 @@ ParentRecipeTrustInfo:
         Dante Controller/Audinate Dante Controller.download.recipe
       sha256_hash: be15a1e3778925aae0058893fa0083e66ca97d30ce5226035f04dc2235b452e5
     com.github.woodleighschool.munki.DanteController:
-      git_hash: 7ace1559184bc3cd28cf466be4e69e1ce9d9d0be
+      git_hash: 8705a326087fa78213edf12f456c157b7af72f51
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteController/DanteController.munki.recipe.yaml
-      sha256_hash: 8963ec297b12da91c9ae1bc1fd379547fc0337df23cd9035d56f83d1dd13f21a
+      sha256_hash: c85be3361b68fb0c82da8b2f7218def5a905215d8ddd102fee7b793b94bbea8d
   scripts: {}

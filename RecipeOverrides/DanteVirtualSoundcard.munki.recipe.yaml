@@ -13,6 +13,11 @@ Input:
       audio application and any combination of Dante-enabled devices.
     developer: Audinate
     name: '%NAME%'
+    preinstall_script: |
+      #!/bin/sh
+
+      # Audinate's package suppresses installer dialogs while this marker exists.
+      /usr/bin/touch /tmp/DVS_silent_install
     unattended_install: true
     unattended_uninstall: true
     uninstall_method: uninstall_script
@@ -53,7 +58,7 @@ ParentRecipeTrustInfo:
         Dante Virtual Soundcard/Audinate Dante Virtual Soundcard.download.recipe
       sha256_hash: bdd8b8a4a04ea985487105699ecd43f78ea011ccc076e6026ea10a6b2e1092d4
     com.github.woodleighschool.munki.DanteVirtualSoundcard:
-      git_hash: 70c9afa0c98e2634c4b2ebd18adce653505746e5
+      git_hash: 2f46445d019e102d7896930e939ff92cee53f449
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteVirtualSoundcard/DanteVirtualSoundcard.munki.recipe.yaml
-      sha256_hash: 37b508e08e5541743066dbc54d547bf9e73b013ac7e5b047c9a74a0ec7cf31a5
+      sha256_hash: b06eba190d85a6e6747745f5770bc159c0ab6b460348826512f8737faaa8060e
   scripts: {}

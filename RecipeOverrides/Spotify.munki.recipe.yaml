@@ -38,9 +38,9 @@ ParentRecipeTrustInfo:
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
     com.github.autopkg.download.Spotify:
-      git_hash: fe47666ce03dbc8ad564525f27ce615e4280fd7b
+      git_hash: cd107d434d771a9f1ef8992dc3e4ce2adccabf7c
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/Spotify/Spotify.download.recipe
-      sha256_hash: 260a000965a5aa0768ab06f142cea894eedf74e1da82c72f66e9891fd474429b
+      sha256_hash: 660a35a3cea6054aa89663a333be5202bf64ab0f1bc26a06f7d75b153f830659
     com.github.woodleighschool.download.Spotify:
       git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Spotify/Spotify.download.recipe.yaml

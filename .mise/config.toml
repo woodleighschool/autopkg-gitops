@@ -1,5 +1,6 @@
 [tools]
 python = "3.14.7"
+gh = "2.97.0"
 lefthook = "2.1.10"
 actionlint = "1.7.12"
 zizmor = "1.29.0"
@@ -184,6 +185,19 @@ autopkg_exit_code=0
 autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" "${recipes[@]}" || autopkg_exit_code=$?
 AUTOPKG_EXIT_CODE="$autopkg_exit_code" mise run report
 exit "$autopkg_exit_code"
+'''
+
+[tasks.remote]
+description = "Trigger the Actions lane on main"
+usage = '''
+arg "[recipe]" help="Optional recipe name; defaults to every override"
+'''
+run = '''
+if [[ -n "${usage_recipe:-}" ]]; then
+  gh workflow run autopkg.yml --ref main --field "recipe=$usage_recipe"
+else
+  gh workflow run autopkg.yml --ref main
+fi
 '''
 
 [hooks]

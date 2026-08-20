@@ -13,7 +13,7 @@ An already-correct checkout is left alone without fetching. Renovate pull reques
 membership, refresh only affected trust, and maintain a sticky rendered-diff comment, including an
 explicit no-change result.
 
-## Local run
+## Runs
 
 Install [Mise](https://mise.jdx.dev/), then:
 
@@ -22,4 +22,5 @@ cp .env.example .env
 mise install
 mise run lint
 mise run local -- GoogleChrome
+mise run remote -- GoogleChrome
 ```

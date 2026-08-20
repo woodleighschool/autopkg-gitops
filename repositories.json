@@ -89,7 +89,7 @@
       "name": "com.github.woodleighschool.autopkg",
       "url": "https://github.com/woodleighschool/autopkg.git",
       "ref": "main",
-      "revision": "5d20f677126b7a68f7865aedc9699380fcd5da67",
+      "revision": "667b88ef5b958da65d640b80ed36fc90d352e961",
       "gitops": true
     },
     {

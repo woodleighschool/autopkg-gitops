@@ -19,10 +19,4 @@
       versioningTemplate: "loose",
     },
   ],
-  packageRules: [
-    {
-      matchManagers: ["mise"],
-      minimumReleaseAge: "12 hours",
-    },
-  ],
 }

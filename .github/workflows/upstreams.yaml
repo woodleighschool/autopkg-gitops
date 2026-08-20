@@ -3,15 +3,12 @@
 name: AutoPkg upstreams
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - repositories.json
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  workflow_call:
+    secrets:
+      BOT_APP_PRIVATE_KEY:
+        required: true
+      BOT_CLIENT_ID:
+        required: true
 
 permissions:
   contents: read
@@ -54,7 +51,7 @@ jobs:
         id: changes
         env:
           AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
         run: |
           python scripts/sources.py build \
             --base "$BASE_SHA" \
@@ -68,6 +65,7 @@ jobs:
     name: Update trust lock
     needs: filter
     if: >-
+      github.event_name == 'pull_request' &&
       needs.filter.outputs.changed == 'true' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.head_ref, 'renovate/')
@@ -313,7 +311,7 @@ jobs:
       - name: Checkout default branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
           persist-credentials: false
 
       - name: Setup AutoPkg
@@ -335,7 +333,7 @@ jobs:
         with:
           path: pull
           persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
 
       - name: Materialize recipe chains
         env:
@@ -430,6 +428,7 @@ jobs:
       - render
     if: >-
       always() &&
+      github.event_name == 'pull_request' &&
       needs.lock.outputs.changed != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -496,6 +495,7 @@ jobs:
       - comment
     if: >-
       always() &&
+      github.event_name == 'pull_request' &&
       needs.filter.result == 'success' &&
       needs.lock.result != 'failure' &&
       (needs.render.result == 'success' || needs.render.result == 'skipped') &&

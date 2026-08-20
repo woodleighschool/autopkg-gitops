@@ -1,6 +1,6 @@
 [tools]
 python = "3.14.7"
-gh = "2.97.0"
+gh = "2.98.0"
 lefthook = "2.1.10"
 actionlint = "1.7.12"
 zizmor = "1.29.0"

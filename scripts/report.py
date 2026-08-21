@@ -32,6 +32,24 @@ def scrub(value: object, secrets: list[str]) -> object:
     return value
 
 
+def secret_values() -> list[str]:
+    encrypted_keys = {
+        key.strip()
+        for key in os.environ.get("SOPS_AUTOPKG_KEYS", "").split(",")
+        if key.strip()
+    }
+    values = {
+        value
+        for key, value in os.environ.items()
+        if value
+        and (
+            key in encrypted_keys
+            or (SECRET_KEY.search(key) and len(value) >= 6)
+        )
+    }
+    return sorted(values, key=len, reverse=True)
+
+
 def load_json(path: Path) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -146,12 +164,7 @@ def main() -> int:
 
     selection = load_json(arguments.state_dir / "selection.json")
     raw_report = load_report(arguments.state_dir / "autopkg-results.plist")
-    secrets = [
-        value
-        for key, value in os.environ.items()
-        if value and SECRET_KEY.search(key) and len(value) >= 6
-    ]
-    report = scrub(raw_report, secrets)
+    report = scrub(raw_report, secret_values())
     manifest = load_manifest()
     repositories = repository_map(manifest)
     selected_repositories = selection.get("repositories", [])

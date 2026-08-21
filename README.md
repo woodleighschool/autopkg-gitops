@@ -18,9 +18,15 @@ explicit no-change result.
 Install [Mise](https://mise.jdx.dev/), then:
 
 ```bash
-cp .env.example .env
 mise install
+mise run secrets:edit
 mise run lint
 mise run local -- GoogleChrome
 mise run remote -- GoogleChrome
 ```
+
+`secrets.sops.env` is the tracked source of AutoPkg runtime inputs. Its `AUTOPKG_*` values are
+exported directly to AutoPkg for both local and trusted-main runs, and decrypted values are scrubbed
+from rendered reports. The age identity remains outside Git in `age.key`; the self-hosted runner must
+provide its identity path through `SOPS_AGE_KEY_FILE`. Updating the global encrypted file schedules
+every generated recipe.

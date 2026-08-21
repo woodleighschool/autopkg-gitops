@@ -9,6 +9,7 @@ on:
     paths:
       - RecipeOverrides/**
       - repositories.json
+      - secrets.sops.env
   workflow_dispatch:
     inputs:
       recipe:
@@ -61,9 +62,14 @@ jobs:
         run: |
           mkdir -p .autopkg-run
           if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-            python scripts/upstreams.py \
-              --base "$BASE_SHA" \
-              --output .autopkg-run/planned-recipes.txt
+            if git diff --quiet "$BASE_SHA" "$GITHUB_SHA" -- secrets.sops.env; then
+              python scripts/upstreams.py \
+                --base "$BASE_SHA" \
+                --output .autopkg-run/planned-recipes.txt
+            else
+              python scripts/recipes.py select
+              python scripts/recipes.py selected > .autopkg-run/planned-recipes.txt
+            fi
           else
             if [[ -n "$REQUESTED_RECIPE" ]]; then
               python scripts/recipes.py select "$REQUESTED_RECIPE"
@@ -95,9 +101,6 @@ jobs:
     timeout-minutes: 180
     env:
       AUTOPKG_STATE_DIR: ${{ github.workspace }}/.autopkg-run
-      AUTOPKG_WOODSTAR_URL: ${{ vars.WOODSTAR_URL }}
-      AUTOPKG_WOODSTAR_API_KEY: ${{ secrets.WOODSTAR_TOKEN }}
-      AUTOPKG_ACTIVINSPIRE_SERIAL: ${{ secrets.ACTIVINSPIRE_SERIAL }}
       AUTOPKG_FAIL_RECIPES_WITHOUT_TRUST_INFO: "1"
       PLANNED_RECIPES: ${{ needs.plan.outputs.recipes }}
     steps:
@@ -122,7 +125,7 @@ jobs:
         uses: jdx/mise-action@3c2e0cf82a5b2e5249f0d3635a4d83d0ae861518 # v4.2.5
         with:
           experimental: true
-          install_args: --locked python
+          install_args: --locked python sops age
 
       - name: Install Python dependencies
         run: mise deps install --force pip
@@ -155,26 +158,7 @@ jobs:
         run: autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
       - name: Run AutoPkg
-        id: autopkg
-        run: |
-          autopkg_exit_code=0
-          recipes=()
-          while IFS= read -r recipe; do
-            [[ -n "$recipe" ]] && recipes+=("$recipe")
-          done < <(python scripts/recipes.py selected)
-          autopkg run \
-            --quiet \
-            --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
-            --report-plist "$AUTOPKG_STATE_DIR/autopkg-results.plist" \
-            "${recipes[@]}" || autopkg_exit_code=$?
-          echo "exit_code=$autopkg_exit_code" >> "$GITHUB_OUTPUT"
-          exit "$autopkg_exit_code"
-
-      - name: Render run summary
-        if: ${{ always() }}
-        env:
-          AUTOPKG_EXIT_CODE: ${{ steps.autopkg.outputs.exit_code || '1' }}
-        run: mise run report
+        run: mise run secrets:run
 
       - name: Upload run summary
         if: ${{ always() }}

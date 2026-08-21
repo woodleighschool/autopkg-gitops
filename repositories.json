@@ -59,7 +59,7 @@
       "name": "com.github.autopkg.recipes",
       "url": "https://github.com/autopkg/recipes",
       "ref": "master",
-      "revision": "79d7e0a075a0250cdb03077ee19beed090141534"
+      "revision": "6c092b47e9c6324aa48758832b2597a0f3ff932e"
     },
     {
       "name": "com.github.autopkg.rtrouton-recipes",

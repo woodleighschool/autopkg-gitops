@@ -13,11 +13,33 @@ Input:
     developer: Woodleigh School
     name: '%NAME%'
     postinstall_script: |-
-      #!/bin/bash
-      /Applications/WoodSweep.app/Contents/MacOS/WoodSweep bootstrap \
-        --server-url "%WOODSWEEP_SERVER_URL%" \
-        --bootstrap-user "%WOODSWEEP_BOOTSTRAP_USER%" \
-        --bootstrap-password "%WOODSWEEP_BOOTSTRAP_PASSWORD%"
+      #!/bin/zsh --no-rcs
+
+      set -euo pipefail
+
+      app="/Applications/WoodSweep.app/Contents/MacOS/WoodSweep"
+      logged_in_user="$(/usr/bin/stat -f '%Su' /dev/console)"
+      if [[ -z "${logged_in_user}" || "${logged_in_user}" == "root" || "${logged_in_user}" == "loginwindow" ]]; then
+          echo "WoodSweep bootstrap requires a logged-in user." >&2
+          exit 1
+      fi
+
+      user_id="$(/usr/bin/id -u "${logged_in_user}")"
+
+      /bin/launchctl asuser "${user_id}" \
+          /usr/bin/sudo -u "${logged_in_user}" \
+          "${app}" bootstrap \
+          --server-url "%WOODSWEEP_SERVER_URL%" \
+          --bootstrap-user "%WOODSWEEP_BOOTSTRAP_USER%" \
+          --bootstrap-password "%WOODSWEEP_BOOTSTRAP_PASSWORD%"
+    preinstall_script: |-
+      #!/bin/zsh --no-rcs
+
+      logged_in_user="$(/usr/bin/stat -f '%Su' /dev/console)"
+      if [[ -z "${logged_in_user}" || "${logged_in_user}" == "root" || "${logged_in_user}" == "loginwindow" ]]; then
+          echo "WoodSweep bootstrap requires a logged-in user. Deferring installation." >&2
+          exit 1
+      fi
     unattended_install: true
     unattended_uninstall: true
     uninstall_method: remove_copied_items
@@ -43,9 +65,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.download.recipe.yaml
       sha256_hash: ef9bd5fca23149273bba88e56de7c2a4b5f98134063b1bb00817abb26d412ae5
     com.github.woodleighschool.munki.WoodSweep:
-      git_hash: a95af6e359d38a2607d8f2994f7ae42045116211
+      git_hash: a80f7dddc7d96d22fdf6dd55e1a1c2316b4d4fa8
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.munki.recipe.yaml
-      sha256_hash: 3249d06618d03c818b7e4a78755f7ef2745e6e599fc7356a6e6ddfc20f4ff877
+      sha256_hash: 7fd31d597f016d97a5f359b487eb6e5d8f324b520b91c28c38ae0e36c8c5c06d
     com.github.woodleighschool.pkg.WoodSweep:
       git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.pkg.recipe.yaml

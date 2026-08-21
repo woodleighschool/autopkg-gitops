@@ -19,4 +19,11 @@
       versioningTemplate: "loose",
     },
   ],
+  packageRules: [
+    {
+      description: "Let the recipe diff workflow own repository pin auto-merge",
+      matchFileNames: ["repositories.json"],
+      automerge: false,
+    },
+  ],
 }

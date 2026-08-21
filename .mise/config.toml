@@ -60,6 +60,14 @@ run = "shellcheck .github/actions/*/install.sh"
 description = "Run repository checks"
 depends = ["fmt-check", "validate", "workflow-lint", "shell-lint"]
 
+[tasks.test]
+description = "Run unit tests"
+run = "PYTHONPATH=scripts python -m unittest discover -s tests -v"
+
+[tasks.check]
+description = "Run repository checks and tests"
+depends = ["lint", "test"]
+
 [tasks.preflight]
 description = "Check the current runner has AutoPkg v3 and Munki"
 run = '''
@@ -94,10 +102,6 @@ pyobjc_version="$(/usr/local/autopkg/python -c 'from importlib.metadata import v
 /usr/local/autopkg/python -m pip install --user --no-deps "pyobjc-framework-QuickLookThumbnailing==$pyobjc_version"
 '''
 
-[tasks.report]
-description = "Render the sanitized AutoPkg v3 result"
-run = 'python scripts/report.py --exit-code "${AUTOPKG_EXIT_CODE:-1}"'
-
 [tasks."secrets:edit"]
 description = "Edit encrypted AutoPkg runtime inputs"
 run = "sops edit secrets.sops.env"
@@ -110,17 +114,7 @@ if [[ -z "$secret_keys" ]]; then
   echo "secrets.sops.env contains no AUTOPKG_* inputs" >&2
   exit 1
 fi
-SOPS_AUTOPKG_KEYS="$secret_keys" sops exec-env secrets.sops.env 'mise run autopkg:run'
-'''
-
-[tasks."autopkg:run"]
-hide = true
-run = '''
-autopkg_exit_code=0
-python scripts/recipes.py selected > "$AUTOPKG_STATE_DIR/selected-recipes.txt"
-autopkg run --quiet --prefs="$AUTOPKG_STATE_DIR/preferences.plist" --recipe-list="$AUTOPKG_STATE_DIR/selected-recipes.txt" --report-plist="$AUTOPKG_STATE_DIR/autopkg-results.plist" || autopkg_exit_code=$?
-AUTOPKG_EXIT_CODE="$autopkg_exit_code" mise run report
-exit "$autopkg_exit_code"
+SOPS_AUTOPKG_KEYS="$secret_keys" sops exec-env secrets.sops.env 'python scripts/run.py'
 '''
 
 [tasks."trust:create"]

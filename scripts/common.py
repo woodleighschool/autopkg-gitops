@@ -110,6 +110,24 @@ def load_overrides(
     return overrides
 
 
+def load_selection(state_dir: Path = STATE_DIR) -> dict[str, list[str]]:
+    path = state_dir / "selection.json"
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ConfigError(f"Cannot read {path}: {error}") from error
+    if not isinstance(value, dict):
+        raise ConfigError(f"{path}: selection must be an object")
+
+    selection: dict[str, list[str]] = {}
+    for key in ("recipes", "repositories"):
+        items = value.get(key)
+        if not isinstance(items, list) or not all(isinstance(item, str) for item in items):
+            raise ConfigError(f"{path}: invalid {key}")
+        selection[key] = items
+    return selection
+
+
 def expected_override_header(identifier: str) -> list[str]:
     return [
         "# Generated file. DO NOT EDIT.",

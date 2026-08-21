@@ -10,6 +10,7 @@ from common import (
     STATE_DIR,
     load_manifest,
     load_overrides,
+    load_selection,
     select_recipes,
     trust_references,
     validate_override_headers,
@@ -55,15 +56,7 @@ def write_selection(requested: list[str], state_dir: Path) -> None:
 
 
 def print_selection(state_dir: Path) -> None:
-    path = state_dir / "selection.json"
-    try:
-        selection = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
-        raise ConfigError(f"Cannot read {path}: {error}") from error
-    recipes = selection.get("recipes")
-    if not isinstance(recipes, list) or not all(isinstance(item, str) for item in recipes):
-        raise ConfigError(f"{path}: invalid recipes")
-    for recipe in recipes:
+    for recipe in load_selection(state_dir)["recipes"]:
         print(recipe)
 
 

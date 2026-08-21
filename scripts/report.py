@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
 import json
 import os
 import plistlib
@@ -9,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from common import ROOT, STATE_DIR, load_manifest, repository_map
+from common import ROOT, STATE_DIR, load_manifest, load_selection, repository_map
 
 
 SECRET_KEY = re.compile(
@@ -48,14 +47,6 @@ def secret_values() -> list[str]:
         )
     }
     return sorted(values, key=len, reverse=True)
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return value if isinstance(value, dict) else {}
 
 
 def load_report(path: Path) -> dict[str, Any]:
@@ -155,22 +146,21 @@ def render(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Render a sanitized AutoPkg v3 report")
-    parser.add_argument("--state-dir", type=Path, default=STATE_DIR)
-    parser.add_argument("--exit-code", type=int, default=int(os.environ.get("AUTOPKG_EXIT_CODE", "1")))
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "artifacts")
-    arguments = parser.parse_args()
-
-    selection = load_json(arguments.state_dir / "selection.json")
-    raw_report = load_report(arguments.state_dir / "autopkg-results.plist")
+def write_report(
+    *,
+    state_dir: Path = STATE_DIR,
+    exit_code: int,
+    output_dir: Path = ROOT / "artifacts",
+) -> None:
+    selection = load_selection(state_dir)
+    raw_report = load_report(state_dir / "autopkg-results.plist")
     report = scrub(raw_report, secret_values())
     manifest = load_manifest()
     repositories = repository_map(manifest)
     selected_repositories = selection.get("repositories", [])
     result = {
-        "exit_code": arguments.exit_code,
-        "recipes": selection.get("recipes", []),
+        "exit_code": exit_code,
+        "recipes": selection["recipes"],
         "repositories": {
             name: repositories[name]["revision"]
             for name in selected_repositories
@@ -182,18 +172,13 @@ def main() -> int:
         ),
     }
     markdown = render(result)
-    arguments.output_dir.mkdir(parents=True, exist_ok=True)
-    (arguments.output_dir / "autopkg-summary.json").write_text(
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "autopkg-summary.json").write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    (arguments.output_dir / "autopkg-summary.md").write_text(markdown, encoding="utf-8")
+    (output_dir / "autopkg-summary.md").write_text(markdown, encoding="utf-8")
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         with Path(summary_path).open("a", encoding="utf-8") as output:
             output.write(markdown)
     print(markdown, end="")
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

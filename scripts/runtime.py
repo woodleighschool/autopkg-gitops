@@ -22,6 +22,7 @@ from common import (
     STATE_DIR,
     load_manifest,
     load_overrides,
+    load_selection,
     repository_reference,
 )
 
@@ -146,20 +147,6 @@ def copy_resource(source: Path, recipe_dir: Path, bundle: Path) -> None:
         copy_file(source, destination)
 
 
-def selected_recipes(state_dir: Path) -> list[str]:
-    path = state_dir / "selection.json"
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
-        raise ConfigError(f"Cannot read {path}: {error}") from error
-    recipes = value.get("recipes")
-    if not isinstance(recipes, list) or not recipes or not all(
-        isinstance(recipe, str) for recipe in recipes
-    ):
-        raise ConfigError(f"{path}: invalid recipes")
-    return recipes
-
-
 def parent_recipe_paths(
     override_path: Path,
     override: Mapping[str, Any],
@@ -194,7 +181,9 @@ def prepare(
 ) -> None:
     manifest = load_manifest(manifest_path)
     overrides = load_overrides(override_dir)
-    selected = selected_recipes(state_dir)
+    selected = load_selection(state_dir)["recipes"]
+    if not selected:
+        raise ConfigError(f"{state_dir / 'selection.json'}: no recipes selected")
     runtime_root = state_dir / "overrides"
     runtime_root.mkdir(parents=True, exist_ok=True)
     prepared: list[str] = []

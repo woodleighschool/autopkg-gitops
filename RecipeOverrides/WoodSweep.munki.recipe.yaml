@@ -12,6 +12,12 @@ Input:
       Office user state, and reconciles the account home after the snapshot succeeds.
     developer: Woodleigh School
     name: '%NAME%'
+    postinstall_script: |-
+      #!/bin/bash
+      /Applications/WoodSweep.app/Contents/MacOS/WoodSweep bootstrap \
+        --server-url "%WOODSWEEP_SERVER_URL%" \
+        --bootstrap-user "%WOODSWEEP_BOOTSTRAP_USER%" \
+        --bootstrap-password "%WOODSWEEP_BOOTSTRAP_PASSWORD%"
     unattended_install: true
     unattended_uninstall: true
     uninstall_method: remove_copied_items
@@ -37,9 +43,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.download.recipe.yaml
       sha256_hash: ef9bd5fca23149273bba88e56de7c2a4b5f98134063b1bb00817abb26d412ae5
     com.github.woodleighschool.munki.WoodSweep:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: a95af6e359d38a2607d8f2994f7ae42045116211
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.munki.recipe.yaml
-      sha256_hash: 4359a6b3fa53323211da5e3872d56589f9cff7d620d03137ec718d9c3ce528c9
+      sha256_hash: 3249d06618d03c818b7e4a78755f7ef2745e6e599fc7356a6e6ddfc20f4ff877
     com.github.woodleighschool.pkg.WoodSweep:
       git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.pkg.recipe.yaml

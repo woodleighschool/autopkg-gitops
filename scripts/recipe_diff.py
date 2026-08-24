@@ -34,11 +34,13 @@ def read_processors(path: Path) -> dict[str, list[dict[str, str]]]:
     return processors
 
 
-def read_resources(path: Path) -> dict[str, list[dict[str, str]]]:
+def read_file_changes(
+    path: Path, description: str
+) -> dict[str, list[dict[str, str]]]:
     value: Any = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, list):
         raise ValueError(f"{path}: expected an array")
-    resources: dict[str, list[dict[str, str]]] = defaultdict(list)
+    changes: dict[str, list[dict[str, str]]] = defaultdict(list)
     required = {"recipe", "path", "url"}
     for item in value:
         if (
@@ -46,9 +48,9 @@ def read_resources(path: Path) -> dict[str, list[dict[str, str]]]:
             or set(item) != required
             or not all(isinstance(item[key], str) for key in required)
         ):
-            raise ValueError(f"{path}: invalid changed resource entry")
-        resources[item["recipe"]].append(item)
-    return resources
+            raise ValueError(f"{path}: invalid changed {description} entry")
+        changes[item["recipe"]].append(item)
+    return changes
 
 
 def read_added(path: Path) -> dict[str, str]:
@@ -72,6 +74,7 @@ def recipe_section(
     identifier: str,
     base: str,
     head: str,
+    recipe_files: list[dict[str, str]],
     processors: list[dict[str, str]],
     resources: list[dict[str, str]],
     membership: str | None,
@@ -85,28 +88,38 @@ def recipe_section(
             n=6,
         )
     )
-    if not patch and not processors and not resources and membership is None:
+    if (
+        not patch
+        and not recipe_files
+        and not processors
+        and not resources
+        and membership is None
+    ):
         return None
 
     label = f" ({membership})" if membership else ""
     lines = [f"### `{identifier}`{label}", ""]
     if patch:
         lines.extend(["```diff", patch.rstrip(), "```"])
-    if processors:
+    linked_files = bool((not patch and recipe_files) or processors or resources)
+    if linked_files:
         if patch:
             lines.append("")
-        lines.extend(["Changed processors:", ""])
+        lines.extend(["Changed upstream files:", ""])
+        if not patch:
+            for recipe_file in recipe_files:
+                lines.append(
+                    f"- Recipe [`{recipe_file['path']}`]({recipe_file['url']})"
+                )
         for processor in processors:
             lines.append(
-                f"- [`{processor['processor']}`]({processor['url']}) "
+                f"- Processor [`{processor['processor']}`]({processor['url']}) "
                 f"(`{processor['path']}`)"
             )
-    if resources:
-        if patch or processors:
-            lines.append("")
-        lines.extend(["Changed recipe resources:", ""])
         for resource in resources:
-            lines.append(f"- [`{resource['path']}`]({resource['url']})")
+            lines.append(
+                f"- Imported resource [`{resource['path']}`]({resource['url']})"
+            )
     return "\n".join(lines)
 
 
@@ -115,6 +128,7 @@ def main() -> int:
     parser.add_argument("--base-dir", type=Path, required=True)
     parser.add_argument("--head-dir", type=Path, required=True)
     parser.add_argument("--recipes", type=Path, required=True)
+    parser.add_argument("--recipe-files", type=Path, required=True)
     parser.add_argument("--processors", type=Path, required=True)
     parser.add_argument("--resources", type=Path, required=True)
     parser.add_argument("--added", type=Path, required=True)
@@ -124,12 +138,15 @@ def main() -> int:
     arguments = parser.parse_args()
 
     processors = read_processors(arguments.processors)
-    resources = read_resources(arguments.resources)
+    recipe_files = read_file_changes(arguments.recipe_files, "recipe file")
+    resources = read_file_changes(arguments.resources, "resource")
     added = read_added(arguments.added)
     removed = read_removed(arguments.removed)
     recipes = read_recipes(arguments.recipes)
     recipe_set = set(recipes)
-    related = set(processors) | set(resources) | set(added) | set(removed)
+    related = (
+        set(recipe_files) | set(processors) | set(resources) | set(added) | set(removed)
+    )
     if unknown := sorted(related - recipe_set):
         raise ValueError(
             "change metadata references recipes outside the affected set: "
@@ -151,6 +168,7 @@ def main() -> int:
             identifier,
             base,
             head,
+            recipe_files.get(identifier, []),
             processors.get(identifier, []),
             resources.get(identifier, []),
             membership,
@@ -161,7 +179,7 @@ def main() -> int:
     content = (
         "\n\n".join(sections) + "\n"
         if sections
-        else "_No effective recipe chain changes._\n"
+        else "_No review-required recipe changes._\n"
     )
     if len(content.encode("utf-8")) > arguments.limit_bytes:
         kept: list[str] = []

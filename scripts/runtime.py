@@ -74,6 +74,30 @@ def substitute(value: str, inputs: Mapping[str, Any]) -> str:
     return resolved
 
 
+def normalized_resource_pattern(
+    value: str,
+    inputs: Mapping[str, Any],
+    *,
+    marker_required: bool,
+) -> str | None:
+    resolved = substitute(value, inputs)
+    marker = "%RECIPE_DIR%/"
+    if marker not in resolved:
+        if marker_required:
+            return None
+        relative = resolved
+    else:
+        if not resolved.startswith(marker):
+            raise ConfigError(f"Unsupported embedded %RECIPE_DIR% path: {resolved}")
+        relative = resolved.removeprefix(marker)
+    if VARIABLE.search(relative):
+        raise ConfigError(f"Cannot resolve recipe resource path: {resolved}")
+    relative_path = Path(relative)
+    if relative_path.is_absolute() or ".." in relative_path.parts:
+        raise ConfigError(f"Recipe resource escapes its directory: {resolved}")
+    return relative
+
+
 def resource_patterns(recipe: Mapping[str, Any], inputs: Mapping[str, Any]) -> set[str]:
     recipe_inputs = recipe.get("Input", {})
     if not isinstance(recipe_inputs, Mapping):
@@ -83,19 +107,34 @@ def resource_patterns(recipe: Mapping[str, Any], inputs: Mapping[str, Any]) -> s
     for value in nested_strings(
         {"Input": recipe_inputs, "Process": recipe.get("Process", [])}
     ):
-        resolved = substitute(value, resolved_inputs)
-        marker = "%RECIPE_DIR%/"
-        if marker not in resolved:
+        pattern = normalized_resource_pattern(
+            value,
+            resolved_inputs,
+            marker_required=True,
+        )
+        if pattern is not None:
+            patterns.add(pattern)
+
+    process = recipe.get("Process", [])
+    if not isinstance(process, list):
+        raise ConfigError("Recipe Process must be a list")
+    for step in process:
+        if not isinstance(step, Mapping) or step.get("Processor") != "PkgCreator":
             continue
-        if not resolved.startswith(marker):
-            raise ConfigError(f"Unsupported embedded %RECIPE_DIR% path: {resolved}")
-        relative = resolved.removeprefix(marker)
-        if VARIABLE.search(relative):
-            raise ConfigError(f"Cannot resolve recipe resource path: {resolved}")
-        relative_path = Path(relative)
-        if relative_path.is_absolute() or ".." in relative_path.parts:
-            raise ConfigError(f"Recipe resource escapes its directory: {resolved}")
-        patterns.add(relative)
+        arguments = step.get("Arguments", {})
+        request = arguments.get("pkg_request", {}) if isinstance(arguments, Mapping) else {}
+        scripts = request.get("scripts") if isinstance(request, Mapping) else None
+        if scripts in (None, ""):
+            continue
+        if not isinstance(scripts, str):
+            raise ConfigError("PkgCreator scripts must be a string")
+        pattern = normalized_resource_pattern(
+            scripts,
+            resolved_inputs,
+            marker_required=False,
+        )
+        if pattern:
+            patterns.add(pattern)
     return patterns
 
 

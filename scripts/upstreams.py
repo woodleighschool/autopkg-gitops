@@ -21,7 +21,6 @@ from common import (
     NAME_PATTERN,
     REPO_ROOT,
     ROOT,
-    iter_trust_paths,
     load_manifest,
     load_overrides,
     repository_map,
@@ -80,7 +79,7 @@ def overrides_at(revision: str) -> dict[str, tuple[Path, Mapping[str, Any]]]:
     return overrides
 
 
-def references_by_recipe(
+def parent_recipe_references_by_recipe(
     overrides: Mapping[str, tuple[Path, Mapping[str, Any]]],
     repositories: list[dict[str, str]],
 ) -> dict[str, dict[str, set[str]]]:
@@ -89,15 +88,21 @@ def references_by_recipe(
         trust = recipe.get("ParentRecipeTrustInfo")
         if not isinstance(trust, Mapping):
             raise ConfigError(f"{path}: missing ParentRecipeTrustInfo")
+        entries = trust.get("parent_recipes")
+        if not isinstance(entries, Mapping):
+            raise ConfigError(f"{path}: parent_recipes must be a mapping")
         recipe_references: dict[str, set[str]] = {}
-        for trust_path in iter_trust_paths(trust):
+        for entry, details in entries.items():
+            trust_path = details.get("path") if isinstance(details, Mapping) else None
+            if not isinstance(entry, str) or not isinstance(trust_path, str):
+                raise ConfigError(f"{path}: invalid parent recipe trust entry")
             reference = repository_reference(trust_path, repositories)
             if reference is None:
                 raise ConfigError(
                     f"{path}: cannot map trusted path to repositories.json: {trust_path}"
                 )
-            name, relative = reference
-            recipe_references.setdefault(name, set()).add(relative)
+            repository_name, relative = reference
+            recipe_references.setdefault(repository_name, set()).add(relative)
         references[identifier] = recipe_references
     return references
 
@@ -289,7 +294,7 @@ def affected_recipes(
     list[str],
     list[str],
     list[str],
-    list[str],
+    list[dict[str, str]],
     list[dict[str, str]],
     list[dict[str, str]],
     dict[str, str],
@@ -300,15 +305,17 @@ def affected_recipes(
     previous_repositories = repository_map(previous_manifest)
     current_repositories = repository_map(current_manifest)
     previous_overrides = overrides_at(base)
-    previous_references = references_by_recipe(
-        previous_overrides, previous_manifest["repositories"]
+    previous_recipes = parent_recipe_references_by_recipe(
+        previous_overrides,
+        previous_manifest["repositories"],
     )
     previous_processors = processor_references_by_recipe(
         previous_overrides, previous_manifest["repositories"]
     )
     current_overrides = load_overrides()
-    current_references = references_by_recipe(
-        current_overrides, current_manifest["repositories"]
+    current_recipes = parent_recipe_references_by_recipe(
+        current_overrides,
+        current_manifest["repositories"],
     )
     current_processors = processor_references_by_recipe(
         current_overrides, current_manifest["repositories"]
@@ -326,6 +333,7 @@ def affected_recipes(
         if identifier not in previous_overrides
         or previous_overrides[identifier][1] != override
     }
+    changed_recipe_files: set[tuple[str, str, str]] = set()
     changed_processors: set[tuple[str, str, str, str]] = set()
     changed_resources: set[tuple[str, str, str]] = set()
     for name in changed_names:
@@ -335,9 +343,8 @@ def affected_recipes(
         checkout = ensure_checkout(current, repo_root)
         matching = 0
         for identifier in current_overrides:
-            trusted_paths = set()
-            trusted_paths.update(previous_references.get(identifier, {}).get(name, set()))
-            trusted_paths.update(current_references.get(identifier, {}).get(name, set()))
+            recipe_paths = set(previous_recipes.get(identifier, {}).get(name, set()))
+            recipe_paths.update(current_recipes.get(identifier, {}).get(name, set()))
             resource_paths: set[str] = set()
             current_override = current_overrides.get(identifier)
             if current_override is not None:
@@ -361,10 +368,27 @@ def affected_recipes(
                         checkout,
                     )
                 )
-            referenced_paths = trusted_paths | resource_paths
+            processor_paths: dict[str, set[str]] = {}
+            for recipe_processors in (previous_processors, current_processors):
+                for processor_path, processors in (
+                    recipe_processors.get(identifier, {}).get(name, {}).items()
+                ):
+                    processor_paths.setdefault(processor_path, set()).update(processors)
+            referenced_paths = recipe_paths | set(processor_paths) | resource_paths
             if referenced_paths and (paths is None or referenced_paths & paths):
                 affected.add(identifier)
                 matching += 1
+
+                for recipe_path in sorted(recipe_paths):
+                    if paths is not None and recipe_path not in paths:
+                        continue
+                    changed_recipe_files.add(
+                        (
+                            identifier,
+                            recipe_path,
+                            file_diff_url(previous, current, recipe_path),
+                        )
+                    )
 
                 for resource_path in sorted(resource_paths):
                     if paths is not None and resource_path not in paths:
@@ -377,12 +401,6 @@ def affected_recipes(
                         )
                     )
 
-                processor_paths: dict[str, set[str]] = {}
-                for recipe_processors in (previous_processors, current_processors):
-                    for processor_path, processors in (
-                        recipe_processors.get(identifier, {}).get(name, {}).items()
-                    ):
-                        processor_paths.setdefault(processor_path, set()).update(processors)
                 for processor_path, processors in processor_paths.items():
                     if paths is not None and processor_path not in paths:
                         continue
@@ -406,6 +424,10 @@ def affected_recipes(
         {"recipe": recipe, "path": path, "url": url}
         for recipe, path, url in sorted(changed_resources)
     ]
+    recipe_files = [
+        {"recipe": recipe, "path": path, "url": url}
+        for recipe, path, url in sorted(changed_recipe_files)
+    ]
     affected.update(added_recipes)
     affected.update(removed_recipes)
     recipes = sorted(affected)
@@ -415,7 +437,7 @@ def affected_recipes(
         recipes,
         base_recipes,
         head_recipes,
-        changed_names,
+        recipe_files,
         processors,
         resources,
         dict(added_recipes),
@@ -427,7 +449,7 @@ def write_github_output(
     recipes: list[str],
     base_recipes: list[str],
     head_recipes: list[str],
-    repositories: list[str],
+    recipe_files: list[dict[str, str]],
     processors: list[dict[str, str]],
     resources: list[dict[str, str]],
     added: Mapping[str, str],
@@ -437,8 +459,8 @@ def write_github_output(
     if not output_path:
         raise ConfigError("GITHUB_OUTPUT is not set")
     with Path(output_path).open("a", encoding="utf-8") as output:
-        output.write(f"changed={'true' if recipes else 'false'}\n")
-        output.write(f"repositories={json.dumps(repositories, separators=(',', ':'))}\n")
+        output.write(f"review_required={'true' if recipes else 'false'}\n")
+        output.write(f"recipe_files={json.dumps(recipe_files, separators=(',', ':'))}\n")
         output.write(f"processors={json.dumps(processors, separators=(',', ':'))}\n")
         output.write(f"resources={json.dumps(resources, separators=(',', ':'))}\n")
         output.write(f"added={json.dumps(added, separators=(',', ':'))}\n")
@@ -476,7 +498,7 @@ def main() -> int:
             recipes,
             base_recipes,
             head_recipes,
-            repositories,
+            recipe_files,
             processors,
             resources,
             added,
@@ -498,13 +520,13 @@ def main() -> int:
                 recipes,
                 base_recipes,
                 head_recipes,
-                repositories,
+                recipe_files,
                 processors,
                 resources,
                 added,
                 removed,
             )
-        print(f"Selected {len(recipes)} affected overrides")
+        print(f"Selected {len(recipes)} review-required overrides")
     except ConfigError as error:
         parser.error(str(error))
     return 0

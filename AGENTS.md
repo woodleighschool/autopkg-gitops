@@ -13,8 +13,12 @@ This repository turns explicitly declared AutoPkg recipes into pinned, reviewabl
 
 Renovate updates all repository pins. A source-pin pull request reconciles added, changed, and removed
 recipe declarations, refreshes generated trust, and receives a sticky rendered-diff comment even
-when no effective recipe changed. Repository pins and generated overrides remain review-owned and
-are never automatically merged by this repository.
+when no review-required recipe input changed. A pin requires review when it changes recipe
+membership or content, a processor used by a selected recipe, or a resource imported by a selected
+recipe. Imported resources include relative `PkgCreator` script directories and `%RECIPE_DIR%`
+file, directory, or glob references. Recipe changes are rendered as diffs; processor and
+imported-resource changes link to their upstream diffs. Only pins outside that execution closure
+may auto-merge.
 
 Do not deploy or execute source absent from the pinned revision, bypass the consistency check, edit a
 generated override, or invent another promotion mechanism. Actual recipe execution belongs only to

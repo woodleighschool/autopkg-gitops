@@ -10,8 +10,12 @@
 - Parent trust paths determine which pinned repositories each selected recipe owns. A single-recipe run syncs only that closure.
 
 An already-correct checkout is left alone without fetching. Renovate pull requests reconcile recipe
-membership, refresh only affected trust, and maintain a sticky rendered-diff comment, including an
-explicit no-change result.
+membership and refresh only affected trust. A source pin requires review when it changes a selected
+recipe, a processor used by that recipe, or a file imported by that recipe. Imported files include
+relative `PkgCreator` script directories and `%RECIPE_DIR%` file, directory, or glob references.
+Recipe changes are rendered as diffs; processor and imported-resource changes link directly to
+their upstream diffs. A pin with none of those changes receives an explicit no-review result and
+may auto-merge.
 
 ## Runs
 

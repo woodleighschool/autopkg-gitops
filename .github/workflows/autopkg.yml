@@ -113,7 +113,7 @@ jobs:
         if: ${{ runner.environment == 'github-hosted' }}
         uses: ./.github/actions/setup-munki
         with:
-          version: "7.2.0" # renovate: datasource=github-releases depName=munki/munki
+          version: "7.3.0" # renovate: datasource=github-releases depName=munki/munki
 
       - name: Setup AutoPkg
         if: ${{ runner.environment == 'github-hosted' }}

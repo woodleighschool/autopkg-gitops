@@ -139,6 +139,34 @@ def processor_references_by_recipe(
     return references
 
 
+def trusted_script_resources(
+    override: Mapping[str, Any],
+    repository_name: str,
+    repositories: list[dict[str, str]],
+) -> set[str]:
+    trust = override.get("ParentRecipeTrustInfo")
+    if not isinstance(trust, Mapping):
+        return set()
+    scripts = trust.get("scripts", {})
+    if not isinstance(scripts, Mapping):
+        raise ConfigError("ParentRecipeTrustInfo scripts must be a mapping")
+
+    resources: set[str] = set()
+    for script, details in scripts.items():
+        trust_path = details.get("path") if isinstance(details, Mapping) else None
+        if not isinstance(script, str) or not isinstance(trust_path, str):
+            raise ConfigError("Invalid PkgCreator script trust entry")
+        reference = repository_reference(trust_path, repositories)
+        if reference is None:
+            raise ConfigError(
+                f"Cannot map trusted script path to repositories.json: {trust_path}"
+            )
+        name, relative = reference
+        if name == repository_name:
+            resources.add(relative)
+    return resources
+
+
 def file_diff_url(
     previous: dict[str, str] | None, current: dict[str, str], path: str
 ) -> str:
@@ -253,7 +281,7 @@ def recipe_resources(
     if not isinstance(inputs, Mapping):
         return set()
 
-    resources: set[str] = set()
+    resources = trusted_script_resources(override, repository_name, repositories)
     for details in parents.values():
         trust_path = details.get("path") if isinstance(details, Mapping) else None
         if not isinstance(trust_path, str):

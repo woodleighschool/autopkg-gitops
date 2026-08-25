@@ -126,6 +126,37 @@ class ReviewClassificationTests(unittest.TestCase):
         self.assertEqual(resources, [])
 
 
+class RecipeResourceTests(unittest.TestCase):
+    def test_trusted_pkgcreator_script_is_an_imported_resource(self) -> None:
+        repository = {
+            "name": "example",
+            "url": "https://github.com/example/recipes.git",
+            "ref": "main",
+            "revision": "current",
+        }
+        override = {
+            "Input": {},
+            "ParentRecipeTrustInfo": {
+                "parent_recipes": {},
+                "scripts": {
+                    "Scripts/postinstall": {
+                        "path": "~/Library/AutoPkg/RecipeRepos/example/Example/Scripts/postinstall"
+                    }
+                },
+            },
+        }
+
+        resources = upstreams.recipe_resources(
+            override,
+            "example",
+            repository,
+            [repository],
+            Path("checkout"),
+        )
+
+        self.assertEqual(resources, {"Example/Scripts/postinstall"})
+
+
 class GitHubOutputTests(unittest.TestCase):
     def test_review_required_is_the_authoritative_boolean(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -176,6 +207,22 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertIn("gh pr merge", freeze)
         self.assertIn("--disable-auto", freeze)
         self.assertIn("needs.freeze.result == 'success'", lock)
+
+
+class AutoPkgWorkflowContractTests(unittest.TestCase):
+    def test_summary_upload_requires_an_attempted_autopkg_run(self) -> None:
+        workflow = (
+            Path(__file__).parents[1] / ".github/workflows/autopkg.yml"
+        ).read_text(encoding="utf-8")
+        run_step = workflow.split("      - name: Run AutoPkg\n", 1)[1].split(
+            "      - name: Upload run summary\n", 1
+        )[0]
+        upload_step = workflow.split("      - name: Upload run summary\n", 1)[1]
+
+        self.assertIn("        id: autopkg\n", run_step)
+        self.assertIn("steps.autopkg.outcome == 'success'", upload_step)
+        self.assertIn("steps.autopkg.outcome == 'failure'", upload_step)
+        self.assertIn("if-no-files-found: error", upload_step)
 
 
 if __name__ == "__main__":

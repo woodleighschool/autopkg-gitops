@@ -114,27 +114,6 @@ def resource_patterns(recipe: Mapping[str, Any], inputs: Mapping[str, Any]) -> s
         )
         if pattern is not None:
             patterns.add(pattern)
-
-    process = recipe.get("Process", [])
-    if not isinstance(process, list):
-        raise ConfigError("Recipe Process must be a list")
-    for step in process:
-        if not isinstance(step, Mapping) or step.get("Processor") != "PkgCreator":
-            continue
-        arguments = step.get("Arguments", {})
-        request = arguments.get("pkg_request", {}) if isinstance(arguments, Mapping) else {}
-        scripts = request.get("scripts") if isinstance(request, Mapping) else None
-        if scripts in (None, ""):
-            continue
-        if not isinstance(scripts, str):
-            raise ConfigError("PkgCreator scripts must be a string")
-        pattern = normalized_resource_pattern(
-            scripts,
-            resolved_inputs,
-            marker_required=False,
-        )
-        if pattern:
-            patterns.add(pattern)
     return patterns
 
 

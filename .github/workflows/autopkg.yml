@@ -158,10 +158,14 @@ jobs:
         run: autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 
       - name: Run AutoPkg
+        id: autopkg
         run: mise run secrets:run
 
       - name: Upload run summary
-        if: ${{ always() }}
+        if: >-
+          always() &&
+          (steps.autopkg.outcome == 'success' ||
+          steps.autopkg.outcome == 'failure')
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: autopkg-summary-${{ github.run_id }}

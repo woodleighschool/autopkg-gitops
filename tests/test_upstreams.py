@@ -181,32 +181,14 @@ class GitHubOutputTests(unittest.TestCase):
 
 
 class WorkflowContractTests(unittest.TestCase):
-    def setUp(self) -> None:
+    def test_workflow_does_not_manage_pull_request_merges(self) -> None:
         workflow = (
             Path(__file__).parents[1] / ".github/workflows/upstreams.yaml"
         ).read_text(encoding="utf-8")
-        self.workflow = workflow
-        self.automerge = workflow.split("\n  automerge:\n", 1)[1]
 
-    def test_automerge_consumes_review_classification_directly(self) -> None:
-        self.assertIn(
-            "needs.filter.outputs.review_required != 'true'",
-            self.automerge,
-        )
-        self.assertNotIn("Check generated override changes", self.automerge)
-        self.assertNotIn("RecipeOverrides", self.automerge)
-        self.assertIn('--match-head-commit "$HEAD_SHA"', self.automerge)
-
-    def test_review_required_head_disables_existing_automerge_before_locking(self) -> None:
-        freeze = self.workflow.split("\n  freeze:\n", 1)[1].split("\n  lock:\n", 1)[0]
-        lock = self.workflow.split("\n  lock:\n", 1)[1].split(
-            "\n  publish-lock:\n", 1
-        )[0]
-
-        self.assertIn("needs.filter.outputs.review_required == 'true'", freeze)
-        self.assertIn("gh pr merge", freeze)
-        self.assertIn("--disable-auto", freeze)
-        self.assertIn("needs.freeze.result == 'success'", lock)
+        self.assertNotIn("\n  automerge:\n", workflow)
+        self.assertNotIn("\n  freeze:\n", workflow)
+        self.assertNotIn("gh pr merge", workflow)
 
 
 class AutoPkgWorkflowContractTests(unittest.TestCase):

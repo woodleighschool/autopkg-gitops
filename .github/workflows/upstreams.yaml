@@ -62,61 +62,12 @@ jobs:
             --sources .autopkg-run/sources.json \
             --github-output
 
-  freeze:
-    name: Freeze review-required source pin
+  lock:
+    name: Update trust lock
     needs: filter
     if: >-
       github.event_name == 'pull_request' &&
       needs.filter.outputs.review_required == 'true' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.head_ref, 'renovate/')
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      contents: read
-    steps:
-      - name: Generate auto-merge token
-        id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ secrets.BOT_CLIENT_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
-          permission-contents: write
-          permission-pull-requests: write
-
-      - name: Disable auto-merge
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          state="$(
-            gh pr view "$PR_NUMBER" \
-              --repo "$GITHUB_REPOSITORY" \
-              --json headRefOid,autoMergeRequest \
-              --jq '[.headRefOid, (.autoMergeRequest != null)] | @tsv'
-          )"
-          IFS=$'\t' read -r current_head enabled <<< "$state"
-          [[ "$current_head" == "$HEAD_SHA" ]]
-          if [[ "$enabled" == "true" ]]; then
-            gh pr merge "$PR_NUMBER" \
-              --repo "$GITHUB_REPOSITORY" \
-              --disable-auto
-          fi
-
-  lock:
-    name: Update trust lock
-    needs:
-      - filter
-      - freeze
-    if: >-
-      always() &&
-      github.event_name == 'pull_request' &&
-      needs.filter.result == 'success' &&
-      needs.filter.outputs.review_required == 'true' &&
-      needs.freeze.result == 'success' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.head_ref, 'renovate/')
     runs-on: macos-26
@@ -538,44 +489,3 @@ jobs:
           header: autopkg/recipe-chain
           path: artifacts/recipe-changes.md
           skip_unchanged: true
-
-  automerge:
-    name: Auto-merge review-free source pin
-    needs:
-      - filter
-      - comment
-    if: >-
-      always() &&
-      github.event_name == 'pull_request' &&
-      needs.filter.result == 'success' &&
-      needs.filter.outputs.review_required != 'true' &&
-      needs.comment.result == 'success' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.head_ref, 'renovate/')
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      contents: read
-    steps:
-      - name: Generate auto-merge token
-        id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ secrets.BOT_CLIENT_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
-          permission-contents: write
-          permission-pull-requests: write
-
-      - name: Enable auto-merge
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: >-
-          gh pr merge "$PR_NUMBER"
-          --repo "$GITHUB_REPOSITORY"
-          --match-head-commit "$HEAD_SHA"
-          --auto
-          --squash

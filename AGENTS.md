@@ -17,8 +17,8 @@ when no review-required recipe input changed. A pin requires review when it chan
 membership or content, a processor used by a selected recipe, or a resource imported by a selected
 recipe. Imported resources include relative `PkgCreator` script directories and `%RECIPE_DIR%`
 file, directory, or glob references. Recipe changes are rendered as diffs; processor and
-imported-resource changes link to their upstream diffs. Only pins outside that execution closure
-may auto-merge.
+imported-resource changes link to their upstream diffs. Repository pins and generated overrides
+remain review-owned and are never automatically merged by this repository.
 
 Do not deploy or execute source absent from the pinned revision, bypass the consistency check, edit a
 generated override, or invent another promotion mechanism. Actual recipe execution belongs only to

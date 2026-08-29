@@ -29,35 +29,31 @@ hide = true
 run = "python scripts/mark_overrides.py"
 
 [tasks.format]
-description = "Format configuration and mark generated overrides"
+description = "Format YAML, JSON, and Markdown"
 depends = ["overrides:mark"]
 run = "oxfmt . '!RecipeOverrides/**' '!.mise/**'"
 
 [tasks.fmt-check]
-description = "Check formatting and generated override headers"
+description = "Check YAML, JSON, and Markdown formatting"
 run = [
   "python scripts/mark_overrides.py --check",
   "oxfmt --check . '!RecipeOverrides/**' '!.mise/**'",
 ]
 
 [tasks.validate]
-description = "Validate recipe overrides and repository ownership"
+description = "Validate recipe overrides and repository pins"
 run = "python scripts/recipes.py validate"
-
-[tasks."sources:check"]
-description = "Check declared GitOps recipes have generated overrides"
-run = "python scripts/sources.py check"
 
 [tasks.workflow-lint]
 description = "Lint GitHub Actions workflows"
 run = ["actionlint", "zizmor --offline --no-ignores .github/workflows"]
 
 [tasks.shell-lint]
-description = "Lint composite action installers"
+description = "Lint action installers"
 run = "shellcheck .github/actions/*/install.sh"
 
 [tasks.lint]
-description = "Run repository checks"
+description = "Run static checks"
 depends = ["fmt-check", "validate", "workflow-lint", "shell-lint"]
 
 [tasks.test]
@@ -65,11 +61,11 @@ description = "Run unit tests"
 run = "PYTHONPATH=scripts python -m unittest discover -s tests -v"
 
 [tasks.check]
-description = "Run repository checks and tests"
+description = "Run static checks and tests"
 depends = ["lint", "test"]
 
 [tasks.preflight]
-description = "Check the current runner has AutoPkg v3 and Munki"
+description = "Check AutoPkg and Munki"
 run = '''
 version="$(autopkg version)"
 if [[ "$version" != 3.* ]]; then
@@ -80,30 +76,26 @@ test -x /usr/local/munki/makepkginfo
 '''
 
 [tasks."recipes:select"]
-description = "Resolve recipes and their repository closure"
+description = "Select recipes"
 run = "python scripts/recipes.py select"
 
 [tasks."repos:sync"]
-description = "Materialize only repositories used by the selected recipes"
+description = "Sync pinned revisions"
 run = "python scripts/repositories.py"
 
-[tasks."runtime:prepare"]
-description = "Prepare selected overrides with their pinned recipe resources"
-run = "python scripts/runtime.py"
-
 [tasks."autopkg:preferences"]
-description = "Write ephemeral AutoPkg preferences for the selected repositories"
+description = "Write preferences"
 run = "python scripts/preferences.py"
 
 [tasks."autopkg:deps"]
-description = "Install the Python framework used by the local icon processor"
+description = "Install the icon processor dependency"
 run = '''
 pyobjc_version="$(/usr/local/autopkg/python -c 'from importlib.metadata import version; print(version("pyobjc-core"))')"
 /usr/local/autopkg/python -m pip install --user --no-deps "pyobjc-framework-QuickLookThumbnailing==$pyobjc_version"
 '''
 
 [tasks."secrets:edit"]
-description = "Edit encrypted AutoPkg runtime inputs"
+description = "Edit encrypted inputs"
 run = "sops edit secrets.sops.env"
 
 [tasks."secrets:run"]
@@ -118,72 +110,74 @@ SOPS_AUTOPKG_KEYS="$secret_keys" sops exec-env secrets.sops.env 'python scripts/
 '''
 
 [tasks."trust:create"]
-description = "Create a generated override from a Munki recipe"
+description = "Create an override"
 usage = '''
 arg "<recipe>" help="Source recipe identifier"
 '''
 run = '''
-mkdir -p "$AUTOPKG_STATE_DIR"
-python scripts/repositories.py --all
-python scripts/preferences.py \
-  --all-repositories \
-  --override-dir "$PWD/RecipeOverrides"
-autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
+mise run trust:prepare
 autopkg make-override \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
   --format=yaml \
   --override-dir="$PWD/RecipeOverrides" \
   "${usage_recipe?}"
 mise run overrides:mark
+echo "Remove inherited Input values you do not want to override."
 '''
 
 [tasks."trust:update"]
-description = "Regenerate one override from its pinned recipe chain"
+description = "Refresh trust info"
 usage = '''
-arg "<recipe>" help="Generated override identifier"
+arg "<recipe>" help="Override identifier"
 '''
 run = '''
 mise run trust:prepare
-source_recipe="$(python scripts/recipes.py parents "${usage_recipe?}")"
-autopkg make-override \
+autopkg update-trust-info \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
-  --force \
-  --format=yaml \
   --override-dir="$PWD/RecipeOverrides" \
-  "$source_recipe"
+  "${usage_recipe?}"
 mise run overrides:mark
 '''
 
 [tasks."trust:update-all"]
-description = "Regenerate every override from its pinned recipe chain"
+description = "Refresh all trust info"
 run = '''
 mise run trust:prepare
-python scripts/recipes.py parents > "$AUTOPKG_STATE_DIR/parent-recipes.txt"
-while IFS= read -r source_recipe; do
-  autopkg make-override \
-    --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
-    --force \
-    --format=yaml \
-    --override-dir="$PWD/RecipeOverrides" \
-    "$source_recipe"
-done < "$AUTOPKG_STATE_DIR/parent-recipes.txt"
+python scripts/recipes.py list > "$AUTOPKG_STATE_DIR/overrides.txt"
+overrides=()
+while IFS= read -r override; do
+  [[ -n "$override" ]] && overrides+=("$override")
+done < "$AUTOPKG_STATE_DIR/overrides.txt"
+autopkg update-trust-info \
+  --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+  --override-dir="$PWD/RecipeOverrides" \
+  "${overrides[@]}"
 mise run overrides:mark
+'''
+
+[tasks."trust:verify"]
+description = "Show trust differences"
+run = '''
+mise run trust:prepare
+python scripts/recipes.py list > "$AUTOPKG_STATE_DIR/overrides.txt"
+autopkg verify-trust-info -vv \
+  --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
+  --override-dir="$PWD/RecipeOverrides" \
+  --recipe-list="$AUTOPKG_STATE_DIR/overrides.txt"
 '''
 
 [tasks."trust:prepare"]
 hide = true
 run = '''
-python scripts/repositories.py --all
-python scripts/preferences.py \
-  --all-repositories \
-  --override-dir "$PWD/RecipeOverrides"
+python scripts/repositories.py
+python scripts/preferences.py
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 '''
 
 [tasks.local]
-description = "Run the Actions lane locally"
+description = "Run locally"
 usage = '''
-arg "[recipe]" help="Optional recipe name; defaults to every override"
+arg "[recipe]" help="Recipe name; defaults to all overrides"
 '''
 run = '''
 mise run preflight
@@ -194,16 +188,15 @@ else
 fi
 mise run repos:sync
 mise run autopkg:deps
-mise run runtime:prepare
 mise run autopkg:preferences
 autopkg generate-recipe-map --prefs="$AUTOPKG_STATE_DIR/preferences.plist"
 mise run secrets:run
 '''
 
 [tasks.remote]
-description = "Trigger the Actions lane on main"
+description = "Run on main"
 usage = '''
-arg "[recipe]" help="Optional recipe name; defaults to every override"
+arg "[recipe]" help="Recipe name; defaults to all overrides"
 '''
 run = '''
 if [[ -n "${usage_recipe:-}" ]]; then

@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftOneNote
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftOneNote
 Identifier: local.munki.MicrosoftOneNote
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft OneNote
-  PRODUCTID: '820886'
-  SOFTWARETITLE: OneNote
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft OneNote
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Capture, organize, and share your notes, ideas, and to-do lists,
-      making information retrieval a breeze.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftOneNote
 ParentRecipeTrustInfo:
   non_core_processors:

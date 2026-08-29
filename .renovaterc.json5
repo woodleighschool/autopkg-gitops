@@ -21,7 +21,7 @@
   ],
   packageRules: [
     {
-      description: "Let the recipe diff workflow own repository pin auto-merge",
+      description: "Review recipe repository updates",
       matchFileNames: ["repositories.json"],
       automerge: false,
     },

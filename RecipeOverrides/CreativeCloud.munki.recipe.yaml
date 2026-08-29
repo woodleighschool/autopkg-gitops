@@ -1,55 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.CreativeCloud
+# Refresh trust info with: mise run trust:update local.munki.CreativeCloud
 Identifier: local.munki.CreativeCloud
-Input:
-  ARCHITECTURE: macarm64
-  MUNKI_APP_PATH: /Applications/Utilities/Adobe Creative Cloud/ACC/Creative Cloud.app
-  MUNKI_CATEGORY: Creativity
-  NAME: Adobe Creative Cloud
-  NAMEWITHOUTSPACES: CreativeCloudInstaller
-  SEARCH_PATTERN: (?P<url>http.*?://ccmdls?.adobe.com/AdobeProducts/StandaloneBuilds/ACCC/ESD/.*?/%ARCHITECTURE%/ACCC.*?.dmg)
-  SEARCH_URL: https://helpx.adobe.com/download-install/apps/download-install-apps/creative-cloud-apps/download-creative-cloud-desktop-app-using-direct-links.html
-  SOFTWARETITLE: Creative Cloud Installer
-  VENDOR: Adobe
-  pkginfo:
-    blocking_applications:
-      - Creative Cloud
-      - Creative Cloud Desktop App
-      - Creative Cloud Installer
-    category: '%MUNKI_CATEGORY%'
-    description: Adobe Creative Cloud provides access to Adobe desktop apps, services,
-      and creative resources from the Creative Cloud desktop app.
-    developer: Adobe
-    minimum_os_version: '11.0'
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: uninstall_script
-    uninstall_script: |-
-      #!/bin/bash
-      app_path="%MUNKI_APP_PATH%"
-      uninstaller="/Applications/Utilities/Adobe Creative Cloud/Utils/Creative Cloud Uninstaller.app/Contents/MacOS/Creative Cloud Uninstaller"
-      if [[ ! -d "$app_path" ]]; then
-        exit 0
-      fi
-      if [[ ! -x "$uninstaller" ]]; then
-        echo "Adobe Creative Cloud uninstaller not found: $uninstaller"
-        exit 1
-      fi
-      "$uninstaller" --uninstall=1
-      status=$?
-      if [[ -d "$app_path" ]]; then
-        echo "Adobe Creative Cloud is still installed."
-        exit 1
-      fi
-      exit "$status"
-    uninstallable: true
-    uninstallcheck_script: |-
-      #!/bin/bash
-      if [[ -d "%MUNKI_APP_PATH%" ]]; then
-        exit 0
-      fi
-      exit 1
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.CreativeCloud
 ParentRecipeTrustInfo:
   non_core_processors:

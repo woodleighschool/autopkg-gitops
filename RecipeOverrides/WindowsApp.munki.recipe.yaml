@@ -1,27 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.WindowsApp
+# Refresh trust info with: mise run trust:update local.munki.WindowsApp
 Identifier: local.munki.WindowsApp
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Windows App
-  PRODUCTID: '868963'
-  SOFTWARETITLE1: Windows
-  SOFTWARETITLE2: App
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Windows App
-    category: '%MUNKI_CATEGORY%'
-    description: Windows App (formerly Microsoft Remote Desktop) is your gateway to
-      Azure Virtual Desktop, Windows 365, Microsoft Dev Box, Remote Desktop Services,
-      and remote PCs, securely connecting you to Windows devices and apps.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.WindowsApp
 ParentRecipeTrustInfo:
   non_core_processors:

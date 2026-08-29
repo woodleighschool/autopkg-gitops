@@ -1,28 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.NAPLockedDownBrowser
+# Refresh trust info with: mise run trust:update local.munki.NAPLockedDownBrowser
 Identifier: local.munki.NAPLockedDownBrowser
-Input:
-  MUNKI_CATEGORY: Education
-  NAME: NAP Locked down browser
-  SEARCH_RE: .*"([^"]*\.pkg)">Download for MacOS
-  SEARCH_URL: https://www.assessform.edu.au/naplan-online/locked-down-browser
-  pkginfo:
-    blocking_applications:
-      - NAP Locked down browser
-      - NAP Locked down browser Uninstaller
-    category: '%MUNKI_CATEGORY%'
-    description: The NAP Locked down browser lets students securely participate in
-      NAPLAN and NAP Sample tests by preventing access to other applications and unauthorised
-      device resources during an assessment.
-    developer: ACARA
-    minimum_os_version: '14.0'
-    name: '%NAME%'
-    requires:
-      - Rosetta
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.NAPLockedDownBrowser
 ParentRecipeTrustInfo:
   non_core_processors:

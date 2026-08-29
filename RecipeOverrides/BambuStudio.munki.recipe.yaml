@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.BambuStudio
+# Refresh trust info with: mise run trust:update local.munki.BambuStudio
 Identifier: local.munki.BambuStudio
-Input:
-  MUNKI_CATEGORY: STEAM
-  NAME: BambuStudio
-  PRERELEASE: 'true'
-  pkginfo:
-    blocking_applications:
-      - BambuStudio
-    category: '%MUNKI_CATEGORY%'
-    description: Bambu Studio is an open-source, cutting-edge, feature-rich slicing
-      software. It contains project-based workflows, systematically optimized slicing
-      algorithms, and an easy-to-use graphical interface, bringing users an incredibly
-      smooth printing experience.
-    developer: Bambu Lab
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.BambuStudio
 ParentRecipeTrustInfo:
   non_core_processors:

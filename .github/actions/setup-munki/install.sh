@@ -42,6 +42,7 @@ fi
 curl "${curl_arguments[@]}" --output "$api_response" "$api_url"
 
 release_tag="$(plutil -extract tag_name raw -o - "$api_response")"
+expected_version="${release_tag#v}"
 asset_count=0
 asset_index=0
 asset_name=""
@@ -62,12 +63,11 @@ if [[ "$asset_count" -ne 1 || "$asset_digest" != sha256:* ]]; then
     exit 1
 fi
 
-cache_root="${RUNNER_TOOL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}}"
-marker_dir="$cache_root/setup-munki"
-marker="$marker_dir/release"
-expected_marker="$release_tag:$asset_digest"
-if [[ -x /usr/local/munki/makepkginfo && -f "$marker" && "$(<"$marker")" == "$expected_marker" ]]; then
-    installed_version="$(pkgutil --pkg-info com.googlecode.munki.admin | awk '/^version:/ {print $2}')"
+installed_version="$(
+    pkgutil --pkg-info com.googlecode.munki.admin 2>/dev/null |
+        awk '/^version:/ {print $2}' || true
+)"
+if [[ -x /usr/local/munki/makepkginfo && ("$installed_version" == "$expected_version" || "$installed_version" == "$expected_version".*) ]]; then
     echo "Munki $installed_version is already installed from $release_tag"
 else
     package="$temporary_dir/$asset_name"
@@ -93,9 +93,6 @@ else
         echo "Munki admin tools were not installed" >&2
         exit 1
     fi
-    mkdir -p "$marker_dir"
-    printf '%s\n' "$expected_marker" >"$marker.tmp"
-    mv "$marker.tmp" "$marker"
     echo "Installed Munki $installed_version from $release_tag"
 fi
 

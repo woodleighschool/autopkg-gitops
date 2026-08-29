@@ -31,7 +31,7 @@ env:
 
 jobs:
   plan:
-    name: Plan recipe run
+    name: Plan Recipe Run
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -41,7 +41,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Mise
@@ -56,28 +55,15 @@ jobs:
       - name: Select recipes
         id: plan
         env:
-          AUTOPKG_REPO_ROOT: ${{ github.workspace }}/.autopkg-run/RecipeRepos
-          BASE_SHA: ${{ github.event.before }}
           REQUESTED_RECIPE: ${{ inputs.recipe }}
         run: |
           mkdir -p .autopkg-run
-          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-            if git diff --quiet "$BASE_SHA" "$GITHUB_SHA" -- secrets.sops.env; then
-              python scripts/upstreams.py \
-                --base "$BASE_SHA" \
-                --output .autopkg-run/planned-recipes.txt
-            else
-              python scripts/recipes.py select
-              python scripts/recipes.py selected > .autopkg-run/planned-recipes.txt
-            fi
+          if [[ -n "$REQUESTED_RECIPE" ]]; then
+            python scripts/recipes.py select "$REQUESTED_RECIPE"
           else
-            if [[ -n "$REQUESTED_RECIPE" ]]; then
-              python scripts/recipes.py select "$REQUESTED_RECIPE"
-            else
-              python scripts/recipes.py select
-            fi
-            python scripts/recipes.py selected > .autopkg-run/planned-recipes.txt
+            python scripts/recipes.py select
           fi
+          python scripts/recipes.py selected > .autopkg-run/planned-recipes.txt
 
           {
             if [[ -s .autopkg-run/planned-recipes.txt ]]; then
@@ -110,13 +96,11 @@ jobs:
           persist-credentials: false
 
       - name: Setup Munki
-        if: ${{ runner.environment == 'github-hosted' }}
         uses: ./.github/actions/setup-munki
         with:
           version: "7.3.0" # renovate: datasource=github-releases depName=munki/munki
 
       - name: Setup AutoPkg
-        if: ${{ runner.environment == 'github-hosted' }}
         uses: ./.github/actions/setup-autopkg
         with:
           version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
@@ -142,14 +126,11 @@ jobs:
           [[ "${#recipes[@]}" -gt 0 ]]
           mise run recipes:select -- "${recipes[@]}"
 
-      - name: Sync required repositories
+      - name: Sync pinned repositories
         run: mise run repos:sync
 
-      - name: Install recipe dependency
+      - name: Install icon processor dependency
         run: mise run autopkg:deps
-
-      - name: Prepare runtime overrides
-        run: mise run runtime:prepare
 
       - name: Write AutoPkg preferences
         run: mise run autopkg:preferences

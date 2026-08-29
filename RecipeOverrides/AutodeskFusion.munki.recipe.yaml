@@ -1,21 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.AutodeskFusion
+# Refresh trust info with: mise run trust:update local.munki.AutodeskFusion
 Identifier: local.munki.AutodeskFusion
-Input:
-  MUNKI_CATEGORY: STEAM
-  NAME: Autodesk Fusion
-  pkginfo:
-    blocking_applications:
-      - Autodesk Fusion
-    category: '%MUNKI_CATEGORY%'
-    description: Fusion is software for 3D CAD, modelling, manufacturing, industrial
-      design, electronics & mechanical engineering.
-    developer: Autodesk Inc.
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.AutodeskFusion
 ParentRecipeTrustInfo:
   non_core_processors:

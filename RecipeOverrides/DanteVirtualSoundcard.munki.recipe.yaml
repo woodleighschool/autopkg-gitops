@@ -1,41 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.DanteVirtualSoundcard
+# Refresh trust info with: mise run trust:update local.munki.DanteVirtualSoundcard
 Identifier: local.munki.DanteVirtualSoundcard
-Input:
-  MUNKI_CATEGORY: System
-  NAME: Dante Virtual Soundcard
-  pkginfo:
-    blocking_applications: []
-    category: '%MUNKI_CATEGORY%'
-    description: Dante Virtual Soundcard turns your computer into a Dante-powered
-      workstation, seamlessly integrating your PC or Mac with Dante audio devices
-      on your network. Instantly connect to record, process and playout using any
-      audio application and any combination of Dante-enabled devices.
-    developer: Audinate
-    name: '%NAME%'
-    preinstall_script: |
-      #!/bin/sh
-
-      # Audinate's package suppresses installer dialogs while this marker exists.
-      /usr/bin/touch /tmp/DVS_silent_install
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: uninstall_script
-    uninstall_script: |
-      #!/bin/sh
-
-      # Exits 0 if uninstall is successful, 1 if unsuccessful
-
-      UNINSTALL_PATH="/Library/Application Support/Audinate/DanteVirtualSoundcard/Uninstall DVS.app/Contents/Resources/uninstall.sh"
-
-      if [ ! -f "$UNINSTALL_PATH" ]; then
-          echo "Error: DVS uninstaller not found"
-          exit 1
-      fi
-
-      "$UNINSTALL_PATH"
-      exit $?
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.DanteVirtualSoundcard
 ParentRecipeTrustInfo:
   non_core_processors:

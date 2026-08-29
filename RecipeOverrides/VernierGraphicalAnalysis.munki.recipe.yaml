@@ -1,22 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.VernierGraphicalAnalysis
+# Refresh trust info with: mise run trust:update local.munki.VernierGraphicalAnalysis
 Identifier: local.munki.VernierGraphicalAnalysis
-Input:
-  DOWNLOAD_URL: https://software-releases.graphicalanalysis.com/ga/mac/release/latest/Vernier-Graphical-Analysis.dmg
-  MUNKI_CATEGORY: Education
-  NAME: Vernier Graphical Analysis
-  pkginfo:
-    blocking_applications:
-      - Vernier Graphical Analysis
-    category: '%MUNKI_CATEGORY%'
-    description: Vernier Graphical Analysis pairs with sensors to let students collect,
-      visualise, and analyse lab data directly on their Mac.
-    developer: Vernier
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VernierGraphicalAnalysis
 ParentRecipeTrustInfo:
   non_core_processors:

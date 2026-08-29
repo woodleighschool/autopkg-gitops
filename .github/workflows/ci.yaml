@@ -52,8 +52,8 @@ jobs:
           actionlint-version: ${{ steps.tools.outputs.actionlint }}
           zizmor-version: ${{ steps.tools.outputs.zizmor }}
 
-  validate:
-    name: Validate
+  recipes:
+    name: Recipes
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -71,38 +71,21 @@ jobs:
       - name: Install Python dependencies
         run: mise deps install --force pip
 
-      - name: Check repository
-        run: mise run check
+      - name: Check formatting
+        run: mise run fmt-check
 
-  source:
-    name: Check recipe sources
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name != github.repository ||
-      !startsWith(github.head_ref, 'renovate/')
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
+      - name: Validate recipe overrides and repository pins
+        run: mise run validate
 
-      - name: Setup Mise
-        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
-        with:
-          experimental: true
-          install_args: --locked python
+      - name: Lint action installers
+        run: mise run shell-lint
 
-      - name: Install Python dependencies
-        run: mise deps install --force pip
-
-      - name: Check recipe sources
-        run: mise run sources:check
+      - name: Run unit tests
+        run: mise run test
 
   upstreams:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
-    name: AutoPkg upstreams
+    name: Upstreams
     uses: ./.github/workflows/upstreams.yaml
     secrets:
       BOT_APP_PRIVATE_KEY: ${{ secrets.BOT_APP_PRIVATE_KEY }}
@@ -112,9 +95,8 @@ jobs:
     if: ${{ !cancelled() }}
     name: Build Success
     needs:
-      - source
       - upstreams
-      - validate
+      - recipes
       - workflow-lint
     runs-on: ubuntu-24.04
     permissions: {}

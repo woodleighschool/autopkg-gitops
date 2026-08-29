@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.OneDrive
+# Refresh trust info with: mise run trust:update local.munki.OneDrive
 Identifier: local.munki.OneDrive
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: OneDrive
-  PRODUCTID: '823060'
-  SOFTWARETITLE: OneDrive
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - OneDrive
-    category: '%MUNKI_CATEGORY%'
-    description: Securely store, share, and access your files from anywhere, ensuring
-      your data is always within reach.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.OneDrive
 ParentRecipeTrustInfo:
   non_core_processors:

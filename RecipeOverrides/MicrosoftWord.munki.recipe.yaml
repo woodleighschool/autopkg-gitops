@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftWord
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftWord
 Identifier: local.munki.MicrosoftWord
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft Word
-  PRODUCTID: '525134'
-  SOFTWARETITLE: Word
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft Word
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Create and edit professional-looking documents with ease, whether
-      it's for business reports, academic papers, or personal projects.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftWord
 ParentRecipeTrustInfo:
   non_core_processors:

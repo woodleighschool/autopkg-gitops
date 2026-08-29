@@ -1,25 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.WacomTabletDriver
+# Refresh trust info with: mise run trust:update local.munki.WacomTabletDriver
 Identifier: local.munki.WacomTabletDriver
-Input:
-  DOWNLOAD_PATTERN: (?P<url>(https:\/\/cdn\.wacom\.com\/u\/productsupport\/drivers\/mac\/professional\/WacomTablet_(?P<version>\d+(?:\.\d+)*(?:-\d+)?)\.dmg))
-  DOWNLOAD_URL: https://www.wacom.com/en-us/support/product-support/drivers
-  MUNKI_CATEGORY: Creativity
-  NAME: Wacom Tablet Driver
-  pkginfo:
-    blocking_applications:
-      - Wacom Center
-      - Wacom Display Settings
-      - Wacom Tablet Utility
-    category: '%MUNKI_CATEGORY%'
-    description: These are the drivers needed to use any Wacom pad or display. You
-      may need to reinstall these when you update your MacBook's OS.
-    developer: Wacom
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.WacomTabletDriver
 ParentRecipeTrustInfo:
   non_core_processors:

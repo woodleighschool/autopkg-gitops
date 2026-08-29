@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Audacity
+# Refresh trust info with: mise run trust:update local.munki.Audacity
 Identifier: local.munki.Audacity
-Input:
-  ARCHITECTURE: arm64
-  MUNKI_CATEGORY: Creativity
-  NAME: Audacity
-  PRERELEASE: ''
-  pkginfo:
-    blocking_applications:
-      - Audacity
-    category: '%MUNKI_CATEGORY%'
-    description: Audacity is the world's most popular free software for recording
-      and editing audio. So if you're producing music, a podcast, or just playing
-      around with audio, Audacity is for you.
-    developer: Audacity
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Audacity
 ParentRecipeTrustInfo:
   non_core_processors:

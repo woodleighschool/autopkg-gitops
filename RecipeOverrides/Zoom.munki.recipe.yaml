@@ -1,25 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Zoom
+# Refresh trust info with: mise run trust:update local.munki.Zoom
 Identifier: local.munki.Zoom
-Input:
-  DOWNLOAD_URL: https://zoom.us/client/latest/ZoomInstallerIT.pkg
-  MUNKI_CATEGORY: Collaboration
-  NAME: Zoom
-  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.28.10
-    (KHTML, like Gecko) Version/6.0.3 Safari/536.28.10
-  pkginfo:
-    blocking_applications:
-      - zoom.us
-    category: '%MUNKI_CATEGORY%'
-    description: Zoom is a cloud-based video conferencing platform that can be used
-      for video conferencing meetings, audio conferencing, webinars, meeting recordings,
-      and live chat.
-    developer: Zoom
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Zoom
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.CricutDesignSpace
+# Refresh trust info with: mise run trust:update local.munki.CricutDesignSpace
 Identifier: local.munki.CricutDesignSpace
-Input:
-  MUNKI_CATEGORY: Creativity
-  NAME: Cricut Design Space
-  pkginfo:
-    blocking_applications:
-      - Cricut Design Space
-    category: '%MUNKI_CATEGORY%'
-    description: Enjoy total creative freedom over your next DIY project with Cricut
-      Design Space. Design, cut, or draw by connecting to Cricut Explore or Cricut
-      Maker machines. Start your project from scratch or browse thousands of images,
-      ready-to-make projects, and unique fonts in the Cricut Image Library.
-    developer: Cricut
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.CricutDesignSpace
 ParentRecipeTrustInfo:
   non_core_processors:

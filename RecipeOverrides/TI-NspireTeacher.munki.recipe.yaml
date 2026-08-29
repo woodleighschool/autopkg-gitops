@@ -1,22 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.TI-NspireTeacher
+# Refresh trust info with: mise run trust:update local.munki.TI-NspireTeacher
 Identifier: local.munki.TI-NspireTeacher
-Input:
-  MUNKI_CATEGORY: Education
-  NAME: TI-Nspire CX Premium Teacher Software
-  pkginfo:
-    blocking_applications:
-      - TI-Nspire CX Premium Teacher Software
-    category: '%MUNKI_CATEGORY%'
-    description: Powerful teacher software that turns a teacher's PC or Mac into a
-      virtual TI-Nspire CX graphing calculator environment and supports classroom
-      presentation and management workflows.
-    developer: Texas Instruments
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.TI-NspireTeacher
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -157,14 +157,11 @@ def write_report(
     report = scrub(raw_report, secret_values())
     manifest = load_manifest()
     repositories = repository_map(manifest)
-    selected_repositories = selection.get("repositories", [])
     result = {
         "exit_code": exit_code,
         "recipes": selection["recipes"],
         "repositories": {
-            name: repositories[name]["revision"]
-            for name in selected_repositories
-            if name in repositories
+            name: repository["revision"] for name, repository in repositories.items()
         },
         "failures": report.get("failures", []) if isinstance(report, dict) else [],
         "summary_results": (

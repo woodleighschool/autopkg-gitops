@@ -1,27 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.CompanyPortal
+# Refresh trust info with: mise run trust:update local.munki.CompanyPortal
 Identifier: local.munki.CompanyPortal
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Company Portal
-  PRODUCTID: '853070'
-  SOFTWARETITLE1: Intune
-  SOFTWARETITLE2: Company
-  SOFTWARETITLE3: Portal
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Company Portal
-    category: '%MUNKI_CATEGORY%'
-    description: The Company Portal provides access to corporate apps and resources
-      from almost any network. Your company must already subscribe to Microsoft Intune,
-      and your IT admin must set up your account before you can use this app.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.CompanyPortal
 ParentRecipeTrustInfo:
   non_core_processors:

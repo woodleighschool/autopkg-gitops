@@ -1,38 +1,34 @@
 # autopkg-gitops
 
-## State
+[![CI](https://github.com/woodleighschool/autopkg-gitops/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/woodleighschool/autopkg-gitops/actions/workflows/ci.yaml)
+[![License](https://img.shields.io/github/license/woodleighschool/autopkg-gitops)](https://github.com/woodleighschool/autopkg-gitops/blob/main/LICENSE)
 
-- Repository entries with `"gitops": true` may opt their raw Munki recipes into the run set with
-  top-level `GitOps: true`.
-- Every generated override in `RecipeOverrides` is run; overrides are reconciled from those markers.
-- `RecipeOverrides/` contains generated recipe inputs and parent-trust state. These files say `DO NOT EDIT`; regenerate the whole file with `mise run trust:create` or `mise run trust:update`.
-- `repositories.json` pins upstream repository commits.
-- Parent trust paths determine which pinned repositories each selected recipe owns. A single-recipe run syncs only that closure.
+- `RecipeOverrides/` is the run set. Edit `Input`;
+  `ParentRecipeTrustInfo` is refreshed with `mise run trust:update`.
+- `repositories.json` pins recipe repositories by URL, branch, and commit.
+- `Recipes/` may contain local recipes.
+- `secrets.sops.env` supplies encrypted `AUTOPKG_*` inputs.
 
-An already-correct checkout is left alone without fetching. Renovate pull requests reconcile recipe
-membership and refresh only affected trust. A source pin requires review when it changes a selected
-recipe, a processor used by that recipe, or a file imported by that recipe. Imported files include
-relative `PkgCreator` script directories and `%RECIPE_DIR%` file, directory, or glob references.
-Recipe changes are rendered as diffs; processor and imported-resource changes link directly to
-their upstream diffs. A pin with none of those changes receives an explicit no-review result.
-Repository pins and generated overrides remain review-owned and are never automatically merged by
-this repository.
+Pinned repositories sync to `~/Library/AutoPkg/RecipeRepos` before the v3 recipe map is rebuilt.
+
+`mise run trust:create <recipe>` creates an override. Keep only `Input` values you want to override.
+`mise run trust:update <override>` and `mise run trust:update-all` refresh trust info;
+`mise run trust:verify` inspects changes.
+
+Renovate advances pinned revisions. Its pull request checks existing trust against the new
+revisions, refreshes failed overrides, and posts the trust diff with repository compare links.
 
 ## Runs
 
-Install [Mise](https://mise.jdx.dev/), then:
+[Mise](https://mise.jdx.dev/) provides the local and remote entry points:
 
 ```bash
 mise install
 mise run secrets:edit
-mise run check
 mise run local -- GoogleChrome
+# or
 mise run remote -- GoogleChrome
 ```
 
-`secrets.sops.env` is the tracked source of AutoPkg runtime inputs. Its `AUTOPKG_*` values are
-exported directly to AutoPkg for both local and trusted-main runs, and decrypted values are scrubbed
-from rendered reports. Raw result plists and receipts for managed recipes are removed before and
-after each run without clearing AutoPkg's download cache. The age identity remains outside Git in
-`age.key`; the self-hosted runner must provide its identity path through `SOPS_AGE_KEY_FILE`.
-Updating the global encrypted file schedules every generated recipe.
+The age identity remains outside Git in `age.key`; the self-hosted runner provides its path through
+`SOPS_AGE_KEY_FILE`.

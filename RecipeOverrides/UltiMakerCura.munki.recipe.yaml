@@ -1,25 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.UltiMakerCura
+# Refresh trust info with: mise run trust:update local.munki.UltiMakerCura
 Identifier: local.munki.UltiMakerCura
-Input:
-  ARCH: ARM64
-  MUNKI_CATEGORY: STEAM
-  NAME: UltiMaker Cura
-  PRERELEASE: ''
-  SUPPORTED_ARCH: arm64
-  pkginfo:
-    blocking_applications:
-      - UltiMaker Cura
-    category: '%MUNKI_CATEGORY%'
-    description: UltiMaker Cura is free, easy-to-use 3D printing software trusted
-      by millions of users. Fine-tune your 3D model with 400+ settings for the best
-      slicing and printing results.
-    developer: UltiMaker
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.UltiMakerCura
 ParentRecipeTrustInfo:
   non_core_processors:

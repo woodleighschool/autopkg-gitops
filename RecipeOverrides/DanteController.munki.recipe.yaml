@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.DanteController
+# Refresh trust info with: mise run trust:update local.munki.DanteController
 Identifier: local.munki.DanteController
-Input:
-  DOWNLOAD_ARCH: apple_silicon
-  MUNKI_CATEGORY: Utilities
-  NAME: Dante Controller
-  SPARKLE_FEED_URL: https://software-updates.audinate.com/DanteController/appcast/DanteController-%DOWNLOAD_ARCH%.xml
-  pkginfo:
-    category: '%MUNKI_CATEGORY%'
-    description: Dante Controller provides essential device status information and
-      powerful real-time network monitoring, including device-level latency and clock
-      stability stats, multicast bandwidth usage, and customized event logging, enabling
-      you to quickly identify and resolve any potential network issues. You can also
-      quickly and easily backup, restore, move, and reuse Dante network configurations
-      using Presets, and edit Dante routing configurations offline.
-    developer: Audinate
-    name: '%NAME%'
-    unattended_install: true
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.DanteController
 ParentRecipeTrustInfo:
   non_core_processors:

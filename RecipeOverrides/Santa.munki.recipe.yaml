@@ -1,18 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Santa
+# Refresh trust info with: mise run trust:update local.munki.Santa
 Identifier: local.munki.Santa
-Input:
-  INCLUDE_PRERELEASES: ''
-  MUNKI_CATEGORY: Security
-  NAME: Santa
-  pkginfo:
-    blocking_applications: []
-    category: '%MUNKI_CATEGORY%'
-    description: Santa is a binary and file access authorization system for macOS.
-      It consists of a system extension that monitors for executions and file access.
-    developer: North Pole Security
-    name: '%NAME%'
-    unattended_install: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Santa
 ParentRecipeTrustInfo:
   non_core_processors:

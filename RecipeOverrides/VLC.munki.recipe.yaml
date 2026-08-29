@@ -1,22 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.VLC
+# Refresh trust info with: mise run trust:update local.munki.VLC
 Identifier: local.munki.VLC
-Input:
-  ARCHITECTURE: arm64
-  MUNKI_CATEGORY: Media
-  NAME: VLC
-  pkginfo:
-    blocking_applications:
-      - VLC
-    category: '%MUNKI_CATEGORY%'
-    description: VLC is a free and open source cross-platform multimedia player and
-      framework that plays most multimedia files, and various streaming protocols.
-    developer: VideoLAN
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VLC
 ParentRecipeTrustInfo:
   non_core_processors:

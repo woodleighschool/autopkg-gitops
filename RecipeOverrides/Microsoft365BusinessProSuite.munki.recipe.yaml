@@ -1,38 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Microsoft365BusinessProSuite
+# Refresh trust info with: mise run trust:update local.munki.Microsoft365BusinessProSuite
 Identifier: local.munki.Microsoft365BusinessProSuite
-Input:
-  DOWNLOAD_URL_BASE: https://go.microsoft.com/fwlink/?linkid=
-  ID: '2009112'
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft 365 Business Pro Suite
-  SOFTWARETITLE1: Office
-  SOFTWARETITLE2: Business
-  SOFTWARETITLE3: Pro
-  SOFTWARETITLE4: Suite
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft AutoUpdate
-      - Microsoft Outlook
-      - Microsoft Excel
-      - Microsoft PowerPoint
-      - Microsoft Word
-      - Microsoft OneNote
-      - Microsoft Teams
-    category: '%MUNKI_CATEGORY%'
-    description: This suite ties everything together, offering enhanced security,
-      business-class email, and additional tools designed to boost efficiency and
-      collaboration.
-    developer: Microsoft
-    minimum_os_version: '13.0'
-    name: '%NAME%'
-    receipts:
-      - packageid: com.microsoft.package.Frameworks
-        version: '0'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Microsoft365BusinessProSuite
 ParentRecipeTrustInfo:
   non_core_processors:

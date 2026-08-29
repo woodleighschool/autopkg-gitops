@@ -83,7 +83,7 @@ class RunTests(unittest.TestCase):
             state_dir.mkdir()
             cache_dir.mkdir()
             (state_dir / "selection.json").write_text(
-                '{"recipes":["local.munki.Managed"],"repositories":[]}'
+                '{"recipes":["local.munki.Managed"]}'
             )
             (state_dir / "autopkg-results.plist").write_text("stale")
             (cache_dir / "autopkg_results.plist").write_text("stale")

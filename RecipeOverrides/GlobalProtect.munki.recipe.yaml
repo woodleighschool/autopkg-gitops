@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.GlobalProtect
+# Refresh trust info with: mise run trust:update local.munki.GlobalProtect
 Identifier: local.munki.GlobalProtect
-Input:
-  DOWNLOAD_URL: https://access.woodleigh.vic.edu.au/global-protect/getmsi.esp?platform=mac
-  MUNKI_CATEGORY: Security
-  NAME: GlobalProtect
-  pkginfo:
-    blocking_applications: []
-    category: '%MUNKI_CATEGORY%'
-    description: The Palo Alto VPN client is required to access organizational resources
-      outside of the school network.
-    developer: Palo Alto
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: uninstall_script
-    uninstall_script: |-
-      #!/bin/sh
-      /Applications/GlobalProtect.app/Contents/Resources/uninstall_gp.sh || :
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GlobalProtect
 ParentRecipeTrustInfo:
   non_core_processors:

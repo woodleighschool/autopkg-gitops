@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Spotify
+# Refresh trust info with: mise run trust:update local.munki.Spotify
 Identifier: local.munki.Spotify
-Input:
-  DOWNLOAD_ARCH: ARM64
-  MUNKI_CATEGORY: Media
-  NAME: Spotify
-  SUPPORTED_ARCH: arm64
-  pkginfo:
-    blocking_applications:
-      - Spotify
-    category: '%MUNKI_CATEGORY%'
-    description: Spotify is a digital music service that gives you access to millions
-      of songs.
-    developer: Spotify
-    name: '%NAME%'
-    postinstall_script: |-
-      #!/bin/bash
-      /bin/chmod -R go+rX /Applications/Spotify.app
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Spotify
 ParentRecipeTrustInfo:
   non_core_processors:

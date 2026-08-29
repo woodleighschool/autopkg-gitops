@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 import os
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
+from urllib.parse import urlparse
 
 from ruamel.yaml import YAML
 
@@ -18,62 +18,65 @@ REPO_ROOT = Path(
 ).expanduser()
 STATE_DIR = Path(os.environ.get("AUTOPKG_STATE_DIR", ROOT / ".autopkg-run")).expanduser()
 
-SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 NAME_PATTERN = re.compile(r"^[A-Za-z0-9._-]+$")
 REF_PATTERN = re.compile(r"^[A-Za-z0-9._/-]+$")
+SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 
 
 class ConfigError(RuntimeError):
     pass
 
 
-def validate_manifest(manifest: object, source: Path | str) -> dict[str, Any]:
+def repository_name(url: str) -> str:
+    parts = urlparse(url)
+    domain = parts.netloc.rsplit("@", 1)[-1].split(":", 1)[0]
+    reverse_domain = ".".join(reversed(domain.split(".")))
+    path = os.path.splitext(parts.path)[0]
+    return reverse_domain + path.replace("/", ".")
+
+
+def validate_manifest(manifest: object, source: Path | str) -> dict[str, object]:
     if not isinstance(manifest, dict) or manifest.get("version") != 1:
         raise ConfigError(f"{source}: version must be 1")
-    repositories = manifest.get("repositories")
-    if not isinstance(repositories, list) or not repositories:
+    values = manifest.get("repositories")
+    if not isinstance(values, list) or not values:
         raise ConfigError(f"{source}: repositories must be a non-empty array")
 
+    repositories: list[dict[str, str]] = []
     names: set[str] = set()
     urls: set[str] = set()
-    for index, repository in enumerate(repositories):
+    for index, repository in enumerate(values):
         location = f"{source}: repositories[{index}]"
-        if not isinstance(repository, dict):
-            raise ConfigError(f"{location} must be an object")
-        required = {"name", "url", "ref", "revision"}
-        allowed = required | {"gitops"}
-        if not required.issubset(repository) or not set(repository).issubset(allowed):
-            raise ConfigError(
-                f"{location} must contain name, url, ref, and revision; "
-                "gitops is optional"
-            )
-
-        name = repository["name"]
+        if not isinstance(repository, dict) or set(repository) != {
+            "url",
+            "ref",
+            "revision",
+        }:
+            raise ConfigError(f"{location} must contain url, ref, and revision")
         url = repository["url"]
         ref = repository["ref"]
         revision = repository["revision"]
-        gitops = repository.get("gitops")
-        if not isinstance(name, str) or not NAME_PATTERN.fullmatch(name):
-            raise ConfigError(f"{location}: invalid name")
-        if name in names:
-            raise ConfigError(f"{location}: duplicate name {name}")
-        names.add(name)
         if not isinstance(url, str) or not url.startswith("https://github.com/"):
             raise ConfigError(f"{location}: url must be an HTTPS GitHub repository")
-        canonical_url = url.removesuffix(".git").removesuffix("/")
+        canonical_url = url.removesuffix("/").removesuffix(".git")
         if canonical_url in urls:
             raise ConfigError(f"{location}: duplicate url {url}")
         urls.add(canonical_url)
+        name = repository_name(url)
+        if not NAME_PATTERN.fullmatch(name) or name in names:
+            raise ConfigError(f"{location}: repository URL produces invalid name {name}")
+        names.add(name)
         if not isinstance(ref, str) or not REF_PATTERN.fullmatch(ref) or ".." in ref:
             raise ConfigError(f"{location}: invalid ref")
         if not isinstance(revision, str) or not SHA_PATTERN.fullmatch(revision):
             raise ConfigError(f"{location}: revision must be a lowercase 40-character SHA")
-        if gitops is not None and gitops is not True:
-            raise ConfigError(f"{location}: gitops must be true when present")
-    return manifest
+        repositories.append(
+            {"name": name, "url": url, "ref": ref, "revision": revision}
+        )
+    return {"version": 1, "repositories": repositories}
 
 
-def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
+def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
     try:
         manifest = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
@@ -81,7 +84,7 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
     return validate_manifest(manifest, path)
 
 
-def load_override(path: Path) -> Mapping[str, Any]:
+def load_override(path: Path) -> Mapping[str, object]:
     yaml = YAML(typ="safe")
     try:
         recipe = yaml.load(path.read_text(encoding="utf-8"))
@@ -92,14 +95,24 @@ def load_override(path: Path) -> Mapping[str, Any]:
     identifier = recipe.get("Identifier")
     if not isinstance(identifier, str) or not NAME_PATTERN.fullmatch(identifier):
         raise ConfigError(f"{path}: missing or invalid Identifier")
+    if not isinstance(recipe.get("Input"), Mapping):
+        raise ConfigError(f"{path}: Input must be a mapping")
+    if not isinstance(recipe.get("ParentRecipe"), str):
+        raise ConfigError(f"{path}: missing or invalid ParentRecipe")
+    if not isinstance(recipe.get("ParentRecipeTrustInfo"), Mapping):
+        raise ConfigError(f"{path}: missing or invalid ParentRecipeTrustInfo")
     return recipe
+
+
+def override_paths(directory: Path) -> list[Path]:
+    return sorted(directory.glob("*.recipe.yaml")) if directory.is_dir() else []
 
 
 def load_overrides(
     directory: Path = OVERRIDE_DIR,
-) -> dict[str, tuple[Path, Mapping[str, Any]]]:
-    overrides: dict[str, tuple[Path, Mapping[str, Any]]] = {}
-    for path in sorted(directory.glob("*.munki.recipe.yaml")):
+) -> dict[str, tuple[Path, Mapping[str, object]]]:
+    overrides: dict[str, tuple[Path, Mapping[str, object]]] = {}
+    for path in override_paths(directory):
         recipe = load_override(path)
         identifier = recipe["Identifier"]
         if identifier in overrides:
@@ -119,97 +132,56 @@ def load_selection(state_dir: Path = STATE_DIR) -> dict[str, list[str]]:
     if not isinstance(value, dict):
         raise ConfigError(f"{path}: selection must be an object")
 
-    selection: dict[str, list[str]] = {}
-    for key in ("recipes", "repositories"):
-        items = value.get(key)
-        if not isinstance(items, list) or not all(isinstance(item, str) for item in items):
-            raise ConfigError(f"{path}: invalid {key}")
-        selection[key] = items
-    return selection
+    recipes = value.get("recipes")
+    if set(value) != {"recipes"} or not isinstance(recipes, list) or not all(
+        isinstance(recipe, str) for recipe in recipes
+    ):
+        raise ConfigError(f"{path}: invalid recipes")
+    return {"recipes": recipes}
 
 
 def expected_override_header(identifier: str) -> list[str]:
-    return [
-        "# Generated file. DO NOT EDIT.",
-        f"# Refresh with: mise run trust:update {identifier}",
-    ]
+    return [f"# Refresh trust info with: mise run trust:update {identifier}"]
 
 
 def validate_override_headers(
-    overrides: Mapping[str, tuple[Path, Mapping[str, Any]]],
+    overrides: Mapping[str, tuple[Path, Mapping[str, object]]],
 ) -> None:
     for identifier, (path, _) in overrides.items():
-        actual = path.read_text(encoding="utf-8").splitlines()[:2]
-        if actual != expected_override_header(identifier):
-            raise ConfigError(f"{path}: missing generated-file header; run mise run format")
+        header = expected_override_header(identifier)
+        actual = path.read_text(encoding="utf-8").splitlines()[: len(header)]
+        if actual != header:
+            raise ConfigError(f"{path}: missing trust refresh comment; run mise run format")
+
+
+def recipe_aliases(identifier: str) -> tuple[str, ...]:
+    short_name = identifier.rsplit(".", 1)[-1]
+    return (identifier,) if short_name == identifier else (identifier, short_name)
 
 
 def select_recipes(requested: list[str], available: list[str]) -> list[str]:
-    aliases = {
-        alias: identifier
-        for identifier in available
-        for alias in (identifier, identifier.removeprefix("local.munki."))
-    }
-    unknown = sorted(set(requested) - aliases.keys())
-    if unknown:
-        raise ConfigError(f"Unknown recipe: {', '.join(unknown)}")
-    return [aliases[item] for item in requested] if requested else available
+    if not requested:
+        return available
+
+    aliases: dict[str, list[str]] = {}
+    for identifier in available:
+        for alias in recipe_aliases(identifier):
+            aliases.setdefault(alias, []).append(identifier)
+
+    selected: list[str] = []
+    for recipe in requested:
+        matches = aliases.get(recipe, [])
+        if not matches:
+            raise ConfigError(f"Unknown recipe: {recipe}")
+        if len(matches) > 1:
+            raise ConfigError(
+                f"Ambiguous recipe {recipe}: use {', '.join(sorted(matches))}"
+            )
+        selected.append(matches[0])
+    return selected
 
 
-def iter_trust_paths(value: object) -> Iterable[str]:
-    if isinstance(value, Mapping):
-        for key, child in value.items():
-            if key == "path" and isinstance(child, str):
-                yield child
-            else:
-                yield from iter_trust_paths(child)
-    elif isinstance(value, list):
-        for child in value:
-            yield from iter_trust_paths(child)
-
-
-def repository_reference(
-    trust_path: str, repositories: list[dict[str, str]]
-) -> tuple[str, str] | None:
-    normalized = trust_path.replace("\\", "/")
-    recipe_repos_marker = "/RecipeRepos/"
-    if recipe_repos_marker in normalized:
-        remainder = normalized.split(recipe_repos_marker, 1)[1]
-        name, separator, relative = remainder.partition("/")
-        if separator and any(repository["name"] == name for repository in repositories):
-            return name, relative
-
-    for repository in repositories:
-        slug = repository["url"].removesuffix(".git").removesuffix("/").split(
-            "github.com/", 1
-        )[-1]
-        marker = f"/{slug}/"
-        if marker in normalized:
-            return repository["name"], normalized.split(marker, 1)[1]
-    return None
-
-
-def trust_references(
-    recipes: Iterable[str],
-    overrides: Mapping[str, tuple[Path, Mapping[str, Any]]],
-    repositories: list[dict[str, str]],
-) -> dict[str, set[str]]:
-    references: dict[str, set[str]] = {}
-    for identifier in recipes:
-        if identifier not in overrides:
-            raise ConfigError(f"{identifier}: recipe has no generated override")
-        path, override = overrides[identifier]
-        trust = override.get("ParentRecipeTrustInfo")
-        if not isinstance(trust, Mapping):
-            raise ConfigError(f"{path}: missing ParentRecipeTrustInfo")
-        for trust_path in iter_trust_paths(trust):
-            reference = repository_reference(trust_path, repositories)
-            if reference is None:
-                raise ConfigError(f"{path}: cannot map trusted path to repositories.json: {trust_path}")
-            name, relative = reference
-            references.setdefault(name, set()).add(relative)
-    return references
-
-
-def repository_map(manifest: Mapping[str, Any]) -> dict[str, dict[str, str]]:
-    return {repository["name"]: repository for repository in manifest["repositories"]}
+def repository_map(manifest: Mapping[str, object]) -> dict[str, dict[str, str]]:
+    repositories = manifest["repositories"]
+    assert isinstance(repositories, list)
+    return {repository["name"]: repository for repository in repositories}

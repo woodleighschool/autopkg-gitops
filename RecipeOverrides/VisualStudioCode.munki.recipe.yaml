@@ -1,28 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.VisualStudioCode
+# Refresh trust info with: mise run trust:update local.munki.VisualStudioCode
 Identifier: local.munki.VisualStudioCode
-Input:
-  ARCH: arm64
-  MUNKI_CATEGORY: Programming
-  NAME: Visual Studio Code
-  pkginfo:
-    blocking_applications:
-      - Visual Studio Code.app
-    category: '%MUNKI_CATEGORY%'
-    description: Visual Studio Code is a code editor redefined and optimized for building
-      and debugging modern web and cloud applications.
-    developer: Microsoft
-    name: '%NAME%'
-    postinstall_script: |-
-      #!/bin/bash
-      ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "/usr/local/bin/code"
-    postuninstall_script: |-
-      #!/bin/bash
-      rm -f "/usr/local/bin/code"
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VisualStudioCode
 ParentRecipeTrustInfo:
   non_core_processors:

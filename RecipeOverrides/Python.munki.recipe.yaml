@@ -1,30 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Python
+# Refresh trust info with: mise run trust:update local.munki.Python
 Identifier: local.munki.Python
-Input:
-  MUNKI_CATEGORY: Programming
-  NAME: Python 3.13
-  PYTHON_BRANCH: '3.13'
-  SEARCH_URL: https://www.python.org/downloads/macos/
-  pkginfo:
-    blocking_applications:
-      - IDLE
-      - Python Launcher
-    category: '%MUNKI_CATEGORY%'
-    description: Python is a high-level, general-purpose programming language. Its
-      design philosophy emphasizes code readability with the use of significant indentation.
-      Python is dynamically typed and garbage-collected. It supports multiple programming
-      paradigms, including structured, object-oriented and functional programming.
-    developer: Python Software Foundation
-    installer_choices_xml:
-      - attributeSetting: 0
-        choiceAttribute: selected
-        choiceIdentifier: org.python.Python.PythonProfileChanges-%PYTHON_BRANCH%
-    minimum_os_version: '11.0'
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Python
 ParentRecipeTrustInfo:
   non_core_processors:

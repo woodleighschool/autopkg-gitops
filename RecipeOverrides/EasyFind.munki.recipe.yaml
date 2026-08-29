@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.EasyFind
+# Refresh trust info with: mise run trust:update local.munki.EasyFind
 Identifier: local.munki.EasyFind
-Input:
-  DOWNLOAD_URL: https://www.devontechnologies.com/apps/freeware
-  MUNKI_CATEGORY: Utilities
-  NAME: EasyFind
-  pkginfo:
-    blocking_applications:
-      - EasyFind
-    category: '%MUNKI_CATEGORY%'
-    description: Spotlight is great, but sometimes you need something more specialized.
-      EasyFind finds files and folders by name, content, tags, or comments using advanced
-      Boolean operators, wildcards, phrases, even regular expressions. It does not
-      require indexing, is fast, and uses very little memory.
-    developer: DEVONtechnologies
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.EasyFind
 ParentRecipeTrustInfo:
   non_core_processors:

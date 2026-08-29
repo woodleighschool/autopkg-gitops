@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftDefender
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftDefender
 Identifier: local.munki.MicrosoftDefender
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Security
-  NAME: Microsoft Defender
-  PRODUCTID: '2097502'
-  SOFTWARETITLE: Defender
-  VENDOR: Microsoft
-  VERSIONTYPE: CFBundleShortVersionString
-  pkginfo:
-    category: '%MUNKI_CATEGORY%'
-    description: Microsoft Defender for Endpoint helps prevent, detect, investigate,
-      and respond to threats across devices.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftDefender
 ParentRecipeTrustInfo:
   non_core_processors:

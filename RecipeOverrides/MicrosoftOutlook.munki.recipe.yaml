@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftOutlook
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftOutlook
 Identifier: local.munki.MicrosoftOutlook
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft Outlook
-  PRODUCTID: '525137'
-  SOFTWARETITLE: Outlook
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft Outlook
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Manage your emails, calendar, contacts, and tasks, keeping your communications
-      smooth and synchronized.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftOutlook
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftExcel
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftExcel
 Identifier: local.munki.MicrosoftExcel
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft Excel
-  PRODUCTID: '525135'
-  SOFTWARETITLE: Excel
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft Excel
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Harness the power of advanced spreadsheets to analyze data, visualize
-      trends, and streamline complex calculations.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftExcel
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.SketchUp2026
+# Refresh trust info with: mise run trust:update local.munki.SketchUp2026
 Identifier: local.munki.SketchUp2026
-Input:
-  APP_FOLDER: SketchUp 2026
-  MUNKI_CATEGORY: STEAM
-  NAME: SketchUp 2026
-  pkginfo:
-    blocking_applications:
-      - SketchUp
-      - LayOut
-    category: '%MUNKI_CATEGORY%'
-    description: SketchUp is 3D modelling software for designing, documenting, and
-      communicating ideas.
-    developer: Trimble
-    items_to_copy:
-      - destination_path: /Applications
-        source_item: '%APP_FOLDER%'
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.SketchUp2026
 ParentRecipeTrustInfo:
   non_core_processors:

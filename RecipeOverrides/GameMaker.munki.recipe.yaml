@@ -1,22 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.GameMaker
+# Refresh trust info with: mise run trust:update local.munki.GameMaker
 Identifier: local.munki.GameMaker
-Input:
-  DOWNLOAD_URL: https://gamemaker.io/en/download/mac/monthly/GameMaker.pkg
-  MUNKI_CATEGORY: Programming
-  NAME: GameMaker
-  pkginfo:
-    blocking_applications:
-      - GameMaker
-    category: '%MUNKI_CATEGORY%'
-    description: GameMaker makes designing games easy, regardless of your background
-      or skill level. All you need is an idea!
-    developer: YoYo Games
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GameMaker
 ParentRecipeTrustInfo:
   non_core_processors:

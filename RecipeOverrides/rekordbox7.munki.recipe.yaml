@@ -1,39 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.rekordbox7
+# Refresh trust info with: mise run trust:update local.munki.rekordbox7
 Identifier: local.munki.rekordbox7
-Input:
-  BASE_URL: https://rekordbox.com/en/download/
-  MUNKI_CATEGORY: Creativity
-  NAME: rekordbox 7
-  RE_PATTERN: https://cdn\.rekordbox\.com/files/.*?/Install_rekordbox_7_.*\.pkg_\.zip
-  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15
-    (KHTML, like Gecko) Version/16.6 Safari/605.1.15
-  pkginfo:
-    blocking_applications:
-      - rekordbox.app
-    category: '%MUNKI_CATEGORY%'
-    description: rekordbox is Pioneer DJ's all-in-one software for track preparation,
-      performance, and management, used for DJ and music production.
-    developer: AlphaTheta Corporation
-    name: '%NAME%'
-    postinstall_script: |
-      #!/bin/bash
-
-      # Create directories and set permissions needed to stop admin prompt on launch
-      /bin/mkdir -p /private/var/slmdata ; /bin/chmod 777 /private/var/slmdata
-      /bin/mkdir -p /private/var/.slm ; /bin/chmod 777 /private/var/.slm
-      /bin/mkdir -p /private/var/.slmbackup ; /bin/chmod 777 /private/var/.slmbackup
-      /bin/mkdir -p /private/var/.slmauth ; /bin/chmod 777 /private/var/.slmauth
-
-      exit 0
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: uninstall_script
-    uninstall_script: |
-      #!/bin/sh
-
-      /bin/rm -rf "/Applications/rekordbox 7"
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.rekordbox7
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,27 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftEdge
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftEdge
 Identifier: local.munki.MicrosoftEdge
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft Edge
-  PRODUCTID: '2093504'
-  SOFTWARETITLE: Edge
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft Edge
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Get Microsoft Edge, your AI-powered browser, and explore a smarter
-      way to browse, find, create and do beyond what you ever thought possible.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftEdge
 ParentRecipeTrustInfo:
   non_core_processors:

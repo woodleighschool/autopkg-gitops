@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.GoogleEarthPro
+# Refresh trust info with: mise run trust:update local.munki.GoogleEarthPro
 Identifier: local.munki.GoogleEarthPro
-Input:
-  DOWNLOAD_URL: https://dl.google.com/dl/earth/client/advanced/current/googleearthpromac-intel.dmg
-  MUNKI_CATEGORY: Education
-  NAME: Google Earth Pro
-  pkginfo:
-    blocking_applications:
-      - Google Earth Pro
-    category: '%MUNKI_CATEGORY%'
-    description: Google Earth Pro on desktop is available for users with advanced
-      feature needs. Import and export GIS data, and go back in time with historical
-      imagery. Available on PC, Mac, or Linux.
-    developer: Google
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GoogleEarthPro
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.swiftDialog
+# Refresh trust info with: mise run trust:update local.munki.swiftDialog
 Identifier: local.munki.swiftDialog
-Input:
-  BYPASS_STOP_PROCESSING_IF_DOWNLOAD_UNCHANGED: 'False'
-  DOWNLOAD_MISSING_FILE: null
-  INCLUDE_PRERELEASES: null
-  MUNKI_CATEGORY: Utilities
-  NAME: swiftDialog
-  SOFTWARE_TITLE: swiftDialog
-  pkginfo:
-    blocking_applications:
-      - Dialog
-    category: '%MUNKI_CATEGORY%'
-    description: swiftDialog is an open source admin utility for macOS 12 or later
-      written in SwiftUI that presents custom dialogs, displays informative messages
-      or can be used as a form to request user input.
-    developer: CSIRO
-    name: '%NAME%'
-    unattended_install: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.swiftDialog
 ParentRecipeTrustInfo:
   non_core_processors:

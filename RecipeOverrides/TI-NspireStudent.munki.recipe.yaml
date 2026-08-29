@@ -1,21 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.TI-NspireStudent
+# Refresh trust info with: mise run trust:update local.munki.TI-NspireStudent
 Identifier: local.munki.TI-NspireStudent
-Input:
-  MUNKI_CATEGORY: Education
-  NAME: TI-Nspire CX Student Software
-  pkginfo:
-    blocking_applications:
-      - TI-Nspire CX Student Software
-    category: '%MUNKI_CATEGORY%'
-    description: Powerful computer software with a Computer Algebra System (CAS) that
-      satisfies math and science curriculum needs from middle school through college.
-    developer: Texas Instruments
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.TI-NspireStudent
 ParentRecipeTrustInfo:
   non_core_processors:

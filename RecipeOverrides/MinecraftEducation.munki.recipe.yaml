@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MinecraftEducation
+# Refresh trust info with: mise run trust:update local.munki.MinecraftEducation
 Identifier: local.munki.MinecraftEducation
-Input:
-  DOWNLOAD_URL: https://aka.ms/meeclientmacos
-  MUNKI_CATEGORY: Education
-  NAME: Minecraft Education
-  pkginfo:
-    blocking_applications:
-      - minecraft-edu
-    category: '%MUNKI_CATEGORY%'
-    description: Engage students in game-based learning across the curriculum. Minecraft
-      Education is a game-based platform that inspires creative, inclusive learning
-      through play. Explore blocky words that unlock new ways to take on any subject
-      or challenge.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MinecraftEducation
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -42,6 +42,10 @@ fi
 curl "${curl_arguments[@]}" --output "$api_response" "$api_url"
 
 release_tag="$(plutil -extract tag_name raw -o - "$api_response")"
+expected_version="${release_tag#v}"
+if [[ "$expected_version" =~ ^([0-9]+(\.[0-9]+)+)RC[0-9]+$ ]]; then
+    expected_version="${BASH_REMATCH[1]}"
+fi
 asset_count=0
 asset_index=0
 asset_name=""
@@ -62,12 +66,11 @@ if [[ "$asset_count" -ne 1 || "$asset_digest" != sha256:* ]]; then
     exit 1
 fi
 
-cache_root="${RUNNER_TOOL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}}"
-marker_dir="$cache_root/setup-autopkg"
-marker="$marker_dir/release"
-expected_marker="$release_tag:$asset_digest"
-if [[ -x /usr/local/bin/autopkg && -f "$marker" && "$(<"$marker")" == "$expected_marker" ]]; then
+installed_version=""
+if [[ -x /usr/local/bin/autopkg ]]; then
     installed_version="$(/usr/local/bin/autopkg version)"
+fi
+if [[ "$installed_version" == "$expected_version" ]]; then
     echo "AutoPkg $installed_version is already installed from $release_tag"
 else
     package="$temporary_dir/$asset_name"
@@ -94,9 +97,6 @@ else
 
     sudo -n /usr/sbin/installer -pkg "$package" -target /
     installed_version="$(/usr/local/bin/autopkg version)"
-    mkdir -p "$marker_dir"
-    printf '%s\n' "$expected_marker" >"$marker.tmp"
-    mv "$marker.tmp" "$marker"
     echo "Installed AutoPkg $installed_version from $release_tag"
 fi
 

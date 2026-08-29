@@ -1,24 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Vivi
+# Refresh trust info with: mise run trust:update local.munki.Vivi
 Identifier: local.munki.Vivi
-Input:
-  DOWNLOAD_URL: https://api.vivi.io/mac
-  MUNKI_CATEGORY: Education
-  NAME: Vivi
-  pkginfo:
-    blocking_applications:
-      - Vivi
-    category: '%MUNKI_CATEGORY%'
-    description: Vivi is the only scalable, easy-to-use wireless screensharing and
-      student engagement platform engineered for, and by, the education sector. Any
-      device, any number of users or classrooms, any media type, any learning type,
-      any display.
-    developer: Vivi
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Vivi
 ParentRecipeTrustInfo:
   non_core_processors:

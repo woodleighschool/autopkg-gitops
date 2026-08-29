@@ -1,23 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.EPSONDrivers
+# Refresh trust info with: mise run trust:update local.munki.EPSONDrivers
 Identifier: local.munki.EPSONDrivers
-Input:
-  EPSON_CTI: '2001'
-  EPSON_DEVICE_ID: AM-C6000 Series
-  EPSON_OS: MAC26
-  EPSON_REGION: GB
-  MUNKI_CATEGORY: Utilities
-  NAME: EPSON Drivers
-  pkginfo:
-    blocking_applications: []
-    category: '%MUNKI_CATEGORY%'
-    description: Installs the Epson AM-C6000 Series printer driver.
-    developer: Epson
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.EPSONDrivers
 ParentRecipeTrustInfo:
   non_core_processors:

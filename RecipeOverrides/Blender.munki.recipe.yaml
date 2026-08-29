@@ -1,25 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.Blender
+# Refresh trust info with: mise run trust:update local.munki.Blender
 Identifier: local.munki.Blender
-Input:
-  ARCHITECTURE: arm64
-  MAJOR_VERSION: '5'
-  MUNKI_CATEGORY: Creativity
-  NAME: Blender
-  pkginfo:
-    blocking_applications:
-      - Blender
-    category: '%MUNKI_CATEGORY%'
-    description: Blender is a free and open-source 3D computer graphics software tool
-      set used for creating animated films, visual effects, art, 3D-printed models,
-      motion graphics, interactive 3D applications, virtual reality, and, formerly,
-      video games.
-    developer: The Blender Foundation
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Blender
 ParentRecipeTrustInfo:
   non_core_processors:

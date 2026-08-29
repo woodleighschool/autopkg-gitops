@@ -1,22 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.UnityHub
+# Refresh trust info with: mise run trust:update local.munki.UnityHub
 Identifier: local.munki.UnityHub
-Input:
-  BUILD: arm64
-  MUNKI_CATEGORY: Programming
-  NAME: Unity Hub
-  pkginfo:
-    blocking_applications:
-      - Unity Hub
-    category: '%MUNKI_CATEGORY%'
-    description: Unity Hub manages Unity installs, templates, and projects so students
-      can quickly switch between versions and collaborate on creations.
-    developer: Unity Technologies
-    name: '%NAME%'
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: remove_copied_items
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.UnityHub
 ParentRecipeTrustInfo:
   non_core_processors:

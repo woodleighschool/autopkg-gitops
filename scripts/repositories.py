@@ -4,20 +4,17 @@ from __future__ import annotations
 import argparse
 import subprocess
 from pathlib import Path
-from typing import Any
 
 from common import (
     ConfigError,
     MANIFEST_PATH,
     REPO_ROOT,
-    STATE_DIR,
     load_manifest,
-    repository_map,
 )
 
 
 def canonical_url(value: str) -> str:
-    return value.removesuffix(".git").removesuffix("/")
+    return value.removesuffix("/").removesuffix(".git")
 
 
 def git(
@@ -111,39 +108,22 @@ def ensure_checkout(repository: dict[str, str], repo_root: Path) -> Path:
     return destination
 
 
-def selected_names(names_file: Path | None, manifest: dict[str, Any]) -> list[str]:
-    if names_file is None:
-        return [repository["name"] for repository in manifest["repositories"]]
-    try:
-        names = [line.strip() for line in names_file.read_text(encoding="utf-8").splitlines()]
-    except OSError as error:
-        raise ConfigError(f"Cannot read {names_file}: {error}") from error
-    names = [name for name in names if name]
-    known = repository_map(manifest)
-    unknown = sorted(set(names) - known.keys())
-    if unknown:
-        raise ConfigError(f"Unknown repositories: {', '.join(unknown)}")
-    return names
-
-
-def sync(names: list[str], manifest: dict[str, Any], repo_root: Path) -> None:
-    repositories = repository_map(manifest)
-    for name in names:
-        ensure_checkout(repositories[name], repo_root)
+def sync(manifest: dict[str, object], repo_root: Path) -> None:
+    repositories = manifest["repositories"]
+    assert isinstance(repositories, list)
+    for repository in repositories:
+        ensure_checkout(repository, repo_root)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Materialize pinned AutoPkg repositories")
+    parser = argparse.ArgumentParser(description="Sync repositories")
     parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
     parser.add_argument("--repo-root", type=Path, default=REPO_ROOT)
-    parser.add_argument("--names-file", type=Path, default=STATE_DIR / "repositories.txt")
-    parser.add_argument("--all", action="store_true")
     arguments = parser.parse_args()
 
     try:
         manifest = load_manifest(arguments.manifest)
-        names_file = None if arguments.all else arguments.names_file
-        sync(selected_names(names_file, manifest), manifest, arguments.repo_root)
+        sync(manifest, arguments.repo_root)
     except ConfigError as error:
         parser.error(str(error))
     return 0

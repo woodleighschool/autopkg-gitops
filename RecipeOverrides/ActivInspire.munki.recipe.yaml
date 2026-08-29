@@ -1,35 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.ActivInspire
+# Refresh trust info with: mise run trust:update local.munki.ActivInspire
 Identifier: local.munki.ActivInspire
-Input:
-  MUNKI_CATEGORY: Education
-  NAME: ActivInspire
-  pkginfo:
-    blocking_applications:
-      - Inspire
-    category: '%MUNKI_CATEGORY%'
-    description: ActivInspire lesson delivery software is a free teaching software
-      tool for classroom Interactive touchboards, displays, and whiteboards.
-    developer: Promethean
-    name: '%NAME%'
-    postinstall_script: |
-      #!/bin/bash
-      mkdir -p "/Users/Shared/Promethean/ActivInspire"
-      cat > "/Users/Shared/Promethean/ActivInspire/.inspire_license.xml" << EOF
-      <?xml version="1.0" encoding="UTF-8"?>
-      <License>
-          <username>Woodleigh</username>
-          <organization>Woodleigh</organization>
-          <serial>%ACTIVINSPIRE_SERIAL%</serial>
-      </License>
-      EOF
-    postuninstall_script: |
-      #!/bin/bash
-      rm -rf "/Users/Shared/Promethean"
-    unattended_install: true
-    unattended_uninstall: true
-    uninstall_method: removepackages
-    uninstallable: true
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.ActivInspire
 ParentRecipeTrustInfo:
   non_core_processors:

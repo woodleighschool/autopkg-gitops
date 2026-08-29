@@ -1,27 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftTeams
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftTeams
 Identifier: local.munki.MicrosoftTeams
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft Teams
-  PRODUCTID: '2249065'
-  SOFTWARETITLE: Teams
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft Teams (work or school)
-      - Microsoft Teams
-    category: '%MUNKI_CATEGORY%'
-    description: Microsoft Teams is your modern solution for seamless collaboration
-      and communication in the digital workplace. This platform brings together chat,
-      video meetings, file collaboration, and integrated app functionalities in one
-      place.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftTeams
 ParentRecipeTrustInfo:
   non_core_processors:

@@ -1,26 +1,6 @@
-# Generated file. DO NOT EDIT.
-# Refresh with: mise run trust:update local.munki.MicrosoftPowerPoint
+# Refresh trust info with: mise run trust:update local.munki.MicrosoftPowerPoint
 Identifier: local.munki.MicrosoftPowerPoint
-Input:
-  DOWNLOADURL: https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%
-  MUNKI_CATEGORY: Productivity
-  NAME: Microsoft PowerPoint
-  PRODUCTID: '525136'
-  SOFTWARETITLE: PowerPoint
-  VENDOR: Microsoft
-  pkginfo:
-    blocking_applications:
-      - Microsoft PowerPoint
-      - Microsoft Error Reporting
-      - Microsoft AutoUpdate
-    category: '%MUNKI_CATEGORY%'
-    description: Design impactful presentations with stunning visuals and engaging
-      content to captivate your audience.
-    developer: Microsoft
-    name: '%NAME%'
-    unattended_install: true
-    uninstall_method: ''
-    uninstallable: false
+Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftPowerPoint
 ParentRecipeTrustInfo:
   non_core_processors:

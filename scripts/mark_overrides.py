@@ -4,7 +4,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from common import ConfigError, OVERRIDE_DIR, expected_override_header, load_override
+from common import (
+    ConfigError,
+    OVERRIDE_DIR,
+    expected_override_header,
+    load_override,
+    override_paths,
+)
 
 
 def expected_text(path: Path) -> str:
@@ -20,18 +26,18 @@ def expected_text(path: Path) -> str:
     body = lines[len(header) :] if lines[: len(header)] == header else lines
     if not body or body[0] != f"Identifier: {identifier}":
         raise SystemExit(
-            f"{path}: expected raw AutoPkg output or the exact generated-file header"
+            f"{path}: expected Identifier after the trust refresh comment"
         )
     return "\n".join([*header, *body]) + "\n"
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Mark generated AutoPkg overrides")
+    parser = argparse.ArgumentParser(description="Normalize override headers")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("paths", nargs="*", type=Path)
     arguments = parser.parse_args()
 
-    paths = arguments.paths or sorted(OVERRIDE_DIR.glob("*.munki.recipe.yaml"))
+    paths = arguments.paths or override_paths(OVERRIDE_DIR)
     changed: list[Path] = []
     for path in paths:
         expected = expected_text(path)
@@ -44,9 +50,9 @@ def main() -> int:
     if arguments.check and changed:
         for path in changed:
             print(path)
-        print(f"{len(changed)} generated overrides need headers")
+        print(f"{len(changed)} overrides need the trust refresh comment")
         return 1
-    print(f"Marked {len(changed)} of {len(paths)} generated overrides")
+    print(f"Updated {len(changed)} of {len(paths)} override headers")
     return 0
 
 

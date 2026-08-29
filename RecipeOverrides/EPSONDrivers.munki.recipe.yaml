@@ -1,4 +1,3 @@
-# Refresh trust info with: mise run trust:update local.munki.EPSONDrivers
 Identifier: local.munki.EPSONDrivers
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.EPSONDrivers
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.download.recipe.yaml
       sha256_hash: b42f50773d70837baa618506c0d94900333cbefe47e2da50a9a935fcc70eafb9
     com.github.woodleighschool.munki.EPSONDrivers:
-      git_hash: 8ff135f04f2a23fcaaf041bd12fb555b0e3e516f
+      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EPSONDrivers/EPSONDrivers.munki.recipe.yaml
-      sha256_hash: 139615a167c08a9fb5c69267cfbc6ca09e7edffc6bd3cca397e8ed24c7986301
+      sha256_hash: 940b07b8d4af99aa3970632f8dbdc65d1fbe38114d3b5963ef5afd6a91eebf1d
   scripts: {}

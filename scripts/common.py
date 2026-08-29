@@ -140,20 +140,6 @@ def load_selection(state_dir: Path = STATE_DIR) -> dict[str, list[str]]:
     return {"recipes": recipes}
 
 
-def expected_override_header(identifier: str) -> list[str]:
-    return [f"# Refresh trust info with: mise run trust:update {identifier}"]
-
-
-def validate_override_headers(
-    overrides: Mapping[str, tuple[Path, Mapping[str, object]]],
-) -> None:
-    for identifier, (path, _) in overrides.items():
-        header = expected_override_header(identifier)
-        actual = path.read_text(encoding="utf-8").splitlines()[: len(header)]
-        if actual != header:
-            raise ConfigError(f"{path}: missing trust refresh comment; run mise run format")
-
-
 def recipe_aliases(identifier: str) -> tuple[str, ...]:
     short_name = identifier.rsplit(".", 1)[-1]
     return (identifier,) if short_name == identifier else (identifier, short_name)

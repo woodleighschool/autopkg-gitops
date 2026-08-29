@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.Zoom
 Identifier: local.munki.Zoom
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Zoom
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.hansen-m-recipes/Zoom/Zoom.download.recipe
       sha256_hash: 3c4a2f325de4d51163c93505dd134918c9b2cae5089f555d59fac62f14bce007
     com.github.woodleighschool.munki.Zoom:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Zoom/Zoom.munki.recipe.yaml
-      sha256_hash: 1770a95a89a6813bcda15ad71f3713378ad63de42a67cec7a9d07c3f10dd98c6
+      sha256_hash: ae8c03003c7441cf67a0784ebab0e0f210dbf97065da883f6454b1ebef38e558
   scripts: {}

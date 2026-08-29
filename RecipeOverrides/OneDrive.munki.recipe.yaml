@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.OneDrive
 Identifier: local.munki.OneDrive
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.OneDrive
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOneDrive/MicrosoftOneDrive.download.recipe
       sha256_hash: 7718c1c2296c2ea2705df6e7b4378c9d7619f85244be5d55c03f095e7a509e45
     com.github.woodleighschool.munki.OneDrive:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/OneDrive/OneDrive.munki.recipe.yaml
-      sha256_hash: b0eecce7cc2061d98f484113da5eb99ecf9fb857695c9e23665b744c1dc493b5
+      sha256_hash: e3234ad3ea84cde2c4dc425a7e00e73521084b9dad072ce60ab8193cd3e99485
   scripts: {}

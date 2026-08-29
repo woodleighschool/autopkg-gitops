@@ -1,4 +1,3 @@
-# Refresh trust info with: mise run trust:update local.munki.CreativeCloud
 Identifier: local.munki.CreativeCloud
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.CreativeCloud
@@ -26,9 +25,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/AdobeCreativeCloud/AdobeCreativeCloudInstallerAppleSilicon.pkg.recipe
       sha256_hash: f1cb8eca9f603cafc98fd4052c956373074046b6b23869c18701625777c73889
     com.github.woodleighschool.munki.CreativeCloud:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.munki.recipe.yaml
-      sha256_hash: 66ad850135ae15584949c970844165069e86e7e0e917d6be7cec78d227a7b335
+      sha256_hash: 0e5feb2f456d56bcdef802b04aa20e1a5405ad810ecd4da648dbe187a67f6030
     com.github.woodleighschool.pkg.CreativeCloud:
       git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.pkg.recipe.yaml

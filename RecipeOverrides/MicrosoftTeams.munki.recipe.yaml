@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.MicrosoftTeams
 Identifier: local.munki.MicrosoftTeams
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftTeams
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftTeams/MicrosoftTeams.download.recipe
       sha256_hash: 8825f615671892a0a830bb572ab87badbe3546db681b476f4cfff97da08d9366
     com.github.woodleighschool.munki.MicrosoftTeams:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftTeams/MicrosoftTeams.munki.recipe.yaml
-      sha256_hash: 052a78def5ae45d2b28869438040ca32f16f1bf7093e0eeb4d4509807945d716
+      sha256_hash: 45cc21ab7dc830a153479d71701c0fa63593985a4afb38716dcb77264a344ba8
   scripts: {}

@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.EasyFind
 Identifier: local.munki.EasyFind
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.EasyFind
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,9 +21,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.jleggat-recipes/EasyFind/EasyFind.download.recipe
       sha256_hash: b699ea4f057511affd628f14e6872511f6a833e4e3e45af3c38fd51027484d43
     com.github.woodleighschool.munki.EasyFind:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.munki.recipe.yaml
-      sha256_hash: c4ace049fe8ed2c1842e27595048425675dc8ae5190131325aa06e8f4573b03e
+      sha256_hash: 9354ea42cb4c13a423b2ed55e725b026cd5d628326dbd7b97f6e390203ee6b18
     com.github.woodleighschool.pkg.EasyFind:
       git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.pkg.recipe.yaml

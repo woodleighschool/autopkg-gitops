@@ -13,7 +13,6 @@ from common import (
     load_overrides,
     load_selection,
     select_recipes,
-    validate_override_headers,
 )
 
 
@@ -45,7 +44,6 @@ def main() -> int:
         if arguments.command == "validate":
             manifest = load_manifest()
             overrides = load_overrides(arguments.override_dir)
-            validate_override_headers(overrides)
             repositories = manifest["repositories"]
             assert isinstance(repositories, list)
             print(
@@ -53,7 +51,6 @@ def main() -> int:
             )
         elif arguments.command == "select":
             overrides = load_overrides(arguments.override_dir)
-            validate_override_headers(overrides)
             selected_recipes = select_recipes(arguments.recipes, sorted(overrides))
             arguments.state_dir.mkdir(parents=True, exist_ok=True)
             (arguments.state_dir / "selection.json").write_text(

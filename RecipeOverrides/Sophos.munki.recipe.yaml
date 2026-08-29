@@ -1,4 +1,3 @@
-# Refresh trust info with: mise run trust:update local.munki.Sophos
 Identifier: local.munki.Sophos
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Sophos
@@ -10,9 +9,9 @@ ParentRecipeTrustInfo:
       sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
   parent_recipes:
     com.github.woodleighschool.munki.Sophos:
-      git_hash: a95af6e359d38a2607d8f2994f7ae42045116211
+      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Sophos/Sophos.munki.recipe.yaml
-      sha256_hash: 6010b8e6d6b3c4a616f622837c955490bb5cd6ef07faf56e16d13bde164e54f6
+      sha256_hash: 31f415b9cbc855e2ada02b4299707b7009e6ec4c0384242792cec58d2211a911
     com.github.woodleighschool.pkg.Sophos:
       git_hash: a95af6e359d38a2607d8f2994f7ae42045116211
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Sophos/Sophos.pkg.recipe.yaml

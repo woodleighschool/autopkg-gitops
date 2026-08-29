@@ -143,8 +143,6 @@ jobs:
               --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
               --override-dir="$GITHUB_WORKSPACE/pull/RecipeOverrides" \
               "${failures[@]}"
-            python "$SCRIPT_ROOT/scripts/mark_overrides.py" \
-              "$GITHUB_WORKSPACE"/pull/RecipeOverrides/*.recipe.yaml
           fi
 
       - name: Verify trust

@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.DanteController
 Identifier: local.munki.DanteController
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.DanteController
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -23,7 +22,7 @@ ParentRecipeTrustInfo:
         Dante Controller/Audinate Dante Controller.download.recipe
       sha256_hash: be15a1e3778925aae0058893fa0083e66ca97d30ce5226035f04dc2235b452e5
     com.github.woodleighschool.munki.DanteController:
-      git_hash: 8705a326087fa78213edf12f456c157b7af72f51
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteController/DanteController.munki.recipe.yaml
-      sha256_hash: c85be3361b68fb0c82da8b2f7218def5a905215d8ddd102fee7b793b94bbea8d
+      sha256_hash: b0a101b87e8e5c35822104f7e3c18f6c467786dfd3e38d6d68f727478e71f4d4
   scripts: {}

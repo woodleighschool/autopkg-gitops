@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.Blender
 Identifier: local.munki.Blender
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Blender
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,9 +21,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Blender/Blender.download.recipe.yaml
       sha256_hash: 069cae04c7651f8e3ab1f66d203c75ce759d26d72defb52cec50a0e264a0db9c
     com.github.woodleighschool.munki.Blender:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Blender/Blender.munki.recipe.yaml
-      sha256_hash: 9128df3f16378d64cc8181b2b1686c529d1fa240ef422d3e7cf8ab148a999aef
+      sha256_hash: ad282b0cb7559dad458b43945278bfd23affec0e27abc3c5b92cb7a6f11ea09d
     io.github.hjuutilainen.download.Blender:
       git_hash: 4478244963a9d8e436972a59926a678a862f4af9
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.hjuutilainen-recipes/Blender/Blender.download.recipe

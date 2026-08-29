@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.WoodSweep
 Identifier: local.munki.WoodSweep
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.WoodSweep
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,9 +21,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.download.recipe.yaml
       sha256_hash: ef9bd5fca23149273bba88e56de7c2a4b5f98134063b1bb00817abb26d412ae5
     com.github.woodleighschool.munki.WoodSweep:
-      git_hash: a80f7dddc7d96d22fdf6dd55e1a1c2316b4d4fa8
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.munki.recipe.yaml
-      sha256_hash: 7fd31d597f016d97a5f359b487eb6e5d8f324b520b91c28c38ae0e36c8c5c06d
+      sha256_hash: 0f6030c3e906951cfb8012f7337d62c84b81f80c0c3318b4dbe2493db6397235
     com.github.woodleighschool.pkg.WoodSweep:
       git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WoodSweep/WoodSweep.pkg.recipe.yaml

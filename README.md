@@ -11,7 +11,7 @@
 
 Pinned repositories sync to `~/Library/AutoPkg/RecipeRepos` before the v3 recipe map is rebuilt.
 
-`mise run trust:create <recipe>` creates an override. Keep only `Input` values you want to override.
+`mise run trust:create <recipe>` creates an override with an empty `Input` mapping.
 `mise run trust:update <override>` and `mise run trust:update-all` refresh trust info;
 `mise run trust:verify` inspects changes.
 

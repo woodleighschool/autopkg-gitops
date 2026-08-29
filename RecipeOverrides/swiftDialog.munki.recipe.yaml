@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.swiftDialog
 Identifier: local.munki.swiftDialog
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.swiftDialog
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -26,7 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.pkg.recipe.yaml
       sha256_hash: 1d7416091b64f7d667c753769af87bd55374b46be75109b06057ee298976e5eb
     com.github.woodleighschool.munki.swiftDialog:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.munki.recipe.yaml
-      sha256_hash: 6507d8d0732be6f492442327f0d5c1a812931992208a679a536a77d80b15a253
+      sha256_hash: fb34d96648117a5bd3876454204f1bf1543a65e89e7cb4f2cb40c92ec93ac28a
   scripts: {}

@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.MicrosoftExcel
 Identifier: local.munki.MicrosoftExcel
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftExcel
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftExcel365/MicrosoftExcel365.download.recipe
       sha256_hash: 0cce58fb09aed964c58e59288abbb5c0bb9d5e14702dc1c6cf1c0d08a51be31e
     com.github.woodleighschool.munki.MicrosoftExcel:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftExcel/MicrosoftExcel.munki.recipe.yaml
-      sha256_hash: 8296ec1fed66bd8f97cfffa6465bf1caf31f5b0b90b9856b69c6d0a68302bbc9
+      sha256_hash: 4ff962f103466620acd897b405c5cb72e26160ae0d6b7f2118a47965d1bbcead
   scripts: {}

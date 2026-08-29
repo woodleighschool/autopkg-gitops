@@ -1,4 +1,3 @@
-# Refresh trust info with: mise run trust:update local.munki.NAPLockedDownBrowser
 Identifier: local.munki.NAPLockedDownBrowser
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.NAPLockedDownBrowser
@@ -8,10 +7,10 @@ ParentRecipeTrustInfo:
       git_hash: cecb7b4f782a8f6b59f029d30a544df0e07c5548
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/FindAndReplace/FindAndReplace.py
       sha256_hash: 550c9015d45d5f4bbdef4ebd2563c4fbfcbef10cde59598bb101ef7b2647a310
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -26,7 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.davidbpirie-recipes/ACARA/NAPLockedDownBrowser.download.recipe.yaml
       sha256_hash: 7c56dd42b11ccd0cca5328cab069146c765eb6250d876f53f1e07fc191d5530b
     com.github.woodleighschool.munki.NAPLockedDownBrowser:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/NAPLockedDownBrowser/NAPLockedDownBrowser.munki.recipe.yaml
-      sha256_hash: 36246b029373df1a8f7a76626c42951d4054071b8898fd90b8b55a1b1be22aba
+      sha256_hash: cda63aaea914f1f7b899acf7b2ca52534e8204bff81a8892a9f77dd20863f506
   scripts: {}

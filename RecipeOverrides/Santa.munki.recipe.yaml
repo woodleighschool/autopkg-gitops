@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.Santa
 Identifier: local.munki.Santa
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.Santa
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.zentral-recipes/santa/santa.download.recipe
       sha256_hash: 69c8791361e423ffc1cd4072abf2ae244f2a53b8c7f338c911bf0f7f97856adc
     com.github.woodleighschool.munki.Santa:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Santa/Santa.munki.recipe.yaml
-      sha256_hash: e7eea6396c220a7b665ac629e23c74330ca6edfae0c594c6494f75e9f58d755f
+      sha256_hash: b6b65c70d700ee7d307294e05a367cdfc41df9af40a20d78503fcc3e1f8b672e
   scripts: {}

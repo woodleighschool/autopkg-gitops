@@ -1,4 +1,3 @@
-# Refresh trust info with: mise run trust:update local.munki.VisualStudioCode
 Identifier: local.munki.VisualStudioCode
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VisualStudioCode
@@ -12,10 +11,10 @@ ParentRecipeTrustInfo:
       git_hash: 26270f19b593812339d9750c0196035b65451c41
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/SharedProcessors/VariablePlaceholder.py
       sha256_hash: 16637db57792a888a6d4fcdf26271ff7ac2b94ebf97433bc4072316f9c70a265
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -34,7 +33,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.download.recipe.yaml
       sha256_hash: 6b36c9cb14f48e9be7845da46672dc011eca559c0cfb7c2c2d01780d5ed524e0
     com.github.woodleighschool.munki.VisualStudioCode:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.munki.recipe.yaml
-      sha256_hash: 23cf8e5704df6a11a1093b59a88ed83203bc3c0822d9df1210b99eb1ac84879e
+      sha256_hash: 8fbdfe542c3ceed429ac8a0c8b666b53974b0546f878730e90de0fceb6ae8956
   scripts: {}

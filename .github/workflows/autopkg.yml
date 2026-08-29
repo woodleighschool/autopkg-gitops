@@ -114,9 +114,6 @@ jobs:
       - name: Install Python dependencies
         run: mise deps install --force pip
 
-      - name: Check runner
-        run: mise run preflight
-
       - name: Select recipes
         run: |
           recipes=()

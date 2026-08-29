@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.TI-NspireStudent
 Identifier: local.munki.TI-NspireStudent
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.TI-NspireStudent
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.download.recipe.yaml
       sha256_hash: 685625841a3da5da0c2f15d1a8cf72981a5d06b716de2eea95cf724024c7af0e
     com.github.woodleighschool.munki.TI-NspireStudent:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/TI-NspireStudent/TI-NspireStudent.munki.recipe.yaml
-      sha256_hash: 44e6298cf2eb009846bad44f1fbd7a65f0dce1834d32c7ef669a9a6f73490d90
+      sha256_hash: 6295081fe171a0bb37dfc49c08b80af57f5e8165943c1747ebbdace27e35421f
   scripts: {}

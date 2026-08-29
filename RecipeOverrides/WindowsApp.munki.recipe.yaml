@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.WindowsApp
 Identifier: local.munki.WindowsApp
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.WindowsApp
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftWindowsApp/MicrosoftWindowsApp.download.recipe
       sha256_hash: b4690df4be56bd0d7baf05ee407e89ee7229c79717b7de95fb7bdbc38d3246d5
     com.github.woodleighschool.munki.WindowsApp:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WindowsApp/WindowsApp.munki.recipe.yaml
-      sha256_hash: d74b305f83f132fe4a233e0d6aba68ddac25a5dfdb9ee2d060e85045f6ec734b
+      sha256_hash: 9b3861b5a58d2646bb1195e8e14f24cf88113a36821c6bec8b601b797eec7e84
   scripts: {}

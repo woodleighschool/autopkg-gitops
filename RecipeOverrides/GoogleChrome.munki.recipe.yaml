@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.GoogleChrome
 Identifier: local.munki.GoogleChrome
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GoogleChrome
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.recipes/GoogleChrome/GoogleChromePkg.download.recipe
       sha256_hash: 2de26c035de26d0a4d01ad46ff3d50c0f2d2f555920319c678a55412a42babf5
     com.github.woodleighschool.munki.GoogleChrome:
-      git_hash: 561d252285afd8ad2ee74cedc30cc076ff00391d
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GoogleChrome/GoogleChrome.munki.recipe.yaml
-      sha256_hash: e6bf0481db4d97f6f7e1472ce51a52098a49ae2dc43038fcbeea47f9cbf0d340
+      sha256_hash: 5135d4670884e93cf889bfb3edebd424d2984d65f362343dd6003d055dbfb4ad
   scripts: {}

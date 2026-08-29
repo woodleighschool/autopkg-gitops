@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.MicrosoftOneNote
 Identifier: local.munki.MicrosoftOneNote
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.MicrosoftOneNote
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOneNote365/MicrosoftOneNote365.download.recipe
       sha256_hash: a60cad6107c758ea36cda01540115384839dcffd3bc65189c37ae09bbf820357
     com.github.woodleighschool.munki.MicrosoftOneNote:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftOneNote/MicrosoftOneNote.munki.recipe.yaml
-      sha256_hash: d596e49a5399bdadc33c4351204ad4552089f4bec0be8ad975ff654352f51564
+      sha256_hash: 18a157de9d0d6a09f39848a95891273693f180a84067b0bb9d3eb7d3c38c212b
   scripts: {}

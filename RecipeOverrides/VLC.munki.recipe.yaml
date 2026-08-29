@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.VLC
 Identifier: local.munki.VLC
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VLC
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -26,7 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.download.recipe.yaml
       sha256_hash: 440fc72931534a9fd15dec44b3ae3a5255edd2800f2cdd7573f8eeb7aadb5fd0
     com.github.woodleighschool.munki.VLC:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VLC/VLC.munki.recipe.yaml
-      sha256_hash: 075eb44ef4bdb2ee67ba0ca881a64179955abf603b90b2e06b031ef9a38cb932
+      sha256_hash: eb940458c4e915e4b69d8a956c4e7220e3f538b570c28887dc29170ffda4632c
   scripts: {}

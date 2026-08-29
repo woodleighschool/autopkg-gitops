@@ -24,21 +24,13 @@ SOPS_AGE_KEY_FILE = "{{ get_env(name='SOPS_AGE_KEY_FILE', default=config_root ~ 
 [deps.pip]
 auto = true
 
-[tasks."overrides:mark"]
-hide = true
-run = "python scripts/mark_overrides.py"
-
 [tasks.format]
 description = "Format YAML, JSON, and Markdown"
-depends = ["overrides:mark"]
 run = "oxfmt . '!RecipeOverrides/**' '!.mise/**'"
 
 [tasks.fmt-check]
 description = "Check YAML, JSON, and Markdown formatting"
-run = [
-  "python scripts/mark_overrides.py --check",
-  "oxfmt --check . '!RecipeOverrides/**' '!.mise/**'",
-]
+run = "oxfmt --check . '!RecipeOverrides/**' '!.mise/**'"
 
 [tasks.validate]
 description = "Validate recipe overrides and repository pins"
@@ -63,17 +55,6 @@ run = "PYTHONPATH=scripts python -m unittest discover -s tests -v"
 [tasks.check]
 description = "Run static checks and tests"
 depends = ["lint", "test"]
-
-[tasks.preflight]
-description = "Check AutoPkg and Munki"
-run = '''
-version="$(autopkg version)"
-if [[ "$version" != 3.* ]]; then
-  echo "AutoPkg v3 is required; found $version" >&2
-  exit 1
-fi
-test -x /usr/local/munki/makepkginfo
-'''
 
 [tasks."recipes:select"]
 description = "Select recipes"
@@ -102,10 +83,6 @@ run = "sops edit secrets.sops.env"
 hide = true
 run = '''
 secret_keys="$(sed -nE 's/^(AUTOPKG_[A-Za-z_][A-Za-z0-9_]*)=.*/\1/p' secrets.sops.env | paste -sd, -)"
-if [[ -z "$secret_keys" ]]; then
-  echo "secrets.sops.env contains no AUTOPKG_* inputs" >&2
-  exit 1
-fi
 SOPS_AUTOPKG_KEYS="$secret_keys" sops exec-env secrets.sops.env 'python scripts/run.py'
 '''
 
@@ -116,13 +93,18 @@ arg "<recipe>" help="Source recipe identifier"
 '''
 run = '''
 mise run trust:prepare
+recipe_name="${usage_recipe##*.}"
+recipe_namespace="${usage_recipe%.*}"
+recipe_type="${recipe_namespace##*.}"
+override_name="$recipe_name.$recipe_type"
+override_path="$PWD/RecipeOverrides/$override_name.recipe.yaml"
 autopkg make-override \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
   --format=yaml \
+  --name="$override_name" \
   --override-dir="$PWD/RecipeOverrides" \
   "${usage_recipe?}"
-mise run overrides:mark
-echo "Remove inherited Input values you do not want to override."
+python scripts/clear_override_input.py "$override_path"
 '''
 
 [tasks."trust:update"]
@@ -136,7 +118,6 @@ autopkg update-trust-info \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
   --override-dir="$PWD/RecipeOverrides" \
   "${usage_recipe?}"
-mise run overrides:mark
 '''
 
 [tasks."trust:update-all"]
@@ -152,7 +133,6 @@ autopkg update-trust-info \
   --prefs="$AUTOPKG_STATE_DIR/preferences.plist" \
   --override-dir="$PWD/RecipeOverrides" \
   "${overrides[@]}"
-mise run overrides:mark
 '''
 
 [tasks."trust:verify"]
@@ -180,7 +160,6 @@ usage = '''
 arg "[recipe]" help="Recipe name; defaults to all overrides"
 '''
 run = '''
-mise run preflight
 if [[ -n "${usage_recipe:-}" ]]; then
   mise run recipes:select -- "$usage_recipe"
 else

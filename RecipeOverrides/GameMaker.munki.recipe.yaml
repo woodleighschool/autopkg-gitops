@@ -1,13 +1,12 @@
-# Refresh trust info with: mise run trust:update local.munki.GameMaker
 Identifier: local.munki.GameMaker
 Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GameMaker
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.woodleighschool.processors/MunkiIconExtractor:
-      git_hash: fe4a65df107be909934649edfb654baefbf43393
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/MunkiIconExtractor.py
-      sha256_hash: cde2edab3f7f878002d92a69258718e3cfe5412f69dabd22df033aa08281b518
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.davidbpirie-recipes/GameMaker/GameMaker.download.recipe.yaml
       sha256_hash: 943cb4a4fe92c84345faa9920058961bfd8c46cb2e76ba20bb3492c5b066f5f5
     com.github.woodleighschool.munki.GameMaker:
-      git_hash: 1378b8afdc250d9062e3f11778a4618dc338e86f
+      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GameMaker/GameMaker.munki.recipe.yaml
-      sha256_hash: 43cc7eb9aceb0096e0809ad4c420c267a9e68ae3eb253298c018fd6b1d506357
+      sha256_hash: 458a38021b9926e0a96d277378253a3e0fa133701bdb0fefe49492bdce27343d
   scripts: {}

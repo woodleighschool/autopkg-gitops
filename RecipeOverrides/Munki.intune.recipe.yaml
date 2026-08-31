@@ -17,7 +17,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.download.recipe.yaml
       sha256_hash: 0d5eab8bc0a07898f1a2dce382023cd3407368cea9d5eaabe3173f5034da4a12
     com.github.woodleighschool.intune.Munki:
-      git_hash: 3fdcb7ddecc40bb34d27b3a0f8ceaa628d378cc6
+      git_hash: 1e9af2e4aec8fd6c3b6d3c681a68605a7dd9913c
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.intune.recipe.yaml
-      sha256_hash: 4ca3431af65fd9da9d7805098a9771c81ef2d7cabbf80e32e9c5544368b40d35
+      sha256_hash: 658568133c3a10e559e24b945e19f6116d4ddfb4bf8a2791304c547f61dfc647
   scripts: {}

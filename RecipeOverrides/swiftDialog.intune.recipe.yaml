@@ -1,6 +1,6 @@
-Identifier: local.intune.Munki
+Identifier: local.intune.swiftDialog
 Input: {}
-ParentRecipe: com.github.woodleighschool.intune.Munki
+ParentRecipe: com.github.woodleighschool.intune.swiftDialog
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.almenscorner.intune-upload.processors/IntuneAppUploader:
@@ -12,12 +12,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
       sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
   parent_recipes:
-    com.github.woodleighschool.download.Munki:
-      git_hash: 2460ddd626106304610bd0b04a75b4bdb5b5d6b0
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.download.recipe.yaml
-      sha256_hash: 0d5eab8bc0a07898f1a2dce382023cd3407368cea9d5eaabe3173f5034da4a12
-    com.github.woodleighschool.intune.Munki:
-      git_hash: 3fdcb7ddecc40bb34d27b3a0f8ceaa628d378cc6
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.intune.recipe.yaml
-      sha256_hash: 4ca3431af65fd9da9d7805098a9771c81ef2d7cabbf80e32e9c5544368b40d35
+    com.github.smithjw.download.swiftDialog:
+      git_hash: 0d934ac0abcb1343da20b5df37b27348c97a1e13
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.download.recipe.yaml
+      sha256_hash: 6e8d64ec441d71d115e699518e501c497204e0ac1ab9bef2f2b8e9bd2524bc3a
+    com.github.woodleighschool.intune.swiftDialog:
+      git_hash: 7cafc005c4d97f33e594cf581f4981ecf154c997
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.intune.recipe.yaml
+      sha256_hash: 443c1298f2bfbfc8359754c162b74259e56284b983bfa941c60df23e32239f8f
   scripts: {}

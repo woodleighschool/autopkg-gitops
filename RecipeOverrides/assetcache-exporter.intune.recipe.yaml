@@ -1,0 +1,19 @@
+Identifier: local.intune.assetcache-exporter
+Input: {}
+ParentRecipe: com.github.woodleighschool.intune.assetcache-exporter
+ParentRecipeTrustInfo:
+  non_core_processors:
+    com.github.almenscorner.intune-upload.processors/IntuneAppUploader:
+      git_hash: 3525ef674256a93a875c4a1b3638ddd458138e61
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.almenscorner.intune-uploader/IntuneUploader/IntuneAppUploader.py
+      sha256_hash: 989b4a266f47633cce8864edb27a0b1076902395e1dd614f78171ab5b78aefe6
+  parent_recipes:
+    com.github.woodleighschool.download.assetcache-exporter:
+      git_hash: 44658a28909979d0b9e5c95195dc475b5338b5c1
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/assetcache-exporter/assetcache-exporter.download.recipe.yaml
+      sha256_hash: 8739732b283db519791bfc2afc6ae438c2a952a47f4a63e6954575d4c5c83567
+    com.github.woodleighschool.intune.assetcache-exporter:
+      git_hash: 44658a28909979d0b9e5c95195dc475b5338b5c1
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/assetcache-exporter/assetcache-exporter.intune.recipe.yaml
+      sha256_hash: 57dd36cd51057ee05ab54a5dd12bd5e9eed85eb450686418ecc35904e1c8896b
+  scripts: {}

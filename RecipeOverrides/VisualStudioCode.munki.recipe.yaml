@@ -3,14 +3,6 @@ Input: {}
 ParentRecipe: com.github.woodleighschool.munki.VisualStudioCode
 ParentRecipeTrustInfo:
   non_core_processors:
-    com.github.homebysix.FindAndReplace/FindAndReplace:
-      git_hash: cecb7b4f782a8f6b59f029d30a544df0e07c5548
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/FindAndReplace/FindAndReplace.py
-      sha256_hash: 550c9015d45d5f4bbdef4ebd2563c4fbfcbef10cde59598bb101ef7b2647a310
-    com.github.rtrouton.SharedProcessors/VariablePlaceholder:
-      git_hash: 26270f19b593812339d9750c0196035b65451c41
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/SharedProcessors/VariablePlaceholder.py
-      sha256_hash: 16637db57792a888a6d4fcdf26271ff7ac2b94ebf97433bc4072316f9c70a265
     com.github.woodleighschool.processors/SwiftIconExtractor:
       git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
@@ -24,16 +16,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.jc0b.download.VisualStudioCode:
-      git_hash: 521560e7a7b7614f1490a845427647ab9b94c732
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.jc0b-recipes/Microsoft/VisualStudioCode.download.recipe.yaml
-      sha256_hash: 98bb84bf4ecccd9423896a6fa779bccbfb004f34e23a5633f551f1cdaf8a8fe6
     com.github.woodleighschool.download.VisualStudioCode:
-      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.download.recipe.yaml
-      sha256_hash: 6b36c9cb14f48e9be7845da46672dc011eca559c0cfb7c2c2d01780d5ed524e0
+      sha256_hash: c3679fb8f5f8a0dd2aa41346332defa8b64e31126dedf9942cb0bd3673a02112
     com.github.woodleighschool.munki.VisualStudioCode:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/VisualStudioCode/VisualStudioCode.munki.recipe.yaml
-      sha256_hash: 8fbdfe542c3ceed429ac8a0c8b666b53974b0546f878730e90de0fceb6ae8956
+      sha256_hash: c0caf1bc6fd9c9dbc933e23b0cc2d3852474af46cb5dcdc3627a7f4f8d95d577
   scripts: {}

@@ -7,11 +7,6 @@
       "revision": "3b90b47f5902cc16c901962a61640d6bc767626a"
     },
     {
-      "url": "https://github.com/autopkg/aysiu-recipes",
-      "ref": "master",
-      "revision": "ddcac9eec442d1fb966a3f04e941061976fdea61"
-    },
-    {
       "url": "https://github.com/autopkg/dataJAR-recipes",
       "ref": "master",
       "revision": "2d26348dc62de5cf16163b02ac2e9a07e449b42f"
@@ -20,31 +15,6 @@
       "url": "https://github.com/autopkg/davidbpirie-recipes",
       "ref": "main",
       "revision": "c031d8369934c219a184dc1e589b50bb0f3372a9"
-    },
-    {
-      "url": "https://github.com/autopkg/hansen-m-recipes",
-      "ref": "master",
-      "revision": "df8bcb003819355c4011fc052279d9cb9590a94e"
-    },
-    {
-      "url": "https://github.com/autopkg/hjuutilainen-recipes",
-      "ref": "master",
-      "revision": "f6ac2d0ee0d9d3cbe940e7a2590133688547da3b"
-    },
-    {
-      "url": "https://github.com/autopkg/homebysix-recipes",
-      "ref": "master",
-      "revision": "d7f27716779fdc2657f6658fe80cac0e62d3eb6f"
-    },
-    {
-      "url": "https://github.com/autopkg/jc0b-recipes",
-      "ref": "master",
-      "revision": "67d3e3b902ebf8352b1a692eeef7ab2c05abd6f8"
-    },
-    {
-      "url": "https://github.com/autopkg/jleggat-recipes",
-      "ref": "master",
-      "revision": "5d029b6248997a33d5c3b73fecd93db003c13eef"
     },
     {
       "url": "https://github.com/autopkg/nstrauss-recipes",
@@ -62,24 +32,9 @@
       "revision": "17161a366c55631ba399685b1041e62b8350613b"
     },
     {
-      "url": "https://github.com/autopkg/rustymyers-recipes",
-      "ref": "master",
-      "revision": "a1d909167ad455d19b15850b55ecfc42c811aedb"
-    },
-    {
-      "url": "https://github.com/autopkg/smithjw-recipes",
-      "ref": "master",
-      "revision": "ed32255111e97b40bb5541332c74cd60c9c41fbf"
-    },
-    {
-      "url": "https://github.com/autopkg/zentral-recipes",
-      "ref": "master",
-      "revision": "714610ad5af823f6e1ca44d6d3bb82f3402e38a7"
-    },
-    {
       "url": "https://github.com/woodleighschool/autopkg.git",
       "ref": "main",
-      "revision": "7cafc005c4d97f33e594cf581f4981ecf154c997"
+      "revision": "af40c8be89c0e16e43ccb1047a2764ba53640663"
     },
     {
       "url": "https://github.com/woodleighschool/woodstar.git",

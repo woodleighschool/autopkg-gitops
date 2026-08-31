@@ -16,16 +16,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.jleggat.EasyFind.download:
-      git_hash: d81e1030543c8e25328af8ccd4321852bb4cedb5
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.jleggat-recipes/EasyFind/EasyFind.download.recipe
-      sha256_hash: b699ea4f057511affd628f14e6872511f6a833e4e3e45af3c38fd51027484d43
+    com.github.woodleighschool.download.EasyFind:
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.download.recipe.yaml
+      sha256_hash: 2c6385cf328a7fd36fef9b8c62a136fd1d7886411b5aad6bb8dccdc3d9fdf303
     com.github.woodleighschool.munki.EasyFind:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.munki.recipe.yaml
-      sha256_hash: 9354ea42cb4c13a423b2ed55e725b026cd5d628326dbd7b97f6e390203ee6b18
-    com.github.woodleighschool.pkg.EasyFind:
-      git_hash: 409ae6599eb91d1af16bab5941d8ec84e12ed0f3
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.pkg.recipe.yaml
-      sha256_hash: 79014e78595032b2f962ec1ab9506b221e9938046b6edeb4289c102c0bf7836f
+      sha256_hash: b443aee9bf07664dd52bf5e43b9a76f4ab7f2beb598cf313789398a184e28a36
   scripts: {}

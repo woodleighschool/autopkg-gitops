@@ -16,12 +16,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.autopkg.zentral.download.santa:
-      git_hash: 2300e14970b9b21f010b6cf17c56ce5ef76ca694
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.zentral-recipes/santa/santa.download.recipe
-      sha256_hash: 69c8791361e423ffc1cd4072abf2ae244f2a53b8c7f338c911bf0f7f97856adc
+    com.github.woodleighschool.download.Santa:
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Santa/Santa.download.recipe.yaml
+      sha256_hash: a9075e5209615a4bab9030b383c1e309c3682a7940b30502fc3820ee7277ad17
     com.github.woodleighschool.munki.Santa:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Santa/Santa.munki.recipe.yaml
-      sha256_hash: b6b65c70d700ee7d307294e05a367cdfc41df9af40a20d78503fcc3e1f8b672e
+      sha256_hash: 991d9bdde191d73433f660c2e4dee146c6d966d42d11891f39e6ed76c05d33fc
   scripts: {}

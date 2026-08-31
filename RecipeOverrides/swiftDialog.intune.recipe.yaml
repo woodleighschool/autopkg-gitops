@@ -12,12 +12,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
       sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
   parent_recipes:
-    com.github.smithjw.download.swiftDialog:
-      git_hash: 0d934ac0abcb1343da20b5df37b27348c97a1e13
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.download.recipe.yaml
-      sha256_hash: 6e8d64ec441d71d115e699518e501c497204e0ac1ab9bef2f2b8e9bd2524bc3a
+    com.github.woodleighschool.download.swiftDialog:
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.download.recipe.yaml
+      sha256_hash: a93e280b6f2495259c62b5b53bbd093449462a15a01c10c0ea7297b2a9b9a321
     com.github.woodleighschool.intune.swiftDialog:
-      git_hash: 7cafc005c4d97f33e594cf581f4981ecf154c997
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.intune.recipe.yaml
-      sha256_hash: 443c1298f2bfbfc8359754c162b74259e56284b983bfa941c60df23e32239f8f
+      sha256_hash: 37947655a9ef754e6a4388d47a5203c1b1619c54585e8333abbc6462fa75e4b3
   scripts: {}

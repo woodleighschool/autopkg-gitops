@@ -16,16 +16,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.homebysix.download.DockerDesktop:
-      git_hash: 0a2e99b56786218f81650f2b385aa1653a1ac3c8
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/Docker/DockerDesktop.download.recipe
-      sha256_hash: 6c91680b196416271abc37eac246c67f1e76cb619973c1fb5c3a1db6fa05b1f4
     com.github.woodleighschool.download.DockerDesktop:
-      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.download.recipe.yaml
-      sha256_hash: 8f5f62c905a57fd3812864a35ef07cb48c356f794ae805e93ffa0c9c7c3a8dc9
+      sha256_hash: 205c7fee199ee6688610f734769a3364e508b132e16d25a4a72be0e4f7a0530e
     com.github.woodleighschool.munki.DockerDesktop:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.munki.recipe.yaml
-      sha256_hash: 5633514a75a91369f525033c9acef14716d2c7559c293296abf084229336167a
+      sha256_hash: 13552ed5427a911060f624c75d5a4cb2bc45ecf39ebde477609a04a053145926
   scripts: {}

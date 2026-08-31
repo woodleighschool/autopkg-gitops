@@ -16,12 +16,13 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.homebysix.download.AutodeskFusion360:
-      git_hash: 3b32302fcdc4caa98e4fcbbca92f01c7769d620b
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.homebysix-recipes/AutodeskFusion360/AutodeskFusion360.download.recipe
-      sha256_hash: 065f9a5d1d49a40179292d895c65e4267ac05deea59271ffdcc747d9c00b8841
+    com.github.nstrauss.download.AutodeskFusion360:
+      git_hash: f4b128b6b8e9a63f5f61d72685def8687852f32d
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.nstrauss-recipes/Autodesk
+        Fusion/AutodeskFusion360.download.recipe
+      sha256_hash: e750ed2242d3cb862219e25bfd947707fcf3446de2d4b9939c907c8aef098bb6
     com.github.woodleighschool.munki.AutodeskFusion:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/AutodeskFusion/AutodeskFusion.munki.recipe.yaml
-      sha256_hash: 920f4fae6d96d15f2b88e3edd67c33929a91983f958a9e88ae6ee795150b4840
+      sha256_hash: acea56880f50739d246157a2d951ad386aca3498d2be732a8e35cbb22f4bbfc2
   scripts: {}

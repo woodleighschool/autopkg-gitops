@@ -16,16 +16,12 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiPackageCleaner.py
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
-    com.github.smithjw.download.swiftDialog:
-      git_hash: 0d934ac0abcb1343da20b5df37b27348c97a1e13
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.download.recipe.yaml
-      sha256_hash: 6e8d64ec441d71d115e699518e501c497204e0ac1ab9bef2f2b8e9bd2524bc3a
-    com.github.smithjw.pkg.swiftDialog:
-      git_hash: 0d934ac0abcb1343da20b5df37b27348c97a1e13
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.smithjw-recipes/swiftDialog/swiftDialog.pkg.recipe.yaml
-      sha256_hash: 1d7416091b64f7d667c753769af87bd55374b46be75109b06057ee298976e5eb
+    com.github.woodleighschool.download.swiftDialog:
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.download.recipe.yaml
+      sha256_hash: a93e280b6f2495259c62b5b53bbd093449462a15a01c10c0ea7297b2a9b9a321
     com.github.woodleighschool.munki.swiftDialog:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/swiftDialog/swiftDialog.munki.recipe.yaml
-      sha256_hash: fb34d96648117a5bd3876454204f1bf1543a65e89e7cb4f2cb40c92ec93ac28a
+      sha256_hash: 35412c4a23e4d519873eb84bdb3180fbef6dad7a6c396875f097b412fed45507
   scripts: {}

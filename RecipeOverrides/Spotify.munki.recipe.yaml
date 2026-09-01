@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.Spotify
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -25,7 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Spotify/Spotify.download.recipe.yaml
       sha256_hash: 539ac6755731d583df71eff3e66c2b104425b34b032b21c47c4cd54ffb78c5a8
     com.github.woodleighschool.munki.Spotify:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Spotify/Spotify.munki.recipe.yaml
-      sha256_hash: 74a49a8fef9b7acef10729359b8700d39f7a0965932d729a4f71aa06bc680082
+      sha256_hash: 32c397beb23a9653a98d087d69aee967ad9f9aa989bf11d2907c75e1f22a9b3d
   scripts: {}

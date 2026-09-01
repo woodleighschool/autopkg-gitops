@@ -8,16 +8,16 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.almenscorner.intune-uploader/IntuneUploader/IntuneAppUploader.py
       sha256_hash: 989b4a266f47633cce8864edb27a0b1076902395e1dd614f78171ab5b78aefe6
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
   parent_recipes:
     com.github.woodleighschool.download.Munki:
       git_hash: 2460ddd626106304610bd0b04a75b4bdb5b5d6b0
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.download.recipe.yaml
       sha256_hash: 0d5eab8bc0a07898f1a2dce382023cd3407368cea9d5eaabe3173f5034da4a12
     com.github.woodleighschool.intune.Munki:
-      git_hash: 1e9af2e4aec8fd6c3b6d3c681a68605a7dd9913c
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Munki/Munki.intune.recipe.yaml
-      sha256_hash: 658568133c3a10e559e24b945e19f6116d4ddfb4bf8a2791304c547f61dfc647
+      sha256_hash: 10df5d1107cd6b3488f0314190dd9a9c019bc5e3ca73d5ddafd9ba7c8064492d
   scripts: {}

@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.MicrosoftPowerPoint
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftPowerPoint365/MicrosoftPowerPoint365.download.recipe
       sha256_hash: 3648fd34d13d7cf7f363996357ea5776eecd40f6d6923fc015fc6132d6ea73f7
     com.github.woodleighschool.munki.MicrosoftPowerPoint:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftPowerPoint/MicrosoftPowerPoint.munki.recipe.yaml
-      sha256_hash: ec53a32e3ad7d349b350e3c00d0cefa2080b82398fd22234caaaa8164e2a3ebb
+      sha256_hash: 3d9040206f85052eb83316138f8f5cc27d5c5a7ce6339e60a965adb608dec09e
   scripts: {}

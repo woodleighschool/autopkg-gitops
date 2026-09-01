@@ -8,9 +8,9 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/PathChmod.py
       sha256_hash: cbb5e07c8c15081cbc927f7ed0b3afcf8089bc67c38b71b9ab0ba0337a658666
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -25,7 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WacomTabletDriver/WacomTabletDriver.download.recipe.yaml
       sha256_hash: ee7072a0d988b5b0899440051508d86423606a63f63e3a86d1ac790106b8c4e9
     com.github.woodleighschool.munki.WacomTabletDriver:
-      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/WacomTabletDriver/WacomTabletDriver.munki.recipe.yaml
-      sha256_hash: 9a90a5d1adaea72c1a0caa1637f8d85045edf8ebdfeb47a7ec2d14fe5f66d766
+      sha256_hash: 7d5e66c9d3cacc5e2f0d50f59501ab40f22ce0870de8d8f8353f40d244139f96
   scripts: {}

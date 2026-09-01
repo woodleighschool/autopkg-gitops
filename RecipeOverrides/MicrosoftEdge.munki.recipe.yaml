@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.MicrosoftEdge
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftEdge/MicrosoftEdge.download.recipe
       sha256_hash: 77766bae33daee294ca3471d4959b5d88d94baf55f83a22d5c75318dddd8e69a
     com.github.woodleighschool.munki.MicrosoftEdge:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftEdge/MicrosoftEdge.munki.recipe.yaml
-      sha256_hash: b9ca25b1683217d80b4b44e92a1d2690e0e00a2c6d3a63faa667f1a7b6d25612
+      sha256_hash: 3b02520f9bbc8d30d3f297490ae2ec2d7488af3771833aef5dcdbcf8ac93b672
   scripts: {}

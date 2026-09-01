@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.DockerDesktop
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.download.recipe.yaml
       sha256_hash: 205c7fee199ee6688610f734769a3364e508b132e16d25a4a72be0e4f7a0530e
     com.github.woodleighschool.munki.DockerDesktop:
-      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DockerDesktop/DockerDesktop.munki.recipe.yaml
-      sha256_hash: 13552ed5427a911060f624c75d5a4cb2bc45ecf39ebde477609a04a053145926
+      sha256_hash: 8c55676398874de73b82bcf4d52a6f57cb27dc229f2ec85cebcc8b17ebab446c
   scripts: {}

@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.EasyFind
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.download.recipe.yaml
       sha256_hash: 2c6385cf328a7fd36fef9b8c62a136fd1d7886411b5aad6bb8dccdc3d9fdf303
     com.github.woodleighschool.munki.EasyFind:
-      git_hash: af40c8be89c0e16e43ccb1047a2764ba53640663
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/EasyFind/EasyFind.munki.recipe.yaml
-      sha256_hash: b443aee9bf07664dd52bf5e43b9a76f4ab7f2beb598cf313789398a184e28a36
+      sha256_hash: cbb2bac4d6f51bdc1ad25da45a0298749bd0eb126814524c53a6beb023f3d456
   scripts: {}

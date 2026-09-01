@@ -126,7 +126,7 @@ jobs:
       - name: Sync pinned repositories
         run: mise run repos:sync
 
-      - name: Install icon processor dependency
+      - name: Install AutoPkg runtime dependencies
         run: mise run autopkg:deps
 
       - name: Write AutoPkg preferences

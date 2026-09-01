@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.MicrosoftWord
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftWord365/MicrosoftWord365.download.recipe
       sha256_hash: 447da48064a925c65307413ae32c76a665d633f0ccf9ad7f53d0de1809441c1c
     com.github.woodleighschool.munki.MicrosoftWord:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/MicrosoftWord/MicrosoftWord.munki.recipe.yaml
-      sha256_hash: 2a72af32d3f8c652b45264ab57d130bd3d2c7bf99eeb195e5f13fae29887e112
+      sha256_hash: 0c30e2754f5910f4d746a3f70254a199ab1cd92cd7768dd0a85d9a17b55da628
   scripts: {}

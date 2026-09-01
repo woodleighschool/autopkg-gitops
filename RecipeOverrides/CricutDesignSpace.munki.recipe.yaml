@@ -9,9 +9,9 @@ ParentRecipeTrustInfo:
         Processors/SimpleJSONParser.py
       sha256_hash: 3350739f3af0fb8ef0fc088d2d7c59fd17b9564ee3b5f52f741937a3ec337c11
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -31,7 +31,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CricutDesignSpace/CricutDesignSpace.download.recipe.yaml
       sha256_hash: ca53de8a570ecf143df44bdc7f02c0dbbdbb97c421dbc4a47c4ed5e2b4d1078f
     com.github.woodleighschool.munki.CricutDesignSpace:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CricutDesignSpace/CricutDesignSpace.munki.recipe.yaml
-      sha256_hash: a8cdd61848e48477bf0513f47bbe41f50acbb525632f3b4f7b00ee139d5e4582
+      sha256_hash: f5e42ee1b8a3d0350988cc1072c6882a632d1c3bd3a4254a016e64aef5b333c2
   scripts: {}

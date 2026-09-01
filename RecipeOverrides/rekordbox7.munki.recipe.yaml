@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.rekordbox7
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -27,7 +27,7 @@ ParentRecipeTrustInfo:
         DJ/rekordbox7.pkg.recipe.yaml
       sha256_hash: 33d00d138d2748501aecd1eac8b62fbb9ad84e1837975f65a044129605d4c9e6
     com.github.woodleighschool.munki.rekordbox7:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/rekordbox7/rekordbox7.munki.recipe.yaml
-      sha256_hash: a5459a119a8a72d0af046a31edf35706f1a2504eb1fa947a5989c919c11fb2bd
+      sha256_hash: 273a5500c21fe6a3f0c777f975e80283e3879da6c4a4f1ae9e98b91b6ac19586
   scripts: {}

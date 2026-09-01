@@ -8,16 +8,16 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.almenscorner.intune-uploader/IntuneUploader/IntuneAppUploader.py
       sha256_hash: 989b4a266f47633cce8864edb27a0b1076902395e1dd614f78171ab5b78aefe6
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
   parent_recipes:
     com.github.woodleighschool.download.Plinth:
       git_hash: 44658a28909979d0b9e5c95195dc475b5338b5c1
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Plinth/Plinth.download.recipe.yaml
       sha256_hash: d394e1b3e27fab4a42a19436b60cb5b9c895114cbab7650f840996f2a9fc4312
     com.github.woodleighschool.intune.Plinth:
-      git_hash: 44658a28909979d0b9e5c95195dc475b5338b5c1
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Plinth/Plinth.intune.recipe.yaml
-      sha256_hash: bd594782b104533d24b01a6c120a4bf1aa849f2f3ddb27cd65cde16e4ea9b7d2
+      sha256_hash: 124e3fdef296a548ddc8cf6516bf559b0134629605519e7dbc4950f4146530ff
   scripts: {}

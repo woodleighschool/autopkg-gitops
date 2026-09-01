@@ -8,16 +8,16 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.almenscorner.intune-uploader/IntuneUploader/IntuneAppUploader.py
       sha256_hash: 989b4a266f47633cce8864edb27a0b1076902395e1dd614f78171ab5b78aefe6
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
   parent_recipes:
     com.github.rtrouton.download.MicrosoftIntuneCompanyPortal:
       git_hash: 1bf22c7817d417e46610e0c384b1737443fb1c89
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftIntuneCompanyPortal/MicrosoftIntuneCompanyPortal.download.recipe
       sha256_hash: 6d779ba636d7332d82047bddcd0a42bdce1ea91dc2ec581ea7767e427082f5e6
     com.github.woodleighschool.intune.CompanyPortal:
-      git_hash: 7cafc005c4d97f33e594cf581f4981ecf154c997
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CompanyPortal/CompanyPortal.intune.recipe.yaml
-      sha256_hash: f7e4a98a525825f2dffe42b8b1e1a863c715ea04e07147915828b0a36f954d59
+      sha256_hash: c79b23013f2ce1d94b2db637433cd9f218145703e2fb1f52b2afdba1686dd391
   scripts: {}

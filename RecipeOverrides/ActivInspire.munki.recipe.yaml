@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.ActivInspire
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -21,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/ActivInspire/ActivInspire.download.recipe
       sha256_hash: d11e1f553733fbec5396b2129363957fd409b0b43de5a68abc7dae3c61ddb62d
     com.github.woodleighschool.munki.ActivInspire:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/ActivInspire/ActivInspire.munki.recipe.yaml
-      sha256_hash: 99e967502a6b4e82f98d38e1c9877c1a7bcae97078c116fac065d199d3b5974e
+      sha256_hash: b0134e64a47a0c85c800550cf72363d1702e3fc3cad82a591ec20d160f986ae3
   scripts: {}

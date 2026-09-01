@@ -4,9 +4,9 @@ ParentRecipe: com.github.woodleighschool.munki.DanteVirtualSoundcard
 ParentRecipeTrustInfo:
   non_core_processors:
     com.github.woodleighschool.processors/SwiftIconExtractor:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
-      sha256_hash: 86158ab77a685be36f4cab989d73dc24d3b9032ddbc5323015435729b63c49c5
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -22,7 +22,7 @@ ParentRecipeTrustInfo:
         Dante Virtual Soundcard/Audinate Dante Virtual Soundcard.download.recipe
       sha256_hash: bdd8b8a4a04ea985487105699ecd43f78ea011ccc076e6026ea10a6b2e1092d4
     com.github.woodleighschool.munki.DanteVirtualSoundcard:
-      git_hash: c90515c1c89eee529e05feb9cdda1bb45f54c144
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/DanteVirtualSoundcard/DanteVirtualSoundcard.munki.recipe.yaml
-      sha256_hash: 16a41a1cdb807bb0c5682457bd394590e808cec2b31f6295fc4663c36c0be3e0
+      sha256_hash: 48bb7a98473c0205f2b8389d24521d5690a6d0564bb8502e2f28720e193882fe
   scripts: {}

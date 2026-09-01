@@ -69,8 +69,9 @@ description = "Write preferences"
 run = "python scripts/preferences.py"
 
 [tasks."autopkg:deps"]
-description = "Install the icon processor dependency"
+description = "Install AutoPkg runtime dependencies"
 run = '''
+/usr/local/autopkg/python -m pip install --user cryptography
 pyobjc_version="$(/usr/local/autopkg/python -c 'from importlib.metadata import version; print(version("pyobjc-core"))')"
 /usr/local/autopkg/python -m pip install --user --no-deps "pyobjc-framework-QuickLookThumbnailing==$pyobjc_version"
 '''

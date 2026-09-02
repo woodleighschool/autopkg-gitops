@@ -3,6 +3,10 @@ Input: {}
 ParentRecipe: com.github.woodleighschool.munki.GlobalProtect
 ParentRecipeTrustInfo:
   non_core_processors:
+    com.github.woodleighschool.processors/SwiftIconExtractor:
+      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/SwiftIconExtractor.py
+      sha256_hash: 37678de2bd75f41f14984a1145cf2772a9d50dea78b61ba1a2fab27e42e26a2c
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -17,7 +21,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GlobalProtect/GlobalProtect.download.recipe.yaml
       sha256_hash: af3e9f4379bc5283d22fe8588dd49a450a526dbc59015a96490d80cf13b3c9be
     com.github.woodleighschool.munki.GlobalProtect:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: 96531e9c794c1dc968af60dff91011ff9b999440
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GlobalProtect/GlobalProtect.munki.recipe.yaml
-      sha256_hash: d0e4e8814d576b719a0f4316dbdd0cd0765e61b0023a21b3b444f9448fa39359
+      sha256_hash: 442282ef5cec68451b7d238e91f600536cbda6bf134a961a57d40633731b98af
   scripts: {}

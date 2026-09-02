@@ -7,6 +7,10 @@ ParentRecipeTrustInfo:
       git_hash: a9aac86f4840c436fbec87215283273ac9cb75ad
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/AdobeCreativeCloud/XMLReader.py
       sha256_hash: fa0e80749f1ec757038da7e4cb5bf4f0e7c035f904d1504a23c5e4a3dc1e8a14
+    com.github.woodleighschool.processors/RecipeIconFinder:
+      git_hash: 96531e9c794c1dc968af60dff91011ff9b999440
+      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Processors/RecipeIconFinder.py
+      sha256_hash: 845314bb8e4927a5e23d37afcee7e83a4ff120605b298a0d07e275d2a9668556
     com.github.woodleighschool.woodstar.processors/WoodstarMunkiImporter:
       git_hash: f7bc94a7521671c3ec2e57ba6d2ea2832cf45495
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.woodstar/autopkg/WoodstarMunkiImporter.py
@@ -25,11 +29,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/AdobeCreativeCloud/AdobeCreativeCloudInstallerAppleSilicon.pkg.recipe
       sha256_hash: f1cb8eca9f603cafc98fd4052c956373074046b6b23869c18701625777c73889
     com.github.woodleighschool.munki.CreativeCloud:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: 96531e9c794c1dc968af60dff91011ff9b999440
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.munki.recipe.yaml
-      sha256_hash: 0e5feb2f456d56bcdef802b04aa20e1a5405ad810ecd4da648dbe187a67f6030
-    com.github.woodleighschool.pkg.CreativeCloud:
-      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.pkg.recipe.yaml
-      sha256_hash: 8765784575d8ac9a1146bfd603432b56b183776fc13c6e2ee3e446f611018855
+      sha256_hash: fd04b4db78428d431379c805f87266b75898618613d0622d3bb49c144eec70f6
   scripts: {}

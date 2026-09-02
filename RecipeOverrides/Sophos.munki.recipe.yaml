@@ -9,9 +9,9 @@ ParentRecipeTrustInfo:
       sha256_hash: bf7142b9bf93fe52ec6307023d8a335a48cb71629ee8c0455a5821625a255ccd
   parent_recipes:
     com.github.woodleighschool.munki.Sophos:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: c73a4b4865bb0f1f78dc02a045ea403764e02436
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Sophos/Sophos.munki.recipe.yaml
-      sha256_hash: 31f415b9cbc855e2ada02b4299707b7009e6ec4c0384242792cec58d2211a911
+      sha256_hash: baf9022fb248091fc97a2b94dce807f181016a6d96b4de49514b93a10103c90b
     com.github.woodleighschool.pkg.Sophos:
       git_hash: a95af6e359d38a2607d8f2994f7ae42045116211
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Sophos/Sophos.pkg.recipe.yaml

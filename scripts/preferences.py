@@ -46,6 +46,7 @@ def write_preferences(
     preferences = {
         "RECIPE_MAP_PATH": str(state_dir / "recipe-map.json"),
         "RECIPE_OVERRIDE_DIRS": [str(override_dir)],
+        "RECIPE_REPO_DIR": str(repo_root),
         "RECIPE_REPOS": {
             str(path): {"URL": repositories[name]["url"]}
             for name, path in zip(names, paths, strict=True)

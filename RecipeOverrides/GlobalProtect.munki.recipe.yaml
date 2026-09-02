@@ -17,7 +17,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GlobalProtect/GlobalProtect.download.recipe.yaml
       sha256_hash: af3e9f4379bc5283d22fe8588dd49a450a526dbc59015a96490d80cf13b3c9be
     com.github.woodleighschool.munki.GlobalProtect:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: c73a4b4865bb0f1f78dc02a045ea403764e02436
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/GlobalProtect/GlobalProtect.munki.recipe.yaml
-      sha256_hash: d0e4e8814d576b719a0f4316dbdd0cd0765e61b0023a21b3b444f9448fa39359
+      sha256_hash: b2d17af212eee10f4b14b9f44d97b1eadb24a6e2ddee0da102deda278124d252
   scripts: {}

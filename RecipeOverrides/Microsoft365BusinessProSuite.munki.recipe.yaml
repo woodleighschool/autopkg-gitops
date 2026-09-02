@@ -17,7 +17,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/MicrosoftOffice365BusinessProSuite/MicrosoftOffice365BusinessProSuite.download.recipe
       sha256_hash: 36db63a7c89abf3d6ca5784ae3f85877fdffa11f1960e357bc73e947a92657a3
     com.github.woodleighschool.munki.Microsoft365BusinessProSuite:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: c73a4b4865bb0f1f78dc02a045ea403764e02436
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Microsoft365BusinessProSuite/Microsoft365BusinessProSuite.munki.recipe.yaml
-      sha256_hash: 0e9df91e16896ba2f9775b52ad57383e4b9f39075db6548cda701bc88a0bb3f6
+      sha256_hash: cbec6cea0d7318672eb3fed106cd6c6b26793976f1753eaad072f70a335a91e7
   scripts: {}

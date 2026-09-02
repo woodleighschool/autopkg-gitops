@@ -25,11 +25,7 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.rtrouton-recipes/AdobeCreativeCloud/AdobeCreativeCloudInstallerAppleSilicon.pkg.recipe
       sha256_hash: f1cb8eca9f603cafc98fd4052c956373074046b6b23869c18701625777c73889
     com.github.woodleighschool.munki.CreativeCloud:
-      git_hash: 13319e45f71489d0a68a49323beacd3a73755f98
+      git_hash: c73a4b4865bb0f1f78dc02a045ea403764e02436
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.munki.recipe.yaml
-      sha256_hash: 0e5feb2f456d56bcdef802b04aa20e1a5405ad810ecd4da648dbe187a67f6030
-    com.github.woodleighschool.pkg.CreativeCloud:
-      git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CreativeCloud/CreativeCloud.pkg.recipe.yaml
-      sha256_hash: 8765784575d8ac9a1146bfd603432b56b183776fc13c6e2ee3e446f611018855
+      sha256_hash: f54617b150fffe6749720efeeda27027f38049dfdadfd1bfd2796b8aa97e7965
   scripts: {}

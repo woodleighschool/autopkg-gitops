@@ -21,12 +21,8 @@ ParentRecipeTrustInfo:
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/Godot
         4/Godot 4.download.recipe
       sha256_hash: fa10bbd4e33df7d679b959ccc204eac51145b42e0668c4df27c35e1060fac9f5
-    com.github.woodleighschool.download.Godot:
-      git_hash: 54c0c79b58dd4e3710839a97eb073e3182b212e2
-      path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Godot/Godot.download.recipe.yaml
-      sha256_hash: 566ea4bc22222a5cc30793123e748da9933d2fdfd31f355320253ec5671ffd9c
     com.github.woodleighschool.munki.Godot:
-      git_hash: f14c42bd1cef8188633eb13893fd60b7833e9429
+      git_hash: c73a4b4865bb0f1f78dc02a045ea403764e02436
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Godot/Godot.munki.recipe.yaml
-      sha256_hash: 660b93aa1ae6e0b223bc024b5e9fc49abf1345d7f95703a722aed9a4b46d344d
+      sha256_hash: 76eda2049f0fdf0c6599ea5b8eeea6f252d9adbb2017285ffa88d5a3f2eac972
   scripts: {}

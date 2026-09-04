@@ -17,9 +17,9 @@ ParentRecipeTrustInfo:
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
     com.github.dataJAR-recipes.download.Audacity:
-      git_hash: 7062b5d6f3bdacaacc679f7f8ff5160a42bfc45c
+      git_hash: 7c2574db643331d800c5a431a0ee69f59cb306f1
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.dataJAR-recipes/Audacity/Audacity.download.recipe
-      sha256_hash: 74e58aad975dd7880f3aaaafa6ee6bfcc23ae5d0ee0e1ad0344ca1b1216906cb
+      sha256_hash: 213e488f1070df9b6363fef16f1c13c19afdd4ded18cd2e141bd4ef6f66b3f5d
     com.github.woodleighschool.download.Audacity:
       git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/Audacity/Audacity.download.recipe.yaml

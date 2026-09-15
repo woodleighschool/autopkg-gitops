@@ -22,10 +22,10 @@ ParentRecipeTrustInfo:
       sha256_hash: b19eea86d129a49b83bb23eabf7d2579a31bcb4799413b3d99ecdd28425ed942
   parent_recipes:
     com.github.nstrauss.download.CricutDesignSpace:
-      git_hash: 3fc730529e8a71ecab58d28badf419cd7a3fd07c
+      git_hash: d8aac4f921b554eb13794562f972540147910cd7
       path: ~/Library/AutoPkg/RecipeRepos/com.github.autopkg.nstrauss-recipes/Cricut
         Design Space/CricutDesignSpace.download.recipe
-      sha256_hash: e5ed4b03edacdb95aa2643fc61349502b9f8a94cc663f7895b5b05867953c886
+      sha256_hash: ee72317b1be31c8989d0002274fcf66de46cfa8d48c3165c77551bddf1c22f52
     com.github.woodleighschool.download.CricutDesignSpace:
       git_hash: b299f680c3caee5d30b43dc788f0e679ac75deb2
       path: ~/Library/AutoPkg/RecipeRepos/com.github.woodleighschool.autopkg/CricutDesignSpace/CricutDesignSpace.download.recipe.yaml

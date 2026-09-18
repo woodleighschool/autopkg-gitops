@@ -32,7 +32,7 @@ env:
 jobs:
   plan:
     name: Plan Recipe Run
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     outputs:
       changed: ${{ steps.plan.outputs.changed }}

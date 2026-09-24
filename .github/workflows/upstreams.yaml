@@ -76,7 +76,7 @@ jobs:
         if: ${{ steps.changes.outputs.repositories == 'true' }}
         uses: ./.github/actions/setup-autopkg
         with:
-          version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
+          version: "3.0.0RC5" # renovate: datasource=github-releases depName=autopkg/autopkg
 
       - name: Setup Mise
         if: ${{ steps.changes.outputs.repositories == 'true' }}

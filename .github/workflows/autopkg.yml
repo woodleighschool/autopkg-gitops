@@ -103,7 +103,7 @@ jobs:
       - name: Setup AutoPkg
         uses: ./.github/actions/setup-autopkg
         with:
-          version: "3.0.0RC4" # renovate: datasource=github-releases depName=autopkg/autopkg
+          version: "3.0.0RC5" # renovate: datasource=github-releases depName=autopkg/autopkg
 
       - name: Setup Mise
         uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0

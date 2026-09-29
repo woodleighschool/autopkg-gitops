@@ -86,7 +86,7 @@ jobs:
   upstreams:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
     name: Upstreams
-    uses: ./.github/workflows/upstreams.yaml
+    uses: $/.github/workflows/upstreams.yaml
     secrets:
       BOT_APP_PRIVATE_KEY: ${{ secrets.BOT_APP_PRIVATE_KEY }}
       BOT_CLIENT_ID: ${{ secrets.BOT_CLIENT_ID }}

@@ -96,12 +96,12 @@ jobs:
           persist-credentials: false
 
       - name: Setup Munki
-        uses: ./.github/actions/setup-munki
+        uses: $/.github/actions/setup-munki
         with:
           version: "7.3.0" # renovate: datasource=github-releases depName=munki/munki
 
       - name: Setup AutoPkg
-        uses: ./.github/actions/setup-autopkg
+        uses: $/.github/actions/setup-autopkg
         with:
           version: "3.0.0" # renovate: datasource=github-releases depName=autopkg/autopkg
 

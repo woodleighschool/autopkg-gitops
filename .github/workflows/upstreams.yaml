@@ -74,7 +74,7 @@ jobs:
 
       - name: Setup AutoPkg
         if: ${{ steps.changes.outputs.repositories == 'true' }}
-        uses: ./.github/actions/setup-autopkg
+        uses: $/.github/actions/setup-autopkg
         with:
           version: "3.0.0" # renovate: datasource=github-releases depName=autopkg/autopkg
 
